@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>myproject</title>
+  </head>
+  <body>
+    <!-- <div id="app"></div> -->
+    <!-- built files will be auto injected -->
+    <div style="text-align: center"><h1>Say Hello</h1></div>
+    <div id="learn1">
+        <h1 v-if="hours < 12">Good Morning</h1>
+        <h1 v-if="hours > 12 && hours < 18">Good Afternoon</h1>
+        <h1 v-if="hours > 18">Good Evening</h1>
+    </div>
+    <!-- <div id = "app"></div> -->
+    <!-- <div id="learn2">
+      <p v-if="path === '/'">You are on the home page</p>
+      <p v-else>You're on the {{path}}</p>
+    </div> -->
+    <!-- <div id="learn3">
+      <p>The second dog is {{dog[1]}}</p>
+      <p>All the dog are {{dog}}</p>
+    </div> -->
+    <!-- <div id="learn4">
+        <div v-show="user">
+        <p>User name: {{ user }}</p>
+        </div>
+    </div> -->
+
+    <div id="learn5">
+      <ul>
+        <li v-for="dog in dogs">
+          <h1>{{dog}}</h1>
+        </li>
+      </ul>
+    </div>
+
+    <div id="learn6">
+      <ul>
+        <li v-for="(rent, city) in averageRent">
+          The average rent in {{city}} is {{rent}}
+        </li>
+      </ul>
+    </div>
+
+    <div id="learn7">
+      <ul>
+        <li v-for="n in 10">{{n}}</li>
+      </ul>
+    </div>
+
+    <div id="learn8">
+      <!-- <button v-bind:type="buttontype">Test Button</button> -->
+      <button v-bind:disabled="buttondisable" onclick="thongbao()">Test Button</button>
+    </div>
+    <script>
+      function thongbao() {
+        alert("Ban vua click");
+      }
+    </script>
+
+    <div id="learn9" style="text-align: center">
+      <h3>Now is {{hours}}: {{minutes}}: {{seconds}}</h3>
+    </div>
+
+    <div id="learn10">
+      <p>Current status: {{statusFromId(status)}}</p>
+    </div>
+
+    <!-- <div id="learn11">
+      <ul>
+        <li>manh huy</li>
+        <li v-for="number in filterPositive(numbers)">{{number}}</li>
+      </ul>
+    </div> -->
+
+    <!-- <div id="learn12">
+      <p>Sum of numbers: {{numberTotal}}</p>
+    </div> -->
+
+    <div id="learn13">
+      <p>
+        Enter something: 
+        <input type="text" v-model="inputValue">
+      </p>
+      <p>Two seconds ago, the input said: "{{oldInputValue}}"</p>
+    </div>
+
+    <div id="learn14">
+      <p>Product one cost: {{(productOnecost/100).toFixed(2)}}</p>
+    </div>
+  </body>
+</html>
