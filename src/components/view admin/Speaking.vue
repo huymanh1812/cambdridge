@@ -2,10 +2,11 @@
     <div id="speaking">
         <h1>List test Speaking</h1>
         <ul>
-            <li v-for="test in tests">
-                {{ test.text }}
+            <li v-for="(test,i) in tests" :key="i">
+                <router-link :to='{ name : test.text}'>{{test.text}}</router-link>
             </li>
         </ul>
+        <router-view></router-view>
     </div>
 </template>
 
@@ -15,9 +16,9 @@ export default {
         return {
             drawer: null,
             tests: [
-                {text: 'test1'},
-                {text: 'test2'},
-                {text: 'test3'}
+                {text: 'Stest1'},
+                {text: 'Stest2'},
+                {text: 'Stest3'}
             ]
         }
     }

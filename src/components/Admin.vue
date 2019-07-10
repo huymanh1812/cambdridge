@@ -60,9 +60,9 @@ export default {
       items: [
         { icon: "lightbulb_outline", text: "Notes" },
         { icon: "touch_app", text: "Reminders" },
-        { divider: true },
-        { heading: "Activities" },
-        { icon: "add", text: "Create new user" },
+        // { divider: true },
+        // { heading: "Activities" },
+        // { icon: "add", text: "Create new user" },
         { divider: true },
         { icon: "book", text: "Listening"},
         { icon: "book", text: "Reading" },
@@ -70,7 +70,7 @@ export default {
         { icon: "book", text: "Speaking" },
         { divider: true },
         { heading: "User"},
-        { icon: "table", text: "List User" }
+        { icon: "table", text: "ListUser" }
         // { icon: "chat_bubble", text: "Trash" },
         // { icon: "help", text: "Help" },
         // { icon: "phonelink", text: "App downloads" },
