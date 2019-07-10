@@ -1,0 +1,25 @@
+<template>
+    <div id="speaking">
+        <h1>List test Speaking</h1>
+        <ul>
+            <li v-for="test in tests">
+                {{ test.text }}
+            </li>
+        </ul>
+    </div>
+</template>
+
+<script>
+export default {
+    data() {
+        return {
+            drawer: null,
+            tests: [
+                {text: 'test1'},
+                {text: 'test2'},
+                {text: 'test3'}
+            ]
+        }
+    }
+}
+</script>
