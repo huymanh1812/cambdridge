@@ -15,6 +15,7 @@ import Rtest3 from "./components/view admin/reading test/Rtest3"
 import Ltest1 from "./components/view admin/listening test/Ltest1"
 import Ltest2 from "./components/view admin/listening test/Ltest2"
 import Ltest3 from "./components/view admin/listening test/Ltest3"
+import Lresult1 from "./components/view admin/listening test/Lresult1"
 import Wtest1 from "./components/view admin/writing test/Wtest1"
 import Wtest2 from "./components/view admin/writing test/Wtest2"
 import Wtest3 from "./components/view admin/writing test/Wtest3"
@@ -140,6 +141,11 @@ export default new Router({
           path: 'wtest3',
           name: 'Wtest3',
           component: Wtest3
+        },
+        {
+          path: 'lresult1',
+          name: 'Lresult1',
+          component: Lresult1
         }
       ]
     }
