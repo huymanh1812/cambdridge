@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import Login from "./components/Login"
 import SignUp from "./components/SignUp"
 import Admin from "./components/Admin"
+import Admin1 from "./components/Admin1"
 import Listening from "./components/view admin/Listening"
 import Reading from "./components/view admin/Reading"
 import Writing from "./components/view admin/Writing"
@@ -12,9 +13,9 @@ import ListUser from "./components/view admin/ListUser"
 import Rtest1 from "./components/view admin/reading test/Rtest1"
 import Rtest2 from "./components/view admin/reading test/Rtest2"
 import Rtest3 from "./components/view admin/reading test/Rtest3"
-import Ltest1 from "./components/view admin/listening test/Ltest1"
-import Ltest2 from "./components/view admin/listening test/Ltest2"
-import Ltest3 from "./components/view admin/listening test/Ltest3"
+import ILTest1 from "./components/view admin/listening test/ILTest1"
+import ILTest2 from "./components/view admin/listening test/ILTest2"
+import ILTest3 from "./components/view admin/listening test/ILTest3"
 import Lresult1 from "./components/view admin/listening test/Lresult1"
 import Wtest1 from "./components/view admin/writing test/Wtest1"
 import Wtest2 from "./components/view admin/writing test/Wtest2"
@@ -33,6 +34,11 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home
+    },
+    {
+      path: '/admin1',
+      name: 'Admin1',
+      component: Admin1
     },
     {
       path: '/about',
@@ -63,87 +69,87 @@ export default new Router({
           component: ListUser
         },
         {
-          path: 'listening',
+          path: '/listening',
           name: 'Listening',
           component: Listening
         },
         {
-          path: 'reading',
+          path: '/reading',
           name: 'Reading',
           component: Reading
         },
         {
-          path: 'writing',
+          path: '/writing',
           name: 'Writing',
           component: Writing
         },
         {
-          path: 'speaking',
+          path: '/speaking',
           name: 'Speaking',
           component: Speaking
         },
         {
-          path: 'rtest1',
+          path: '/rtest1',
           name: 'Rtest1',
           component: Rtest1
         },
         {
-          path: 'rtest2',
+          path: '/rtest2',
           name: 'Rtest2',
           component: Rtest2
         },
         {
-          path: 'rtest3',
+          path: '/rtest3',
           name: 'Rtest3',
           component: Rtest3
         },
         {
-          path: 'ltest1',
-          name: 'Ltest1',
-          component: Ltest1
+          path: '/iltest1',
+          name: 'ILTest1',
+          component: ILTest1
         },
         {
-          path: 'ltest2',
-          name: 'Ltest2',
-          component: Ltest2
+          path: '/iltest2',
+          name: 'ILTest2',
+          component: ILTest2
         },
         {
-          path: 'ltest3',
-          name: 'Ltest3',
-          component: Ltest3
+          path: '/iltest3',
+          name: 'ILTest3',
+          component: ILTest3
         },
         {
-          path: 'stest1',
+          path: '/stest1',
           name: 'Stest1',
           component: Stest1
         },
         {
-          path: 'stest2',
+          path: '/stest2',
           name: 'Stest2',
           component: Stest2
         },
         {
-          path: 'stest3',
+          path: '/stest3',
           name: 'Stest3',
           component: Stest3
         },
         {
-          path: 'wtest1',
+          path: '/wtest1',
           name: 'Wtest1',
           component: Wtest1
         },
         {
-          path: 'wtest2',
+          path: '/wtest2',
           name: 'Wtest2',
           component: Wtest2
         },
         {
-          path: 'wtest3',
+          path: '/wtest3',
           name: 'Wtest3',
           component: Wtest3
         },
         {
-          path: 'lresult1',
+          path: '/lresult1',
           name: 'Lresult1',
           component: Lresult1
         }
