@@ -4,7 +4,7 @@
         <v-flex xs12 class="table">
             <v-data-table :items="a" class="elevation-1">
                 <template v-slot:items="props">
-                    <td title="Name">{{props.item.name}}</td>
+                    <td>{{props.item.name}}</td>
                     <td>{{props.item.type}}</td>
                     <td>{{props.item.average}}</td>
 
@@ -21,7 +21,39 @@
             </v-data-table>
         </v-flex>
 
-
+        <!--<v-dialog max-width="600px" v-model="dialog1">-->
+            <!--<v-btn flat slot="activator" class="sucess">Add Log</v-btn>-->
+            <!--<v-card>-->
+                <!--<v-card-title>-->
+                    <!--<h2>Add project</h2>-->
+                <!--</v-card-title>-->
+                <!--<v-card-text>-->
+                    <!--<v-form class="px-3">-->
+                        <!--<v-text-field-->
+                                <!--v-model="editingObj.name"-->
+                                <!--label="Name"-->
+                                <!--:counter="10"-->
+                                <!--:rules="nameRules"-->
+                                <!--required-->
+                        <!--&gt;Name</v-text-field>-->
+                        <!--<v-text-field-->
+                                <!--v-model="editingObj.type"-->
+                                <!--label="Type"-->
+                                <!--:counter="50"-->
+                                <!--:rules="todoRules"-->
+                        <!--&gt;To do</v-text-field>-->
+                        <!--<v-text-field-->
+                                <!--v-model="editingObj.average"-->
+                                <!--label="average"-->
+                                <!--:counter="50"-->
+                                <!--:rules="todoRules"-->
+                        <!--&gt;IdTest</v-text-field>-->
+                        <!--<v-btn color="success" @click="addLog()">Save</v-btn>-->
+                        <!--<v-btn color="error" @click="reset()">Clear</v-btn>-->
+                    <!--</v-form>-->
+                <!--</v-card-text>-->
+            <!--</v-card>-->
+        <!--</v-dialog>-->
 
 
 
@@ -37,30 +69,28 @@
                 <v-card-text>
                     <v-form class="px-3">
                         <v-select
-                            v-model="select"
-                            :hint="`${select.state}, ${select.abbr}`"
-                            :items="items"
-                            item-text="state"
-                            item-value="abbr"
-                            label="Select Type"
-                            persistent-hint
-                            return-object
-                            single-line
+                                v-model="editingObj.type"
+
+                                :items="items"
+                                item-text="state"
+                                item-value="state"
+                                label="Select Type"
+                                persistent-hint
+                                single-line
                         ></v-select>
                         <v-select
-                            v-model="select2"
-                            :hint="`${select2.state}, ${select2.abbr}`"
-                            :items="items2"
-                            item-text="state"
-                            item-value="abbr"
-                            label="Select Level"
-                            persistent-hint
-                            return-object
-                            single-line
+                                v-model="editingObj.average"
+
+                                :items="items2"
+                                item-text="state"
+                                item-value="state"
+                                label="Select Level"
+                                persistent-hint
+                                single-line
                         ></v-select>
                         <v-text-field
-                                v-model="editingObj.average"
-                                label="average"
+                                v-model="editingObj.name"
+                                label="Name"
                                 :counter="50"
                                 :rules="todoRules"
                         >Average</v-text-field>
@@ -81,10 +111,11 @@
         data() {
             return {
                 select: '',
+                select2: '',
                 editingObj: {
-                    name: "",
-                    type: "",
-                    average: "",
+                    name: '',
+                    type: '',
+                    average: '',
                 },
                 a: [],
                 dialog: false,
@@ -132,13 +163,18 @@
         created() {
             this.initialize();
         },
-        // async mounted() {
-        //     const response = await axios.get("http://localhost:8086/IeltsTest/list");
-        //     this.a = response.data;
-        //     console.log("data from database", response, response.data);
-        // },
+        async mounted() {
+            const response = await axios.get("http://localhost:8086/IeltsTest/list");
+            this.a = response.data;
+            console.log("data from database", response, response.data);
+        },
 
         methods: {
+            async addLog() {
+                const response = await axios.post("http://localhost:8086/IeltsTest", this.editingObj);
+                this.a = response.data;
+                console.log(" data from database", response, response.data);
+            },
             initialize() {
                 this.select = {state: '', abbr: ''},
                     this.items = [
@@ -169,69 +205,6 @@
                         //   carbs: 24,
                         //   protein: 4.0
                     },
-                    // {
-                    //   name: "Ice cream sandwich",
-                    //   calories: 237,
-                    //   fat: 9.0,
-                    //   carbs: 37,
-                    //   protein: 4.3
-                    // },
-                    // {
-                    //   name: "Eclair",
-                    //   calories: 262,
-                    //   fat: 16.0,
-                    //   carbs: 23,
-                    //   protein: 6.0
-                    // },
-                    // {
-                    //   name: "Cupcake",
-                    //   calories: 305,
-                    //   fat: 3.7,
-                    //   carbs: 67,
-                    //   protein: 4.3
-                    // },
-                    // {
-                    //   name: "Gingerbread",
-                    //   calories: 356,
-                    //   fat: 16.0,
-                    //   carbs: 49,
-                    //   protein: 3.9
-                    // },
-                    // {
-                    //   name: "Jelly bean",
-                    //   calories: 375,
-                    //   fat: 0.0,
-                    //   carbs: 94,
-                    //   protein: 0.0
-                    // },
-                    // {
-                    //   name: "Lollipop",
-                    //   calories: 392,
-                    //   fat: 0.2,
-                    //   carbs: 98,
-                    //   protein: 0
-                    // },
-                    // {
-                    //   name: "Honeycomb",
-                    //   calories: 408,
-                    //   fat: 3.2,
-                    //   carbs: 87,
-                    //   protein: 6.5
-                    // },
-                    // {
-                    //   name: "Donut",
-                    //   calories: 452,
-                    //   fat: 25.0,
-                    //   carbs: 51,
-                    //   protein: 4.9
-                    // },
-                    // {
-                    //   name: "KitKat",
-                    //   calories: 518,
-                    //   fat: 26.0,
-                    //   carbs: 65,
-                    //   protein: 7
-                    // }
                 ];
             }
         },
@@ -252,6 +225,7 @@
                 this.editedIndex = -1;
             }, 300);
         },
+
         save() {
             if (this.editedIndex > -1) {
                 Object.assign(this.desserts[this.editedIndex], this.editedItem);
@@ -264,4 +238,3 @@
 
     };
 </script>
-
