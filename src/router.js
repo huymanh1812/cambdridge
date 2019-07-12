@@ -13,6 +13,9 @@ import ListUser from "./components/view admin/ListUser"
 import Rtest1 from "./components/view admin/reading test/Rtest1"
 import Rtest2 from "./components/view admin/reading test/Rtest2"
 import Rtest3 from "./components/view admin/reading test/Rtest3"
+import ILlv1 from "./components/view admin/listening level/ILlv1"
+import ILlv2 from "./components/view admin/listening level/ILlv2"
+import ILlv3 from "./components/view admin/listening level/ILlv3"
 import ILTest1 from "./components/view admin/listening test/ILTest1"
 import ILTest2 from "./components/view admin/listening test/ILTest2"
 import ILTest3 from "./components/view admin/listening test/ILTest3"
@@ -102,6 +105,21 @@ export default new Router({
           path: '/rtest3',
           name: 'Rtest3',
           component: Rtest3
+        },
+        {
+          path: '/illv1',
+          name: 'ILlv1',
+          component: ILlv1
+        },
+        {
+          path: '/illv2',
+          name: 'ILlv2',
+          component: ILlv2
+        },
+        {
+          path: '/illv3',
+          name: 'ILlv3',
+          component: ILlv3
         },
         {
           path: '/iltest1',
