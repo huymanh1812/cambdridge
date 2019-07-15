@@ -15,8 +15,11 @@
               <v-btn @click="Open2(props.item)" fab dark small color="primary">
                 <v-icon dark>edit</v-icon>
               </v-btn>
-              <v-btn fab dark small color="cyan">
-                <v-icon dark>remove</v-icon>
+              <v-btn @click="deleteLog(props.item.id)" fab dark small color="cyan">
+                <v-icon dark>del</v-icon>
+              </v-btn>
+              <v-btn :to="{path:`/ILTest1`}" fab dark small color="cyan">
+                <v-icon dark>show</v-icon>
               </v-btn>
             </td>
           </template>
@@ -163,16 +166,28 @@ export default {
     this.a = response.data;
     console.log("data from database", response, response.data);
   },
-
+  async mounted() {
+    await this.getList();
+  },
   methods: {
-    async addLog() {
-      const response = await axios.post(
-        "http://localhost:8086/IeltsTest",
-        this.editingObj
-      );
-      this.a = response.data;
-      console.log(" data from database", response, response.data);
-    },
+    async getList() {
+                const response = await axios.get("http://localhost:8086/IeltsTest/list");
+                this.a = response.data;
+                console.log("data from database", response, response.data);
+            },
+            async addLog() {
+                const response = await axios.post("http://localhost:8086/IeltsTest", this.editingObj);
+                this.a = response.data;
+                console.log(" data from database", response, response.data);
+            },
+            async deleteLog(id){
+                const response = await axios.delete("http://localhost:8086/IeltsTest/${id}");
+                if (response) {
+                    console.log(' loi ', response.error);
+                }
+
+                await this.getList();
+            },
     initialize() {
       (this.select = { state: "", abbr: "" }),
         (this.items = [
