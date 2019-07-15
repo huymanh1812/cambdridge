@@ -61,7 +61,7 @@
               </v-list-tile>
             </template>
 
-            <v-list-tile v-for="(read, i) in reads" :key="i" @click>
+            <v-list-tile v-for="(read, i) in reads" :key="i" :to="{ name: read[0] }">
               <v-list-tile-title v-text="read[2]"></v-list-tile-title>
               <v-list-tile-action>
                 <v-icon v-text="read[1]"></v-icon>
@@ -76,7 +76,7 @@
               </v-list-tile>
             </template>
 
-            <v-list-tile v-for="(speak, i) in speaks" :key="i" @click>
+            <v-list-tile v-for="(speak, i) in speaks" :key="i" :to="{ name: speak[0] }">
               <v-list-tile-title v-text="speak[2]"></v-list-tile-title>
               <v-list-tile-action>
                 <v-icon v-text="speak[1]"></v-icon>
@@ -91,13 +91,14 @@
               </v-list-tile>
             </template>
 
-            <v-list-tile v-for="(write, i) in writes" :key="i" @click>
+            <v-list-tile v-for="(write, i) in writes" :key="i" :to="{ name: write[0] }">
               <v-list-tile-title v-text="write[2]"></v-list-tile-title>
               <v-list-tile-action>
                 <v-icon v-text="write[1]"></v-icon>
               </v-list-tile-action>
             </v-list-tile>
           </v-list-group>
+          
         </v-list-group>
         <v-list-group no-action sub-group>
             <template v-slot:activator>
@@ -137,10 +138,10 @@
               </v-list-tile>
             </template>
 
-            <v-list-tile v-for="(Tlisten, i) in Tlistens" :key="i" @click>
-              <v-list-tile-title v-text="Tlisten[0]"></v-list-tile-title>
+            <v-list-tile v-for="(listen, i) in Tlistens" :key="i" :to="{ name: listen[0] }">
+              <v-list-tile-title v-text="listen[2]"></v-list-tile-title>
               <v-list-tile-action>
-                <v-icon v-text="Tlisten[1]"></v-icon>
+                <v-icon v-text="listen[1]"></v-icon>
               </v-list-tile-action>
             </v-list-tile>
           </v-list-group>
@@ -152,10 +153,10 @@
               </v-list-tile>
             </template>
 
-            <v-list-tile v-for="(Tread, i) in Treads" :key="i" @click>
-              <v-list-tile-title v-text="Tread[0]"></v-list-tile-title>
+            <v-list-tile v-for="(read, i) in Treads" :key="i" :to="{ name: read[0] }">
+              <v-list-tile-title v-text="read[2]"></v-list-tile-title>
               <v-list-tile-action>
-                <v-icon v-text="Tread[1]"></v-icon>
+                <v-icon v-text="read[1]"></v-icon>
               </v-list-tile-action>
             </v-list-tile>
           </v-list-group>
@@ -167,10 +168,10 @@
               </v-list-tile>
             </template>
 
-            <v-list-tile v-for="(Tspeak, i) in Tspeaks" :key="i" @click>
-              <v-list-tile-title v-text="Tspeak[0]"></v-list-tile-title>
+            <v-list-tile v-for="(speak, i) in Tspeaks" :key="i" :to="{ name: speak[0] }">
+              <v-list-tile-title v-text="speak[2]"></v-list-tile-title>
               <v-list-tile-action>
-                <v-icon v-text="Tspeak[1]"></v-icon>
+                <v-icon v-text="speak[1]"></v-icon>
               </v-list-tile-action>
             </v-list-tile>
           </v-list-group>
@@ -182,14 +183,29 @@
               </v-list-tile>
             </template>
 
-            <v-list-tile v-for="(Twrite, i) in Twrites" :key="i" @click>
-              <v-list-tile-title v-text="Twrite[0]"></v-list-tile-title>
+            <v-list-tile v-for="(write, i) in Twrites" :key="i" :to="{ name: write[0] }">
+              <v-list-tile-title v-text="write[2]"></v-list-tile-title>
               <v-list-tile-action>
-                <v-icon v-text="Twrite[1]"></v-icon>
+                <v-icon v-text="write[1]"></v-icon>
               </v-list-tile-action>
             </v-list-tile>
           </v-list-group>
+          
         </v-list-group>
+        <v-list-group no-action sub-group>
+            <template v-slot:activator>
+              <v-list-tile>
+                <v-list-tile-title>USER</v-list-tile-title>
+              </v-list-tile>
+            </template>
+
+            <v-list-tile v-for="(user, i) in users" :key="i" :to="{ name: user[0] }">
+              <v-list-tile-title v-text="user[0]"></v-list-tile-title>
+              <v-list-tile-action>
+                <v-icon v-text="user[1]"></v-icon>
+              </v-list-tile-action>
+            </v-list-tile>
+          </v-list-group>
       </v-list>
     </v-navigation-drawer>
       <v-toolbar color="amber" app absolute clipped-left>
@@ -243,13 +259,13 @@ export default {
       drawer: null,
       drawer2: null,
       listens: [["ILlv1", "book", "Level 4.0-5.5"], ["ILlv2", "book", "Level 5.5-6.5"], ["ILlv3", "book", "Level 5.5-6.5"]],
-      reads: [["IRTest1", "book", "Test1"], ["IRTest2", "book", "Test2"], ["IRTest3", "book", "Test3"], ["IRTest4", "book", "Test4"]],
-      speaks: [["ISTest1", "book"], ["ISTest2", "book"], ["ISTest3", "book"], ["ISTest4", "book"]],
-      writes: [["IWTest1", "book"], ["IWTest2", "book"], ["IWTest3", "book"], ["IWTest4", "book"]],
-      Tlistens: [["TLTest1", "book"], ["TLTest2", "book"], ["TLTest3", "book"], ["TLTest4", "book"]],
-      Treads: [["TRTest1", "book"], ["TRTest2", "book"], ["TRTest3", "book"], ["TRTest4", "book"]],
-      Tspeaks: [["TSTest1", "book"], ["TSTest2", "book"], ["TSTest3", "book"], ["TSTest4", "book"]],
-      Twrites: [["TWTest1", "book"], ["TWTest2", "book"], ["TWTest3", "book"], ["TWTest4", "book"]],
+      reads: [["IRlv1", "book", "Level 4.0-5.5"], ["IRlv2", "book", "Level 5.5-6.5"], ["IRlv3", "book", "Level 5.5-6.5"]],
+      speaks: [["ISlv1", "book", "Level 4.0-5.5"], ["ISlv2", "book", "Level 5.5-6.5"], ["ISlv3", "book", "Level 5.5-6.5"]],
+      writes: [["IWlv1", "book", "Level 4.0-5.5"], ["IWlv2", "book", "Level 5.5-6.5"], ["IWlv3", "book", "Level 5.5-6.5"]],
+      Tlistens: [["ILlv1", "book", "Level 350-500"], ["ILlv2", "book", "Level 500-700"], ["ILlv3", "book", "Level >700"]],
+      Treads: [["TRlv1", "book", "Level 350-500"], ["TRlv2", "book", "Level 500-700"], ["TRlv3", "book", "Level >700"]],
+      Tspeaks: [["TSlv1", "book", "Level 350-500"], ["TSlv2", "book", "Level 500-700"], ["TSlv3", "book", "Level >700"]],
+      Twrites: [["TWlv1", "book", "Level 350-500"], ["TWlv2", "book", "Level 500-700"], ["TWlv3", "book", "Level >700"]],
       users: [["ListUser", "insert_drive_file"]]
       // huys: [["Management", "people_outline"], ["Settings", "settings"]],
       // drawer: null,
