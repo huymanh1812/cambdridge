@@ -5,10 +5,7 @@ import Login from "./components/Login"
 import SignUp from "./components/SignUp"
 import Admin from "./components/Admin"
 import Admin1 from "./components/Admin1"
-import Listening from "./components/view admin/Listening"
-import Reading from "./components/view admin/Reading"
-import Writing from "./components/view admin/Writing"
-import Speaking from "./components/view admin/Speaking"
+
 import ListUser from "./components/view admin/ListUser"
 import Rtest1 from "./components/view admin/reading test/Rtest1"
 import Rtest2 from "./components/view admin/reading test/Rtest2"
@@ -24,10 +21,8 @@ import TRlv from "./components/view admin/reading level/TRlv"
 import TSlv from "./components/view admin/speaking level/TSlv"
 import TWlv from "./components/view admin/writing level/TWlv"
 
-import ILTest1 from "./components/view admin/listening test/ILTest1"
-import ILTest2 from "./components/view admin/listening test/ILTest2"
-import ILTest3 from "./components/view admin/listening test/ILTest3"
-import Lresult1 from "./components/view admin/listening test/Lresult1"
+import ILTest from "./components/view admin/listening level/listening test/ILTest"
+
 import Wtest1 from "./components/view admin/writing test/Wtest1"
 import Wtest2 from "./components/view admin/writing test/Wtest2"
 import Wtest3 from "./components/view admin/writing test/Wtest3"
@@ -75,135 +70,103 @@ export default new Router({
       component: Admin,
       children: [
         {
-          path: '/listuser',
+          path: 'listuser',
           name: 'ListUser',
           component: ListUser
         },
         {
-          path: '/listening',
-          name: 'Listening',
-          component: Listening
-        },
-        {
-          path: '/reading',
-          name: 'Reading',
-          component: Reading
-        },
-        {
-          path: '/writing',
-          name: 'Writing',
-          component: Writing
-        },
-        {
-          path: '/speaking',
-          name: 'Speaking',
-          component: Speaking
-        },
-        {
-          path: '/rtest1',
+          path: 'rtest1',
           name: 'Rtest1',
           component: Rtest1
         },
         {
-          path: '/rtest2',
+          path: 'rtest2',
           name: 'Rtest2',
           component: Rtest2
         },
         {
-          path: '/rtest3',
+          path: 'rtest3',
           name: 'Rtest3',
           component: Rtest3
         },
         {
-          path: '/illv:id',
+          path: 'illv/:id',
           name: 'ILlv',
-          component: ILlv
+          component: ILlv,
+          children: [
+            
+          ]
         },
         {
-          path: '/irlv:id',
+          path: 'iltest/:id',
+          name: 'ILTest',
+          component: ILTest
+        },
+        {
+          path: 'irlv/:id',
           name: 'IRlv',
           component: IRlv
         },
         {
-          path: '/islv:id',
+          path: 'islv/:id',
           name: 'ISlv',
           component: ISlv
         },
         {
-          path: '/iwlv:id',
+          path: 'iwlv/:id',
           name: 'IWlv',
           component: IWlv
         },
         {
-          path: '/tllv:id',
+          path: 'tllv/:id',
           name: 'TLlv',
           component: TLlv
         },
         {
-          path: '/trlv:id',
+          path: 'trlv/:id',
           name: 'TRlv',
           component: TRlv
         },
         {
-          path: '/tslv:id',
+          path: 'tslv/:id',
           name: 'TSlv',
           component: TSlv
         },
         {
-          path: '/twlv:id',
+          path: 'twlv/:id',
           name: 'TWlv',
           component: TWlv
         },
         {
-          path: '/iltest1',
-          name: 'ILTest1',
-          component: ILTest1
-        },
-        {
-          path: '/iltest2',
-          name: 'ILTest2',
-          component: ILTest2
-        },
-        {
-          path: '/iltest3',
-          name: 'ILTest3',
-          component: ILTest3
-        },
-        {
-          path: '/stest1',
+          path: 'stest1',
           name: 'Stest1',
           component: Stest1
         },
         {
-          path: '/stest2',
+          path: 'stest2',
           name: 'Stest2',
           component: Stest2
         },
         {
-          path: '/stest3',
+          path: 'stest3',
           name: 'Stest3',
           component: Stest3
         },
         {
-          path: '/wtest1',
+          path: 'wtest1',
           name: 'Wtest1',
           component: Wtest1
         },
         {
-          path: '/wtest2',
+          path: 'wtest2',
           name: 'Wtest2',
           component: Wtest2
         },
         {
-          path: '/wtest3',
+          path: 'wtest3',
           name: 'Wtest3',
           component: Wtest3
         },
-        {
-          path: '/lresult1',
-          name: 'Lresult1',
-          component: Lresult1
-        }
       ]
     }
   ]

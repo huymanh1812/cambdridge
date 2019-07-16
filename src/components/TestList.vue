@@ -16,10 +16,10 @@
                 <v-icon dark>edit</v-icon>
               </v-btn>
               <v-btn @click="deleteLog(props.item.id)" fab dark small color="cyan">
-                <v-icon dark>delete</v-icon>
+                <v-icon dark>del</v-icon>
               </v-btn>
-              <v-btn :to="{path:`/admin/iltest/${props.item.id}`}" fab dark small color="cyan">
-                <v-icon dark>insert_drive_file</v-icon>
+              <v-btn :to="`${$route.path}/${props.item.id}`" fab dark small color="cyan">
+                <v-icon dark>show</v-icon>
               </v-btn>
             </td>
           </template>
