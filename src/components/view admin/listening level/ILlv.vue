@@ -1,8 +1,8 @@
 <template>
   <v-flex xs12>
-    <div id="tstest2">
+    <div id="illv">
       <center>
-        <h2>Level 2 Speaking List Test</h2>
+        <h2>Level {{$route.params.id}} Listening List Test</h2>
       </center>
       <v-flex xs12 class="table">
         <v-data-table :items="a" class="elevation-1">
@@ -15,8 +15,11 @@
               <v-btn @click="Open2(props.item)" fab dark small color="primary">
                 <v-icon dark>edit</v-icon>
               </v-btn>
-              <v-btn fab dark small color="cyan">
-                <v-icon dark>remove</v-icon>
+              <v-btn @click="deleteLog(props.item.id)" fab dark small color="cyan">
+                <v-icon dark>del</v-icon>
+              </v-btn>
+              <v-btn :to="{path:`/iltest1`}" fab dark small color="cyan">
+                <v-icon dark>show</v-icon>
               </v-btn>
             </td>
           </template>
@@ -87,7 +90,6 @@
                 v-model="editingObj.name"
                 label="Name"
                 :counter="50"
-                :rules="todoRules"
               >Average</v-text-field>
 
               <v-btn color="success" @click="addLog()">Save</v-btn>
@@ -159,20 +161,27 @@ export default {
     this.initialize();
   },
   async mounted() {
-    const response = await axios.get("http://localhost:8086/IeltsTest/list");
-    this.a = response.data;
-    console.log("data from database", response, response.data);
+    await this.getList();
   },
-
   methods: {
-    async addLog() {
-      const response = await axios.post(
-        "http://localhost:8086/IeltsTest",
-        this.editingObj
-      );
-      this.a = response.data;
-      console.log(" data from database", response, response.data);
-    },
+    async getList() {
+                const response = await axios.get("http://localhost:8086/IeltsTest/list");
+                this.a = response.data;
+                console.log("data from database", response, response.data);
+            },
+            async addLog() {
+                const response = await axios.post("http://localhost:8086/IeltsTest", this.editingObj);
+                this.a = response.data;
+                console.log(" data from database", response, response.data);
+            },
+            async deleteLog(id){
+                const response = await axios.delete("http://localhost:8086/IeltsTest/${id}");
+                if (response) {
+                    console.log(' loi ', response.error);
+                }
+
+                await this.getList();
+            },
     initialize() {
       (this.select = { state: "", abbr: "" }),
         (this.items = [

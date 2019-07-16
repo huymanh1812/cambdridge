@@ -46,10 +46,10 @@
               </v-list-tile>
             </template>
 
-            <v-list-tile v-for="(listen, i) in listens" :key="i" :to="{ name: listen[0] }">
-              <v-list-tile-title v-text="listen[2]"></v-list-tile-title>
+            <v-list-tile v-for="(listen, i) in listens" :key="i" :to="{ name: listen.path, params: { id: listen.id } }">
+              <v-list-tile-title v-text="listen.text"></v-list-tile-title>
               <v-list-tile-action>
-                <v-icon v-text="listen[1]"></v-icon>
+                <v-icon v-text="listen.icon"></v-icon>
               </v-list-tile-action>
             </v-list-tile>
           </v-list-group>
@@ -61,10 +61,10 @@
               </v-list-tile>
             </template>
 
-            <v-list-tile v-for="(read, i) in reads" :key="i" :to="{ name: read[0] }">
-              <v-list-tile-title v-text="read[2]"></v-list-tile-title>
+            <v-list-tile v-for="(read, i) in reads" :key="i" :to="{ name: read.path, params: { id: read.id } }">
+              <v-list-tile-title v-text="read.text"></v-list-tile-title>
               <v-list-tile-action>
-                <v-icon v-text="read[1]"></v-icon>
+                <v-icon v-text="read.icon"></v-icon>
               </v-list-tile-action>
             </v-list-tile>
           </v-list-group>
@@ -76,10 +76,10 @@
               </v-list-tile>
             </template>
 
-            <v-list-tile v-for="(speak, i) in speaks" :key="i" :to="{ name: speak[0] }">
-              <v-list-tile-title v-text="speak[2]"></v-list-tile-title>
+            <v-list-tile v-for="(speak, i) in speaks" :key="i" :to="{ name: speak.path, params: { id: speak.id } }">
+              <v-list-tile-title v-text="speak.text"></v-list-tile-title>
               <v-list-tile-action>
-                <v-icon v-text="speak[1]"></v-icon>
+                <v-icon v-text="speak.icon"></v-icon>
               </v-list-tile-action>
             </v-list-tile>
           </v-list-group>
@@ -91,10 +91,10 @@
               </v-list-tile>
             </template>
 
-            <v-list-tile v-for="(write, i) in writes" :key="i" :to="{ name: write[0] }">
-              <v-list-tile-title v-text="write[2]"></v-list-tile-title>
+            <v-list-tile v-for="(write, i) in writes" :key="i" :to="{ name: write.path, params: { id: write.id } }">
+              <v-list-tile-title v-text="write.text"></v-list-tile-title>
               <v-list-tile-action>
-                <v-icon v-text="write[1]"></v-icon>
+                <v-icon v-text="write.icon"></v-icon>
               </v-list-tile-action>
             </v-list-tile>
           </v-list-group>
@@ -138,10 +138,10 @@
               </v-list-tile>
             </template>
 
-            <v-list-tile v-for="(listen, i) in Tlistens" :key="i" :to="{ name: listen[0] }">
-              <v-list-tile-title v-text="listen[2]"></v-list-tile-title>
+            <v-list-tile v-for="(listen, i) in Tlistens" :key="i" :to="{ name: listen.path, params: { id: listen.id } }">
+              <v-list-tile-title v-text="listen.text"></v-list-tile-title>
               <v-list-tile-action>
-                <v-icon v-text="listen[1]"></v-icon>
+                <v-icon v-text="listen.icon"></v-icon>
               </v-list-tile-action>
             </v-list-tile>
           </v-list-group>
@@ -153,10 +153,10 @@
               </v-list-tile>
             </template>
 
-            <v-list-tile v-for="(read, i) in Treads" :key="i" :to="{ name: read[0] }">
-              <v-list-tile-title v-text="read[2]"></v-list-tile-title>
+            <v-list-tile v-for="(read, i) in Treads" :key="i" :to="{ name: read.path, params: { id: read.id } }">
+              <v-list-tile-title v-text="read.text"></v-list-tile-title>
               <v-list-tile-action>
-                <v-icon v-text="read[1]"></v-icon>
+                <v-icon v-text="read.icon"></v-icon>
               </v-list-tile-action>
             </v-list-tile>
           </v-list-group>
@@ -168,10 +168,10 @@
               </v-list-tile>
             </template>
 
-            <v-list-tile v-for="(speak, i) in Tspeaks" :key="i" :to="{ name: speak[0] }">
-              <v-list-tile-title v-text="speak[2]"></v-list-tile-title>
+            <v-list-tile v-for="(speak, i) in Tspeaks" :key="i" :to="{ name: speak.path, params: { id: speak.id } }">
+              <v-list-tile-title v-text="speak.text"></v-list-tile-title>
               <v-list-tile-action>
-                <v-icon v-text="speak[1]"></v-icon>
+                <v-icon v-text="speak.id"></v-icon>
               </v-list-tile-action>
             </v-list-tile>
           </v-list-group>
@@ -183,10 +183,10 @@
               </v-list-tile>
             </template>
 
-            <v-list-tile v-for="(write, i) in Twrites" :key="i" :to="{ name: write[0] }">
-              <v-list-tile-title v-text="write[2]"></v-list-tile-title>
+            <v-list-tile v-for="(write, i) in Twrites" :key="i" :to="{ name: write.path, params: { id: write.id } }">
+              <v-list-tile-title v-text="write.text"></v-list-tile-title>
               <v-list-tile-action>
-                <v-icon v-text="write[1]"></v-icon>
+                <v-icon v-text="write.icon"></v-icon>
               </v-list-tile-action>
             </v-list-tile>
           </v-list-group>
@@ -258,14 +258,46 @@ export default {
     return {
       drawer: null,
       drawer2: null,
-      listens: [["ILlv1", "book", "Level 4.0-5.5"], ["ILlv2", "book", "Level 5.5-6.5"], ["ILlv3", "book", "Level 5.5-6.5"]],
-      reads: [["IRlv1", "book", "Level 4.0-5.5"], ["IRlv2", "book", "Level 5.5-6.5"], ["IRlv3", "book", "Level 5.5-6.5"]],
-      speaks: [["ISlv1", "book", "Level 4.0-5.5"], ["ISlv2", "book", "Level 5.5-6.5"], ["ISlv3", "book", "Level 5.5-6.5"]],
-      writes: [["IWlv1", "book", "Level 4.0-5.5"], ["IWlv2", "book", "Level 5.5-6.5"], ["IWlv3", "book", "Level 5.5-6.5"]],
-      Tlistens: [["ILlv1", "book", "Level 350-500"], ["ILlv2", "book", "Level 500-700"], ["ILlv3", "book", "Level >700"]],
-      Treads: [["TRlv1", "book", "Level 350-500"], ["TRlv2", "book", "Level 500-700"], ["TRlv3", "book", "Level >700"]],
-      Tspeaks: [["TSlv1", "book", "Level 350-500"], ["TSlv2", "book", "Level 500-700"], ["TSlv3", "book", "Level >700"]],
-      Twrites: [["TWlv1", "book", "Level 350-500"], ["TWlv2", "book", "Level 500-700"], ["TWlv3", "book", "Level >700"]],
+      listens: [
+        {id: '1', icon: 'book', text: 'Level 4.0-5.5', path: 'ILlv'},
+        {id: '2', icon: 'book', text: 'Level 5.5-6.5', path: 'ILlv'},
+        {id: '3', icon: 'book', text: 'Level 6.5-7.5', path: 'ILlv'}
+      ],
+      reads: [
+        {id: '1', icon: 'book', text: 'Level 4.0-5.5', path: 'IRlv'},
+        {id: '2', icon: 'book', text: 'Level 5.5-6.5', path: 'IRlv'},
+        {id: '3', icon: 'book', text: 'Level 6.5-7.5', path: 'IRlv'}
+      ],
+      speaks: [
+        {id: '1', icon: 'book', text: 'Level 4.0-5.5', path: 'ISlv'},
+        {id: '2', icon: 'book', text: 'Level 5.5-6.5', path: 'ISlv'},
+        {id: '3', icon: 'book', text: 'Level 6.5-7.5', path: 'ISlv'}
+      ],
+      writes: [
+        {id: '1', icon: 'book', text: 'Level 4.0-5.5', path: 'IWlv'},
+        {id: '2', icon: 'book', text: 'Level 5.5-6.5', path: 'IWlv'},
+        {id: '3', icon: 'book', text: 'Level 6.5-7.5', path: 'IWlv'}
+      ],
+      Tlistens: [
+        {id: '1', icon: 'book', text: 'Level 350-500', path: 'TLlv'},
+        {id: '2', icon: 'book', text: 'Level 500-700', path: 'TLlv'},
+        {id: '3', icon: 'book', text: 'Level >700', path: 'TLlv'}
+      ],
+      Tspeaks: [
+        {id: '1', icon: 'book', text: 'Level 350-500', path: 'TSlv'},
+        {id: '2', icon: 'book', text: 'Level 500-700', path: 'TSlv'},
+        {id: '3', icon: 'book', text: 'Level >700', path: 'TSlv'}
+      ],
+      Treads: [
+        {id: '1', icon: 'book', text: 'Level 350-500', path: 'TRlv'},
+        {id: '2', icon: 'book', text: 'Level 500-700', path: 'TRlv'},
+        {id: '3', icon: 'book', text: 'Level >700', path: 'TRlv'}
+      ],
+      Twrites: [
+        {id: '1', icon: 'book', text: 'Level 350-500', path: 'TWlv'},
+        {id: '2', icon: 'book', text: 'Level 500-700', path: 'TWlv'},
+        {id: '3', icon: 'book', text: 'Level >700', path: 'TWlv'}
+      ],
       users: [["ListUser", "insert_drive_file"]]
       // huys: [["Management", "people_outline"], ["Settings", "settings"]],
       // drawer: null,

@@ -1,8 +1,8 @@
 <template>
   <v-flex xs12>
-    <div id="irtest1">
+    <div id="tllv">
       <center>
-        <h2>Level 1 Reading List Test</h2>
+        <h2>Level {{$route.params.id}} Listening List Test</h2>
       </center>
       <v-flex xs12 class="table">
         <v-data-table :items="a" class="elevation-1">
