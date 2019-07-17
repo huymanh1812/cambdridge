@@ -22,6 +22,7 @@ import TSlv from "./components/view admin/speaking level/TSlv"
 import TWlv from "./components/view admin/writing level/TWlv"
 
 import ILTest from "./components/view admin/listening level/listening test/ILTest"
+import ILQuestion from "./components/view admin/listening level/listening test/ILQuestion"
 
 import Wtest1 from "./components/view admin/writing test/Wtest1"
 import Wtest2 from "./components/view admin/writing test/Wtest2"
@@ -102,6 +103,11 @@ export default new Router({
           name: 'ILTest',
           component: ILTest
         },
+          {
+              path: 'ilquestion/:id',
+              name: 'ILQuestion',
+              component: ILQuestion
+          },
         {
           path: 'irlv/:id',
           name: 'IRlv',
