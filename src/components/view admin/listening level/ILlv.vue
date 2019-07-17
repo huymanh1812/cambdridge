@@ -169,10 +169,14 @@ export default {
                 console.log(" data from database", response, response.data);
             },
             async deleteLog(id){
-                const response = await axios.delete("http://localhost:8086/IeltsTest/${id}");
+              console.log(id);
+                const response = await axios.delete(`http://localhost:8086/IeltsTest/${id}`)
+                
                 if (response) {
                     console.log(' loi ', response.error);
+                    
                 }
+                
                 await this.getList();
             },
     initialize() {

@@ -5,11 +5,13 @@
                 <h2> Question List </h2>
             </center>
             <v-flex xs12 class="table">
-                <v-data-table :items="a" class="elevation-1">
+
+                <v-data-table :headers="headers" :items="a" class="elevation-1">
                     <template v-slot:items="props">
                         <td>{{props.item.name}}</td>
                         <td>{{props.item.type}}</td>
                         <td>{{props.item.average}}</td>
+                        <td>{{props.item.question}}</td>
 
                         <td>
                             <v-btn @click="Open2(props.item)" fab dark small color="primary">
@@ -57,13 +59,38 @@
                                     label="Question"
                                     :counter="50"
 
-                            >To do</v-text-field>
-                            <v-text-field
+                            >Question</v-text-field>
+                            <!-- <v-text-field
                                     v-model="questionObj.ans"
                                     label="Ans"
                                     :counter="50"
 
-                            >IdTest</v-text-field>
+                            >Ans</v-text-field> -->
+                            <v-text-field
+                                    v-model="questionObj.a"
+                                    label="A"
+                                    :counter="50"
+                            ></v-text-field>
+                            <v-text-field
+                                    v-model="questionObj.b"
+                                    label="B"
+                                    :counter="50"
+                            ></v-text-field>
+                            <v-text-field
+                                    v-model="questionObj.c"
+                                    label="C"
+                                    :counter="50"
+                            ></v-text-field>
+                            <v-text-field
+                                    v-model="questionObj.d"
+                                    label="D"
+                                    :counter="50"
+                            ></v-text-field>
+                            <v-text-field
+                                    v-model="questionObj.result"
+                                    label="Correct Answer(A/B/C/D)"
+                                    :counter="50"
+                            ></v-text-field>
                             <v-btn color="success" @click="addLog()">Save</v-btn>
                             <v-btn color="error" @click="reset()">Clear</v-btn>
                         </v-form>
@@ -80,36 +107,40 @@
     export default {
         data() {
             return {
+                headers: [
+                {
+                    text: 'Question',
+                    align: 'left',
+                    sortable: false,
+                    value: 'name'
+                },
+                { text: 'Type', value: 'type' },
+                { text: 'Level', value: 'average' },
+                { text: 'Content', value: 'question' },
+                { text: 'Action'}
+                ],
                 select: "",
                 select2: "",
                 editingObj: {
                     name: "",
                     type: "",
-                    average: ""
+                    average: "",
+                    question: ""
                 },
                 questionObj:{
                     name: "",
                     type: "",
                     average: "",
                     question: "",
-                    ans: "",
-                    content: "",
+                    result: "",
+                    a: "",
+                    b: "",
+                    c: "",
+                    d: ""
                 },
                 a: [],
                 dialog: false,
                 dialog1: false,
-                headers: [
-                    {
-                        text: "Title",
-                        align: "left",
-                        sortable: false,
-                        value: "title"
-                    },
-
-                    { text: "Actions", value: "name", sortable: false }
-                ],
-
-
             };
         },
         computed: {
@@ -151,7 +182,7 @@
                 console.log(" data from database", response, response.data);
             },
             async deleteLog(id){
-                const response = await axios.delete("http://localhost:8086/IeltsQuestion/${id}");
+                const response = await axios.delete(`http://localhost:8086/IeltsQuestion/${id}`);
                 if (response) {
                     console.log(' loi ', response.error);
                 }
