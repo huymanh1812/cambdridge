@@ -42,7 +42,7 @@
           <v-list-group no-action sub-group>
             <template v-slot:activator>
               <v-list-tile>
-                <v-list-tile-title>Listening</v-list-tile-title>
+                <v-list-tile-title @click="ClickListening">Listening</v-list-tile-title>
               </v-list-tile>
             </template>
 
@@ -324,6 +324,11 @@ export default {
   },
   props: {
     source: String
+  },
+  methods: {
+    ClickListening() {
+      this.$router.push({ name : "listening"})
+    }
   }
 };
 </script>

@@ -1,165 +1,331 @@
 <template>
-  <div id="listuser">
+  <div id="admin">
     <v-app id="inspire">
-      <div>
-        <v-toolbar flat color="white">
-          <v-toolbar-title>List User</v-toolbar-title>
-          <v-divider class="mx-2" inset vertical></v-divider>
-          <v-spacer></v-spacer>
-          <v-dialog v-model="dialog" max-width="500px">
-            <template v-slot:activator="{ on }">
-              <!-- <v-btn color="primary" dark class="mb-2" v-on="on">Add Question</v-btn> -->
-              <v-btn dark slot="primary" class="mb-2" @Click="Open1" v-on="on">Add Log</v-btn>
+      <v-navigation-drawer v-model="drawer" fixed clipped absolute stateless app value="true">
+      <v-list>
+        <v-list-tile>
+          <v-list-tile-action>
+            <v-icon>home</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-title>IELTS</v-list-tile-title>
+        </v-list-tile>
+
+        <v-list-group prepend-icon="star" value="true">
+          <template v-slot:activator>
+            <v-list-tile>
+              <v-list-tile-title>TYPE</v-list-tile-title>
+            </v-list-tile>
+          </template>
+          <v-list-group no-action :to="{name: `listening`}" sub-group>
+            <template v-slot:activator>
+              <v-list-tile>
+                <v-list-tile-title @click="clickListening">Listening</v-list-tile-title>
+              </v-list-tile>
             </template>
-            <v-card>
-              <v-card-title>
-                <span class="headline">{{ formTitle }}</span>
-              </v-card-title>
 
-              <v-card-text>
-                <v-container grid-list-md>
-                  <v-layout wrap>
-                    <v-flex xs12 sm6 md4>
-                      <v-text-field v-model="editedItem.name" label="User Name"></v-text-field>
-                    </v-flex>
-                    <v-flex xs12 sm6 md4>
-                      <v-text-field v-model="editedItem.calories" label="Full Name"></v-text-field>
-                    </v-flex>
-                    <v-flex xs12 sm6 md4>
-                      <v-text-field v-model="editedItem.fat" label="Email"></v-text-field>
-                    </v-flex>
-                    <!-- <v-flex xs12 sm6 md4>
-                      <v-text-field v-model="editedItem.carbs" label="Carbs (g)"></v-text-field>
-                    </v-flex>
-                    <v-flex xs12 sm6 md4>
-                      <v-text-field v-model="editedItem.protein" label="Protein (g)"></v-text-field>
-                    </v-flex> -->
-                  </v-layout>
-                </v-container>
-              </v-card-text>
+            <v-list-tile v-for="(listen, i) in listens" :key="i" :to="{ name: listen.path, params: { id: listen.id } }" >
+              <v-list-tile-title v-text="listen.text"></v-list-tile-title>
+              <v-list-tile-action>
+                <v-icon v-text="listen.icon"></v-icon>
+              </v-list-tile-action>
+            </v-list-tile>
+          </v-list-group>
 
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" flat @click="close">Cancel</v-btn>
-                <v-btn color="blue darken-1" flat @click="save">Save</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </v-toolbar>
-        <v-data-table :headers="headers" :items="desserts" class="elevation-1">
-          <template v-slot:items="props">
-            <td>{{ props.item.username }}</td>
-            <td class="text-xs-right">{{ props.item.fullname }}</td>
-            <td class="text-xs-right">{{ props.item.email }}</td>
-            <!-- <td class="text-xs-right">{{ props.item.carbs }}</td>
-            <td class="text-xs-right">{{ props.item.protein }}</td> -->
-            <td class="justify-center layout px-0">
-              <v-icon small class="mr-2" @click="editItem(props.item)">edit</v-icon>
-              <v-icon small @click="deleteItem(props.item)">delete</v-icon>
-            </td>
+          <v-list-group no-action sub-group>
+            <template v-slot:activator>
+              <v-list-tile>
+                <v-list-tile-title>Reading</v-list-tile-title>
+              </v-list-tile>
+            </template>
+
+            <v-list-tile v-for="(read, i) in reads" :key="i" :to="{ name: read.path, params: { id: read.id } }">
+              <v-list-tile-title v-text="read.text"></v-list-tile-title>
+              <v-list-tile-action>
+                <v-icon v-text="read.icon"></v-icon>
+              </v-list-tile-action>
+            </v-list-tile>
+          </v-list-group>
+
+          <v-list-group no-action sub-group>
+            <template v-slot:activator>
+              <v-list-tile>
+                <v-list-tile-title>Speaking</v-list-tile-title>
+              </v-list-tile>
+            </template>
+
+            <v-list-tile v-for="(speak, i) in speaks" :key="i" :to="{ name: speak.path, params: { id: speak.id } }">
+              <v-list-tile-title v-text="speak.text"></v-list-tile-title>
+              <v-list-tile-action>
+                <v-icon v-text="speak.icon"></v-icon>
+              </v-list-tile-action>
+            </v-list-tile>
+          </v-list-group>
+
+          <v-list-group no-action sub-group>
+            <template v-slot:activator>
+              <v-list-tile>
+                <v-list-tile-title>Writing</v-list-tile-title>
+              </v-list-tile>
+            </template>
+
+            <v-list-tile v-for="(write, i) in writes" :key="i" :to="{ name: write.path, params: { id: write.id } }">
+              <v-list-tile-title v-text="write.text"></v-list-tile-title>
+              <v-list-tile-action>
+                <v-icon v-text="write.icon"></v-icon>
+              </v-list-tile-action>
+            </v-list-tile>
+          </v-list-group>
+          
+        </v-list-group>
+        <v-list-group no-action sub-group>
+            <template v-slot:activator>
+              <v-list-tile>
+                <v-list-tile-title>USER</v-list-tile-title>
+              </v-list-tile>
+            </template>
+
+            <v-list-tile v-for="(user, i) in users" :key="i" :to="{ name: user[0] }">
+              <v-list-tile-title v-text="user[0]"></v-list-tile-title>
+              <v-list-tile-action>
+                <v-icon v-text="user[1]"></v-icon>
+              </v-list-tile-action>
+            </v-list-tile>
+          </v-list-group>
+      </v-list>
+    </v-navigation-drawer>
+    <v-navigation-drawer v-model="drawer2" fixed clipped absolute stateless app value="true">
+      <v-list>
+        <v-list-tile>
+          <v-list-tile-action>
+            <v-icon>home</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-title>TOEIC</v-list-tile-title>
+        </v-list-tile>
+
+        <v-list-group prepend-icon="star" value="true">
+          <template v-slot:activator>
+            <v-list-tile>
+              <v-list-tile-title>TYPE</v-list-tile-title>
+            </v-list-tile>
           </template>
-          <template v-slot:no-data>
-            <v-btn color="primary" @click="initialize">Reset</v-btn>
-          </template>
-        </v-data-table>
-      </div>
+          <v-list-group no-action sub-group>
+            <template v-slot:activator>
+              <v-list-tile>
+                <v-list-tile-title>Listening</v-list-tile-title>
+              </v-list-tile>
+            </template>
+
+            <v-list-tile v-for="(listen, i) in Tlistens" :key="i" :to="{ name: listen.path, params: { id: listen.id } }">
+              <v-list-tile-title v-text="listen.text"></v-list-tile-title>
+              <v-list-tile-action>
+                <v-icon v-text="listen.icon"></v-icon>
+              </v-list-tile-action>
+            </v-list-tile>
+          </v-list-group>
+
+          <v-list-group no-action sub-group>
+            <template v-slot:activator>
+              <v-list-tile>
+                <v-list-tile-title>Reading</v-list-tile-title>
+              </v-list-tile>
+            </template>
+
+            <v-list-tile v-for="(read, i) in Treads" :key="i" :to="{ name: read.path, params: { id: read.id } }">
+              <v-list-tile-title v-text="read.text"></v-list-tile-title>
+              <v-list-tile-action>
+                <v-icon v-text="read.icon"></v-icon>
+              </v-list-tile-action>
+            </v-list-tile>
+          </v-list-group>
+
+          <v-list-group no-action sub-group>
+            <template v-slot:activator>
+              <v-list-tile>
+                <v-list-tile-title>Speaking</v-list-tile-title>
+              </v-list-tile>
+            </template>
+
+            <v-list-tile v-for="(speak, i) in Tspeaks" :key="i" :to="{ name: speak.path, params: { id: speak.id } }">
+              <v-list-tile-title v-text="speak.text"></v-list-tile-title>
+              <v-list-tile-action>
+                <v-icon v-text="speak.id"></v-icon>
+              </v-list-tile-action>
+            </v-list-tile>
+          </v-list-group>
+
+          <v-list-group no-action sub-group>
+            <template v-slot:activator>
+              <v-list-tile>
+                <v-list-tile-title>Writing</v-list-tile-title>
+              </v-list-tile>
+            </template>
+
+            <v-list-tile v-for="(write, i) in Twrites" :key="i" :to="{ name: write.path, params: { id: write.id } }">
+              <v-list-tile-title v-text="write.text"></v-list-tile-title>
+              <v-list-tile-action>
+                <v-icon v-text="write.icon"></v-icon>
+              </v-list-tile-action>
+            </v-list-tile>
+          </v-list-group>
+          
+        </v-list-group>
+        <v-list-group no-action sub-group>
+            <template v-slot:activator>
+              <v-list-tile>
+                <v-list-tile-title>USER</v-list-tile-title>
+              </v-list-tile>
+            </template>
+
+            <v-list-tile v-for="(user, i) in users" :key="i" :to="{ name: user[0] }">
+              <v-list-tile-title v-text="user[0]"></v-list-tile-title>
+              <v-list-tile-action>
+                <v-icon v-text="user[1]"></v-icon>
+              </v-list-tile-action>
+            </v-list-tile>
+          </v-list-group>
+      </v-list>
+    </v-navigation-drawer>
+      <v-toolbar color="amber" app absolute clipped-left>
+        <v-toolbar-side-icon @click.native="drawer = !drawer"></v-toolbar-side-icon>
+        <span class="title ml-3 mr-5">
+          &nbsp;
+          <span class="text">Cambridge</span>
+        </span>
+        <v-text-field solo-inverted flat label="Search" prepend-icon="search"></v-text-field>
+        <v-spacer></v-spacer>
+          <!-- <v-list-group no-action sub-group value="true">
+            <template v-slot:activator>
+              <v-list-tile>
+                <v-list-tile-title>Manh Huy</v-list-tile-title>
+              </v-list-tile>
+            </template>
+
+            <v-list-tile v-for="(huy, i) in huys" :key="i" @click>
+              <v-list-tile-title v-text="huy[0]"></v-list-tile-title>
+              <v-list-tile-action>
+                <v-icon v-text="huy[1]"></v-icon>
+              </v-list-tile-action>
+            </v-list-tile>
+          </v-list-group> -->
+          <v-btn color="blue" dark @click.stop="drawer = !drawer">IELTS</v-btn>
+          <v-btn color="blue" dark @click.stop="drawer2 = !drawer2">TOEIC</v-btn>
+        <v-spacer></v-spacer>
+        <h1>Admin Page</h1>
+      </v-toolbar>
+      <v-content>
+        <v-container>
+          <v-layout class="layoutcenter">
+            <!-- <v-flex xs7>
+             <h1>This is the router page</h1>
+            </v-flex>-->
+            <!-- <v-flex xs5>
+             <h2>Admin {{ $route.params.id }}</h2>
+            
+            </v-flex>-->
+            <router-view></router-view>
+          </v-layout>
+        </v-container>
+      </v-content>
     </v-app>
   </div>
 </template>
 <script>
-    import axios from "axios";
-    export default {
-        data() {
-            return {
-                select: "",
-                select2: "",
-                editingObj: {
-                    name: "",
-                    type: "",
-                    average: ""
-                },
-                questionObj:{
-                    name: "",
-                    type: "",
-                    average: "",
-                    question: "",
-                    ans: "",
-                    content: "",
-                },
-                a: [],
-                dialog: false,
-                dialog1: false,
-                headers: [
-                    {
-                        text: "Title",
-                        align: "left",
-                        sortable: false,
-                        value: "title"
-                    },
-                    { text: "Actions", value: "name", sortable: false }
-                ],
-            };
-        },
-        computed: {
-            formTitle() {
-                return this.editedIndex === -1 ? "New Test" : "Edit Test";
-            }
-        },
-        watch: {
-            dialog(val) {
-                val || this.close();
-            }
-        },
-        created() {
-            this.initialize();
-        },
-        async mounted() {
-            await this.getList();
-        },
-        methods: {
-            Open1() {
-                this.editingObj = {};
-                this.dialog = true;
-            },
-
-            Open2(truyen) {
-                this.editingObj = truyen;
-                this.dialog1 = true;
-            },
-            async getList() {
-                const response = await axios.get("http://localhost:8086/IeltsQuestion/list");
-                this.a = response.data;
-                console.log("data from database", response, response.data);
-            },
-            async addLog() {
-                const testId = this.$route.params.id;
-                console.log(' id ', testId);
-                const response = await axios.post(`http://localhost:8086/IeltsQuestion/${testId}`, this.questionObj);
-                this.a = response.data;
-                console.log(" data from database", response, response.data);
-            },
-            async deleteLog(id){
-                const response = await axios.delete(`http://localhost:8086/IeltsQuestion/${id}`);
-                if (response) {
-                    console.log(' loi ', response.error);
-                }
-                await this.getList();
-            },
-            initialize() {
-                (this.select = { state: "", abbr: "" }),
-                    (this.items = [
-                        { state: "Listening", abbr: "L" },
-                        { state: "Reading", abbr: "R" },
-                        { state: "Speaking", abbr: "S" },
-                        { state: "Writing", abbr: "W" }
-                    ]);
-                (this.select2 = { state: "", abbr: "" }),
-                    (this.items2 = [
-                        { state: "4.0-5.5", abbr: "lv1" },
-                        { state: "5.5-6.5", abbr: "lv2" },
-                        { state: "6.5-7.5", abbr: "lv3" }
-                    ]);
-            }
-        },
+export default {
+  data() {
+    return {
+      drawer: null,
+      drawer2: null,
+      listens: [
+        {id: '1', icon: 'book', text: 'Level 4.0-5.5', path: 'ILlv'},
+        {id: '2', icon: 'book', text: 'Level 5.5-6.5', path: 'ILlv'},
+        {id: '3', icon: 'book', text: 'Level 6.5-7.5', path: 'ILlv'}
+      ],
+      reads: [
+        {id: '1', icon: 'book', text: 'Level 4.0-5.5', path: 'IRlv'},
+        {id: '2', icon: 'book', text: 'Level 5.5-6.5', path: 'IRlv'},
+        {id: '3', icon: 'book', text: 'Level 6.5-7.5', path: 'IRlv'}
+      ],
+      speaks: [
+        {id: '1', icon: 'book', text: 'Level 4.0-5.5', path: 'ISlv'},
+        {id: '2', icon: 'book', text: 'Level 5.5-6.5', path: 'ISlv'},
+        {id: '3', icon: 'book', text: 'Level 6.5-7.5', path: 'ISlv'}
+      ],
+      writes: [
+        {id: '1', icon: 'book', text: 'Level 4.0-5.5', path: 'IWlv'},
+        {id: '2', icon: 'book', text: 'Level 5.5-6.5', path: 'IWlv'},
+        {id: '3', icon: 'book', text: 'Level 6.5-7.5', path: 'IWlv'}
+      ],
+      Tlistens: [
+        {id: '1', icon: 'book', text: 'Level 350-500', path: 'TLlv'},
+        {id: '2', icon: 'book', text: 'Level 500-700', path: 'TLlv'},
+        {id: '3', icon: 'book', text: 'Level >700', path: 'TLlv'}
+      ],
+      Tspeaks: [
+        {id: '1', icon: 'book', text: 'Level 350-500', path: 'TSlv'},
+        {id: '2', icon: 'book', text: 'Level 500-700', path: 'TSlv'},
+        {id: '3', icon: 'book', text: 'Level >700', path: 'TSlv'}
+      ],
+      Treads: [
+        {id: '1', icon: 'book', text: 'Level 350-500', path: 'TRlv'},
+        {id: '2', icon: 'book', text: 'Level 500-700', path: 'TRlv'},
+        {id: '3', icon: 'book', text: 'Level >700', path: 'TRlv'}
+      ],
+      Twrites: [
+        {id: '1', icon: 'book', text: 'Level 350-500', path: 'TWlv'},
+        {id: '2', icon: 'book', text: 'Level 500-700', path: 'TWlv'},
+        {id: '3', icon: 'book', text: 'Level >700', path: 'TWlv'}
+      ],
+      users: [["ListUser", "insert_drive_file"]]
+      // huys: [["Management", "people_outline"], ["Settings", "settings"]],
+      // drawer: null,
+      // items: [
+      //   { icon: "lightbulb_outline", text: "Notes" },
+      //   { icon: "touch_app", text: "Reminders" },
+      //   // { divider: true },
+      //   // { heading: "Activities" },
+      //   // { icon: "add", text: "Create new user" },
+      //   { divider: true },
+      //   { icon: "book", text: "Listening"},
+      //   { icon: "book", text: "Reading" },
+      //   { icon: "book", text: "Writing" },
+      //   { icon: "book", text: "Speaking" },
+      //   { divider: true },
+      //   { heading: "User"},
+      //   { icon: "table", text: "ListUser" }
+      //   // { icon: "chat_bubble", text: "Trash" },
+      //   // { icon: "help", text: "Help" },
+      //   // { icon: "phonelink", text: "App downloads" },
+      //   // { icon: "keyboard", text: "Keyboard shortcuts" }
+      // ]
     };
+  },
+  props: {
+    source: String
+  },
+  methods: {
+    clickListening() {
+      this.$router.push({ name : "Listening"})
+    }
+  }
+};
 </script>
+<style scoped>
+#keep main .container {
+  height: 660px;
+}
+
+.navigation-drawer__border {
+  display: none;
+}
+
+.text {
+  font-weight: 400;
+}
+.amber {
+  background-color: #5c6bc0 !important;
+  color: #ffffff;
+}
+.layoutcenter {
+  justify-content: left;
+}
+</style>

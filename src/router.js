@@ -6,6 +6,8 @@ import SignUp from "./components/SignUp"
 import Admin from "./components/Admin"
 import Admin1 from "./components/Admin1"
 
+import Listening from "./components/view admin/Listening"
+
 import ListUser from "./components/view admin/ListUser"
 import Rtest1 from "./components/view admin/reading test/Rtest1"
 import Rtest2 from "./components/view admin/reading test/Rtest2"
@@ -71,6 +73,32 @@ export default new Router({
       component: Admin,
       children: [
         {
+          path: 'type/listening',
+          name: 'listening',
+          component: Listening,
+          children: [
+            {
+              path: 'illv/:id',
+              name: 'ILlv',
+              component: ILlv,
+              children:[
+                
+              ]
+              
+            },
+            {
+              path: 'iltest/:id',
+              name: 'ILTest',
+              component: ILTest
+            },
+            {
+                path: 'ilquestion/:id',
+                name: 'ILQuestion',
+                component: ILQuestion
+            }
+          ]          
+        },
+        {
           path: 'listuser',
           name: 'ListUser',
           component: ListUser
@@ -90,24 +118,6 @@ export default new Router({
           name: 'Rtest3',
           component: Rtest3
         },
-        {
-          path: 'illv/:id',
-          name: 'ILlv',
-          component: ILlv,
-          children: [
-            
-          ]
-        },
-        {
-          path: 'iltest/:id',
-          name: 'ILTest',
-          component: ILTest
-        },
-          {
-              path: 'ilquestion/:id',
-              name: 'ILQuestion',
-              component: ILQuestion
-          },
         {
           path: 'irlv/:id',
           name: 'IRlv',

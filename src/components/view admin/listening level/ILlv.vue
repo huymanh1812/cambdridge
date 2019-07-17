@@ -6,7 +6,7 @@
       </center>
       <v-flex xs12 class="table">
         <v-data-table :items="a" class="elevation-1">
-          <template v-slot:items="props">
+          <template v-slot:items="props" v-if="`${props.item.type}===`">
             <td>{{props.item.name}}</td>
             <td>{{props.item.type}}</td>
             <td>{{props.item.average}}</td>
@@ -18,10 +18,10 @@
               <v-btn @click="deleteLog(props.item.id)" fab dark small color="cyan">
                 <v-icon dark>delete</v-icon>
               </v-btn>
-              <v-btn :to="{path:`/admin/iltest/${props.item.id}`}" fab dark small color="cyan">
+              <v-btn :to="{path:`/admin/type/listening/iltest/${props.item.id}`}" fab dark small color="cyan">
                 <v-icon dark>insert_drive_file</v-icon>
               </v-btn>
-              <v-btn :to="{path:`/admin/ilquestion/${props.item.id}`}" fab dark small color="primary">
+              <v-btn :to="{path:`/admin/type/listening/ilquestion/${props.item.id}`}" fab dark small color="primary">
                 <v-icon dark>add</v-icon>
               </v-btn>
             </td>
@@ -193,23 +193,6 @@ export default {
           { state: "5.5-6.5", abbr: "lv2" },
           { state: "6.5-7.5", abbr: "lv3" }
         ]);
-      this.desserts = [
-        {
-          title: "Test 1"
-          //   username: "user01",
-          //   fullname: "Nguyen Manh Huy",
-          //   email: "huymanh1812@gmail.com"
-          //   carbs: 24,
-          //   protein: 4.0
-        },
-        {
-          title: "Test 2"
-          //   fullname: "Anh Kiet",
-          //   email: "anhkiet@gmail.com"
-          //   carbs: 24,
-          //   protein: 4.0
-        }
-      ];
     }
   },
   editItem(item) {
