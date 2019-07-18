@@ -42,11 +42,11 @@
           <v-list-group no-action sub-group>
             <template v-slot:activator>
               <v-list-tile>
-                <v-list-tile-title @click="ClickListening">Listening</v-list-tile-title>
+                <v-list-tile-title>Listening</v-list-tile-title>
               </v-list-tile>
             </template>
 
-            <v-list-tile v-for="(listen, i) in listens" :key="i" :to="{ name: listen.path, params: { id: listen.id } }">
+            <v-list-tile v-for="(listen, i) in listens" :key="i" :to="{ name: listen.path, params: { id: listen.id, typeId: listen.typeId } }">
               <v-list-tile-title v-text="listen.text"></v-list-tile-title>
               <v-list-tile-action>
                 <v-icon v-text="listen.icon"></v-icon>
@@ -61,7 +61,7 @@
               </v-list-tile>
             </template>
 
-            <v-list-tile v-for="(read, i) in reads" :key="i" :to="{ name: read.path, params: { id: read.id } }">
+            <v-list-tile v-for="(read, i) in reads" :key="i" :to="{ name: read.path, params: { id: read.id, typeId: read.typeId } }">
               <v-list-tile-title v-text="read.text"></v-list-tile-title>
               <v-list-tile-action>
                 <v-icon v-text="read.icon"></v-icon>
@@ -76,7 +76,7 @@
               </v-list-tile>
             </template>
 
-            <v-list-tile v-for="(speak, i) in speaks" :key="i" :to="{ name: speak.path, params: { id: speak.id } }">
+            <v-list-tile v-for="(speak, i) in speaks" :key="i" :to="{ name: speak.path, params: { id: speak.id, typeId: speak.typeId } }">
               <v-list-tile-title v-text="speak.text"></v-list-tile-title>
               <v-list-tile-action>
                 <v-icon v-text="speak.icon"></v-icon>
@@ -91,7 +91,7 @@
               </v-list-tile>
             </template>
 
-            <v-list-tile v-for="(write, i) in writes" :key="i" :to="{ name: write.path, params: { id: write.id } }">
+            <v-list-tile v-for="(write, i) in writes" :key="i" :to="{ name: write.path, params: { id: write.id, typeId: write.typeId } }">
               <v-list-tile-title v-text="write.text"></v-list-tile-title>
               <v-list-tile-action>
                 <v-icon v-text="write.icon"></v-icon>
@@ -138,7 +138,7 @@
               </v-list-tile>
             </template>
 
-            <v-list-tile v-for="(listen, i) in Tlistens" :key="i" :to="{ name: listen.path, params: { id: listen.id } }">
+            <v-list-tile v-for="(listen, i) in Tlistens" :key="i" :to="{ name: listen.path, params: { id: listen.id, typeId: listen.typeId } }">
               <v-list-tile-title v-text="listen.text"></v-list-tile-title>
               <v-list-tile-action>
                 <v-icon v-text="listen.icon"></v-icon>
@@ -153,7 +153,7 @@
               </v-list-tile>
             </template>
 
-            <v-list-tile v-for="(read, i) in Treads" :key="i" :to="{ name: read.path, params: { id: read.id } }">
+            <v-list-tile v-for="(read, i) in Treads" :key="i" :to="{ name: read.path, params: { id: read.id, typeId: read.typeId } }">
               <v-list-tile-title v-text="read.text"></v-list-tile-title>
               <v-list-tile-action>
                 <v-icon v-text="read.icon"></v-icon>
@@ -168,7 +168,7 @@
               </v-list-tile>
             </template>
 
-            <v-list-tile v-for="(speak, i) in Tspeaks" :key="i" :to="{ name: speak.path, params: { id: speak.id } }">
+            <v-list-tile v-for="(speak, i) in Tspeaks" :key="i" :to="{ name: speak.path, params: { id: speak.id, typeId: speak.typeId } }">
               <v-list-tile-title v-text="speak.text"></v-list-tile-title>
               <v-list-tile-action>
                 <v-icon v-text="speak.id"></v-icon>
@@ -183,7 +183,7 @@
               </v-list-tile>
             </template>
 
-            <v-list-tile v-for="(write, i) in Twrites" :key="i" :to="{ name: write.path, params: { id: write.id } }">
+            <v-list-tile v-for="(write, i) in Twrites" :key="i" :to="{ name: write.path, params: { id: write.id, typeId: write.typeId } }">
               <v-list-tile-title v-text="write.text"></v-list-tile-title>
               <v-list-tile-action>
                 <v-icon v-text="write.icon"></v-icon>
@@ -259,77 +259,54 @@ export default {
       drawer: null,
       drawer2: null,
       listens: [
-        {id: '1', icon: 'book', text: 'Level 4.0-5.5', path: 'ILlv'},
-        {id: '2', icon: 'book', text: 'Level 5.5-6.5', path: 'ILlv'},
-        {id: '3', icon: 'book', text: 'Level 6.5-7.5', path: 'ILlv'}
+        {typeId: 'listening' ,id: '1', icon: 'book', text: 'Level 4.0-5.5', path: 'ILlv'},
+        {typeId: 'listening' ,id: '2', icon: 'book', text: 'Level 5.5-6.5', path: 'ILlv'},
+        {typeId: 'listening' ,id: '3', icon: 'book', text: 'Level 6.5-7.5', path: 'ILlv'}
       ],
       reads: [
-        {id: '1', icon: 'book', text: 'Level 4.0-5.5', path: 'IRlv'},
-        {id: '2', icon: 'book', text: 'Level 5.5-6.5', path: 'IRlv'},
-        {id: '3', icon: 'book', text: 'Level 6.5-7.5', path: 'IRlv'}
+        {typeId: 'reading' ,id: '1', icon: 'book', text: 'Level 4.0-5.5', path: 'IRlv'},
+        {typeId: 'reading' ,id: '2', icon: 'book', text: 'Level 5.5-6.5', path: 'IRlv'},
+        {typeId: 'reading' ,id: '3', icon: 'book', text: 'Level 6.5-7.5', path: 'IRlv'}
       ],
       speaks: [
-        {id: '1', icon: 'book', text: 'Level 4.0-5.5', path: 'ISlv'},
-        {id: '2', icon: 'book', text: 'Level 5.5-6.5', path: 'ISlv'},
-        {id: '3', icon: 'book', text: 'Level 6.5-7.5', path: 'ISlv'}
+        {typeId: 'speaking' ,id: '1', icon: 'book', text: 'Level 4.0-5.5', path: 'ISlv'},
+        {typeId: 'speaking' ,id: '2', icon: 'book', text: 'Level 5.5-6.5', path: 'ISlv'},
+        {typeId: 'speaking' ,id: '3', icon: 'book', text: 'Level 6.5-7.5', path: 'ISlv'}
       ],
       writes: [
-        {id: '1', icon: 'book', text: 'Level 4.0-5.5', path: 'IWlv'},
-        {id: '2', icon: 'book', text: 'Level 5.5-6.5', path: 'IWlv'},
-        {id: '3', icon: 'book', text: 'Level 6.5-7.5', path: 'IWlv'}
+        {typeId: 'writing' ,id: '1', icon: 'book', text: 'Level 4.0-5.5', path: 'IWlv'},
+        {typeId: 'writing' ,id: '2', icon: 'book', text: 'Level 5.5-6.5', path: 'IWlv'},
+        {typeId: 'writing' ,id: '3', icon: 'book', text: 'Level 6.5-7.5', path: 'IWlv'}
       ],
       Tlistens: [
-        {id: '1', icon: 'book', text: 'Level 350-500', path: 'TLlv'},
-        {id: '2', icon: 'book', text: 'Level 500-700', path: 'TLlv'},
-        {id: '3', icon: 'book', text: 'Level >700', path: 'TLlv'}
+        {typeId: 'listening' ,id: '1', icon: 'book', text: 'Level 350-500', path: 'TLlv'},
+        {typeId: 'listening' ,id: '2', icon: 'book', text: 'Level 500-700', path: 'TLlv'},
+        {typeId: 'listening' ,id: '3', icon: 'book', text: 'Level >700', path: 'TLlv'}
       ],
       Tspeaks: [
-        {id: '1', icon: 'book', text: 'Level 350-500', path: 'TSlv'},
-        {id: '2', icon: 'book', text: 'Level 500-700', path: 'TSlv'},
-        {id: '3', icon: 'book', text: 'Level >700', path: 'TSlv'}
+        {typeId: 'speaking' ,id: '1', icon: 'book', text: 'Level 350-500', path: 'TSlv'},
+        {typeId: 'speaking' ,id: '2', icon: 'book', text: 'Level 500-700', path: 'TSlv'},
+        {typeId: 'speaking' ,id: '3', icon: 'book', text: 'Level >700', path: 'TSlv'}
       ],
       Treads: [
-        {id: '1', icon: 'book', text: 'Level 350-500', path: 'TRlv'},
-        {id: '2', icon: 'book', text: 'Level 500-700', path: 'TRlv'},
-        {id: '3', icon: 'book', text: 'Level >700', path: 'TRlv'}
+        {typeId: 'reading' ,id: '1', icon: 'book', text: 'Level 350-500', path: 'TRlv'},
+        {typeId: 'reading' ,id: '2', icon: 'book', text: 'Level 500-700', path: 'TRlv'},
+        {typeId: 'reading' ,id: '3', icon: 'book', text: 'Level >700', path: 'TRlv'}
       ],
       Twrites: [
-        {id: '1', icon: 'book', text: 'Level 350-500', path: 'TWlv'},
-        {id: '2', icon: 'book', text: 'Level 500-700', path: 'TWlv'},
-        {id: '3', icon: 'book', text: 'Level >700', path: 'TWlv'}
+        {typeId: 'writing' ,id: '1', icon: 'book', text: 'Level 350-500', path: 'TWlv'},
+        {typeId: 'writing' ,id: '2', icon: 'book', text: 'Level 500-700', path: 'TWlv'},
+        {typeId: 'writing' ,id: '3', icon: 'book', text: 'Level >700', path: 'TWlv'}
       ],
-      users: [["ListUser", "insert_drive_file"]]
-      // huys: [["Management", "people_outline"], ["Settings", "settings"]],
-      // drawer: null,
-      // items: [
-      //   { icon: "lightbulb_outline", text: "Notes" },
-      //   { icon: "touch_app", text: "Reminders" },
-      //   // { divider: true },
-      //   // { heading: "Activities" },
-      //   // { icon: "add", text: "Create new user" },
-      //   { divider: true },
-      //   { icon: "book", text: "Listening"},
-      //   { icon: "book", text: "Reading" },
-      //   { icon: "book", text: "Writing" },
-      //   { icon: "book", text: "Speaking" },
-      //   { divider: true },
-      //   { heading: "User"},
-      //   { icon: "table", text: "ListUser" }
-      //   // { icon: "chat_bubble", text: "Trash" },
-      //   // { icon: "help", text: "Help" },
-      //   // { icon: "phonelink", text: "App downloads" },
-      //   // { icon: "keyboard", text: "Keyboard shortcuts" }
-      // ]
+      users: [["ListUser", "insert_drive_file"]],
     };
   },
   props: {
     source: String
   },
-  methods: {
-    ClickListening() {
+  clickListening() {
       this.$router.push({ name : "listening"})
-    }
-  }
+    },
 };
 </script>
 <style scoped>

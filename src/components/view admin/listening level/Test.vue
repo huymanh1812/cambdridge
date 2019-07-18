@@ -1,7 +1,7 @@
 <template>
     <v-layout>
         <v-flex xs12>
-            <div id="listening">
+            <div>
                 <router-view></router-view>
             </div>
         </v-flex>

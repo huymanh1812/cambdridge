@@ -1,5 +1,4 @@
 <template>
-<<<<<<< Updated upstream:src/components/TestList.vue
   <v-flex xs12>
     <div id="illv">
       <center>
@@ -194,7 +193,6 @@
     </div>
 </template>
 <script>
-<<<<<<< Updated upstream:src/components/TestList.vue
 import axios from "axios";
 export default {
   data() {
@@ -257,7 +255,6 @@ export default {
   },
   methods: {
     async getList() {
-=======
     import axios from "axios";
 
 
@@ -317,7 +314,6 @@ export default {
                 console.log(" data from database", response, response.data);
             },
             async getList() {
->>>>>>> Stashed changes:src/components/view admin/listening level/ILlv1.vue
                 const response = await axios.get("http://localhost:8086/IeltsTest/list");
                 this.a = response.data;
                 console.log("data from database", response, response.data);

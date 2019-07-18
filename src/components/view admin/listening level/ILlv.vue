@@ -5,7 +5,7 @@
         <h2>Level {{$route.params.id}} Listening List Test</h2>
       </center>
       <v-flex xs12 class="table">
-        <v-data-table :items="a" class="elevation-1">
+        <v-data-table :headers="headers" :items="list" class="elevation-1">
           <template v-slot:items="props" v-if="`${props.item.type}===`">
             <td>{{props.item.name}}</td>
             <td>{{props.item.type}}</td>
@@ -18,53 +18,126 @@
               <v-btn @click="deleteLog(props.item.id)" fab dark small color="cyan">
                 <v-icon dark>delete</v-icon>
               </v-btn>
-              <v-btn :to="{path:`/admin/type/listening/iltest/${props.item.id}`}" fab dark small color="cyan">
-                <v-icon dark>insert_drive_file</v-icon>
-              </v-btn>
-              <v-btn :to="{path:`/admin/type/listening/ilquestion/${props.item.id}`}" fab dark small color="primary">
-                <v-icon dark>add</v-icon>
+              <v-dialog
+                v-model="dialogTest"
+                fullscreen
+                hide-overlay
+                transition="dialog-bottom-transition"
+              >
+                <template v-slot:activator="{ on }">
+                  <v-btn color="primary" dark v-on="on">Test</v-btn>
+                </template>
+                <v-card>
+                  <v-toolbar dark color="primary">
+                    <v-btn icon dark @click="dialogTest = false">
+                      <v-icon>close</v-icon>
+                    </v-btn>
+                    <v-toolbar-title>Test</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-toolbar-items>
+                      <v-btn dark flat @click="dialogTest = false">Save</v-btn>
+                    </v-toolbar-items>
+                  </v-toolbar>
+                  <!-- <v-list three-line subheader>
+                <v-subheader>User Controls</v-subheader>
+                <v-list-tile avatar>
+                  <v-list-tile-content>
+                    <v-list-tile-title>Content filtering</v-list-tile-title>
+                    <v-list-tile-sub-title>Set the content filtering level to restrict apps that can be downloaded</v-list-tile-sub-title>
+                  </v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile avatar>
+                  <v-list-tile-content>
+                    <v-list-tile-title>Password</v-list-tile-title>
+                    <v-list-tile-sub-title>Require password for purchase or use password to restrict purchase</v-list-tile-sub-title>
+                  </v-list-tile-content>
+                </v-list-tile>
+              </v-list>
+              <v-divider></v-divider>
+              <v-list three-line subheader>
+                <v-subheader>General</v-subheader>
+                <v-list-tile avatar>
+                  <v-list-tile-action>
+                    <v-checkbox v-model="notifications"></v-checkbox>
+                  </v-list-tile-action>
+                  <v-list-tile-content>
+                    <v-list-tile-title>Notifications</v-list-tile-title>
+                    <v-list-tile-sub-title>Notify me about updates to apps or games that I downloaded</v-list-tile-sub-title>
+                  </v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile avatar>
+                  <v-list-tile-action>
+                    <v-checkbox v-model="sound"></v-checkbox>
+                  </v-list-tile-action>
+                  <v-list-tile-content>
+                    <v-list-tile-title>Sound</v-list-tile-title>
+                    <v-list-tile-sub-title>Auto-update apps at any time. Data charges may apply</v-list-tile-sub-title>
+                  </v-list-tile-content>
+                </v-list-tile>
+                <v-list-tile avatar>
+                  <v-list-tile-action>
+                    <v-checkbox v-model="widgets"></v-checkbox>
+                  </v-list-tile-action>
+                  <v-list-tile-content>
+                    <v-list-tile-title>Auto-add widgets</v-list-tile-title>
+                    <v-list-tile-sub-title>Automatically add home screen widgets</v-list-tile-sub-title>
+                  </v-list-tile-content>
+                </v-list-tile>
+                  </v-list>-->
+                  <v-container>
+                    <v-layout column>
+                      <v-flex xs12 v-for="(question,i) in questionList" :key="i">
+                        {{question.question}}
+                        <v-layout>
+                          <v-flex xs3>
+                            <v-checkbox v-model="a[i]" :label="question.a"></v-checkbox>
+                          </v-flex>
+                          <v-flex xs3>
+                            <v-checkbox v-model="b[i]" :label="question.b"></v-checkbox>
+                          </v-flex>
+                          <v-flex xs3>
+                            <v-checkbox v-model="c[i]" :label="question.c"></v-checkbox>
+                          </v-flex>
+                          <v-flex xs3>
+                            <v-checkbox v-model="d[i]" :label="question.d"></v-checkbox>
+                          </v-flex>
+                        </v-layout>
+                      </v-flex>
+                    </v-layout>
+                  </v-container>
+                </v-card>
+              </v-dialog>
+              <v-btn @click="RenderToListQuestion()" fab dark small color="primary">
+                <v-icon dark>...</v-icon>
               </v-btn>
             </td>
           </template>
         </v-data-table>
       </v-flex>
 
-      <v-dialog max-width="600px" v-model="dialog1">
-
-      <v-card>
-      <v-card-title>
-      <h2>Edit</h2>
-      </v-card-title>
-      <v-card-text>
-      <v-form class="px-3">
-      <v-text-field
-      v-model="editingObj.name"
-      label="Name"
-      :counter="10"
-
-      required
-      >Name</v-text-field>
-      <v-text-field
-      v-model="editingObj.type"
-      label="Type"
-      :counter="50"
-
-      >To do</v-text-field>
-      <v-text-field
-      v-model="editingObj.average"
-      label="average"
-      :counter="50"
-
-      >IdTest</v-text-field>
-      <v-btn color="success" @click="addLog()">Save</v-btn>
-      <v-btn color="error" @click="reset()">Clear</v-btn>
-      </v-form>
-      </v-card-text>
-      </v-card>
+      <!-- <v-dialog max-width="600px" v-model="dialog1"> -->
+      <v-dialog max-width="600px">
+        <v-card>
+          <v-card-title>
+            <h2>Edit</h2>
+          </v-card-title>
+          <v-card-text>
+            <v-form class="px-3">
+              <v-text-field v-model="editingObj.name" label="Name" :counter="10" required>Name</v-text-field>
+              <v-text-field v-model="editingObj.type" label="Type" :counter="50">To do</v-text-field>
+              <v-text-field v-model="editingObj.average" label="average" :counter="50">IdTest</v-text-field>
+              <v-btn color="success" @click="addLog()">Save</v-btn>
+              <v-btn color="error" @click="reset()">Clear</v-btn>
+            </v-form>
+          </v-card-text>
+        </v-card>
       </v-dialog>
 
       <v-dialog max-width="600px" v-model="dialog">
-        <v-btn flat slot="activator" class="sucess" @Click="Open1">Add Log</v-btn>
+        <v-btn flat slot="activator" class="sucess" @Click="Open1">
+          Add Test
+          <v-icon>add</v-icon>
+        </v-btn>
         <v-card>
           <v-card-title>
             <h2>Add project</h2>
@@ -89,11 +162,7 @@
                 persistent-hint
                 single-line
               ></v-select>
-              <v-text-field
-                v-model="editingObj.name"
-                label="Name"
-                :counter="50"
-              >Average</v-text-field>
+              <v-text-field v-model="editingObj.name" label="Name" :counter="50">Average</v-text-field>
 
               <v-btn color="success" @click="addLog()">Save</v-btn>
               <v-btn color="error" @click="reset()">Clear</v-btn>
@@ -102,6 +171,11 @@
         </v-card>
       </v-dialog>
     </div>
+    <v-layout justify-center>
+      <v-flex xs10>
+        <router-view></router-view>
+      </v-flex>
+    </v-layout>
   </v-flex>
 </template>
 <script>
@@ -109,6 +183,26 @@ import axios from "axios";
 export default {
   data() {
     return {
+      headers: [
+        {
+          text: "Title",
+          align: "left",
+          sortable: false,
+          value: "name"
+        },
+        { text: "Type", value: "type" },
+        { text: "Level", value: "average" },
+        { text: "Action" }
+      ],
+      a: [],
+      b: [],
+      c: [],
+      d: [],
+      questionList: [],
+      dialogTest: false,
+      notifications: false,
+      sound: true,
+      widgets: false,
       select: "",
       select2: "",
       editingObj: {
@@ -116,20 +210,18 @@ export default {
         type: "",
         average: ""
       },
-      a: [],
+      list: [],
       dialog: false,
-      headers: [
-        {
-          text: "Title",
-          align: "left",
-          sortable: false,
-          value: "title"
-        },
+      // headers: [
+      //   {
+      //     text: "Title",
+      //     align: "left",
+      //     sortable: false,
+      //     value: "title"
+      //   },
 
-        { text: "Actions", value: "name", sortable: false }
-      ],
-
-
+      //   { text: "Actions", value: "name", sortable: false }
+      // ]
     };
   },
   computed: {
@@ -149,36 +241,54 @@ export default {
     await this.getList();
   },
   methods: {
-      Open1() {
-          this.editingObj = {};
-          this.dialog = true;
-      },
+    RenderToListQuestion() {
+      this.$router.push({ name: "ilquestion" });
+    },
 
-      Open2(truyen) {
-          this.editingObj = truyen;
-          this.dialog1 = true;
-      },
+    Open1() {
+      this.editingObj = {};
+      this.dialog = true;
+    },
+
+    Open2(truyen) {
+      this.editingObj = truyen;
+      // this.dialog1 = true;
+    },
     async getList() {
-                const response = await axios.get("http://localhost:8086/IeltsTest/list");
-                this.a = response.data;
-                console.log("data from database", response, response.data);
-            },
-            async addLog() {
-                const response = await axios.post("http://localhost:8086/IeltsTest", this.editingObj);
-                this.a = response.data;
-                console.log(" data from database", response, response.data);
-            },
-            async deleteLog(id){
-              console.log(id);
-                const response = await axios.delete(`http://localhost:8086/IeltsTest/${id}`)
-                
-                if (response) {
-                    console.log(' loi ', response.error);
-                    
-                }
-                
-                await this.getList();
-            },
+      const response = await axios.get("http://localhost:8086/IeltsTest/list");
+      this.list = response.data;
+      const response1 = await axios.get(
+        "http://localhost:8086/IeltsQuestion/list"
+      );
+      console.log("data from database", response1, response1.data);
+      this.questionList = response1.data.map(elm => ({
+        question: elm.question,
+        a: elm.a,
+        b: elm.b,
+        c: elm.c,
+        d: elm.d
+      }));
+    },
+    async addLog() {
+      const response = await axios.post(
+        "http://localhost:8086/IeltsTest",
+        this.editingObj
+      );
+      this.a = response.data;
+      console.log(" data from database", response, response.data);
+    },
+    async deleteLog(id) {
+      console.log(id);
+      const response = await axios.delete(
+        `http://localhost:8086/IeltsTest/${id}`
+      );
+
+      if (response) {
+        console.log(" loi ", response.error);
+      }
+
+      await this.getList();
+    },
     initialize() {
       (this.select = { state: "", abbr: "" }),
         (this.items = [

@@ -1,6 +1,6 @@
 <template>
     <v-flex xs12>
-        <div id="illv">
+        <div id="ilquestion">
             <center>
                 <h2> Question List </h2>
             </center>
@@ -20,19 +20,22 @@
                             <v-btn @click="deleteLog(props.item.id)" fab dark small color="cyan">
                                 <v-icon dark>delete</v-icon>
                             </v-btn>
-                            <v-btn :to="{path:`/admin/iltest/${props.item.id}`}" fab dark small color="cyan">
+                            <!-- <v-btn :to="{path:`/admin/iltest/${props.item.id}`}" fab dark small color="cyan">
                                 <v-icon dark>insert_drive_file</v-icon>
-                            </v-btn>
-                            <v-btn :to="{path:`/admin/ilquestion/${props.item.id}`}" fab dark small color="primary">
+                            </v-btn> -->
+                            <!-- <v-btn :to="{path:`/admin/ilquestion/${props.item.id}`}" fab dark small color="primary">
                                 <v-icon dark>add</v-icon>
-                            </v-btn>
+                            </v-btn> -->
                         </td>
                     </template>
                 </v-data-table>
             </v-flex>
 
             <v-dialog max-width="600px" v-model="dialog1">
-                <v-btn flat slot="activator" class="sucess" @Click="Open1">Add Log</v-btn>
+                <v-btn flat slot="activator" class="sucess" @Click="Open1">
+                    Add Question
+                    <v-icon>add</v-icon>
+                </v-btn>
                 <v-card>
                     <v-card-title>
                         <h2>Edit</h2>

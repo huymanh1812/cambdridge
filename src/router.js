@@ -6,7 +6,7 @@ import SignUp from "./components/SignUp"
 import Admin from "./components/Admin"
 import Admin1 from "./components/Admin1"
 
-import Listening from "./components/view admin/Listening"
+import Type from "./components/view admin/Type"
 
 import ListUser from "./components/view admin/ListUser"
 import Rtest1 from "./components/view admin/reading test/Rtest1"
@@ -23,7 +23,7 @@ import TRlv from "./components/view admin/reading level/TRlv"
 import TSlv from "./components/view admin/speaking level/TSlv"
 import TWlv from "./components/view admin/writing level/TWlv"
 
-import ILTest from "./components/view admin/listening level/listening test/ILTest"
+// import ILTest from "./components/view admin/listening level/listening test/ILTest"
 import ILQuestion from "./components/view admin/listening level/listening test/ILQuestion"
 
 import Wtest1 from "./components/view admin/writing test/Wtest1"
@@ -72,31 +72,64 @@ export default new Router({
       name: 'admin',
       component: Admin,
       children: [
+        // {
+        //   path: 'type',
+        //   name: 'type',
+        //   component: Listening,
+        // },
         {
-          path: 'type/listening',
-          name: 'listening',
-          component: Listening,
+          path: 'type/:typeId',
+          name: 'type',
+          component: Type,
           children: [
             {
-              path: 'illv/:id',
+              path: 'level/:id',
               name: 'ILlv',
               component: ILlv,
-              children:[
-                
+              children: [
+                {
+                    path: 'listquestion',
+                    name: 'ilquestion',
+                    component: ILQuestion
+                }
               ]
-              
             },
             {
-              path: 'iltest/:id',
-              name: 'ILTest',
-              component: ILTest
+              path: 'level/:id',
+              name: 'IRlv',
+              component: IRlv
             },
             {
-                path: 'ilquestion/:id',
-                name: 'ILQuestion',
-                component: ILQuestion
+              path: 'level/:id',
+              name: 'ISlv',
+              component: ISlv
+            },
+            {
+              path: 'level/:id',
+              name: 'IWlv',
+              component: IWlv
+            },
+            {
+              path: 'level/:id',
+              name: 'TLlv',
+              component: TLlv
+            },
+            {
+              path: 'level/:id',
+              name: 'TRlv',
+              component: TRlv
+            },
+            {
+              path: 'level/:id',
+              name: 'TSlv',
+              component: TSlv
+            },
+            {
+              path: 'level/:id',
+              name: 'TWlv',
+              component: TWlv
             }
-          ]          
+          ]
         },
         {
           path: 'listuser',
@@ -117,41 +150,6 @@ export default new Router({
           path: 'rtest3',
           name: 'Rtest3',
           component: Rtest3
-        },
-        {
-          path: 'irlv/:id',
-          name: 'IRlv',
-          component: IRlv
-        },
-        {
-          path: 'islv/:id',
-          name: 'ISlv',
-          component: ISlv
-        },
-        {
-          path: 'iwlv/:id',
-          name: 'IWlv',
-          component: IWlv
-        },
-        {
-          path: 'tllv/:id',
-          name: 'TLlv',
-          component: TLlv
-        },
-        {
-          path: 'trlv/:id',
-          name: 'TRlv',
-          component: TRlv
-        },
-        {
-          path: 'tslv/:id',
-          name: 'TSlv',
-          component: TSlv
-        },
-        {
-          path: 'twlv/:id',
-          name: 'TWlv',
-          component: TWlv
         },
         {
           path: 'stest1',
