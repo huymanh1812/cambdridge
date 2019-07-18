@@ -108,6 +108,9 @@
 <script>
     import axios from "axios";
     export default {
+        props: {
+          testId: Number,
+        },
         data() {
             return {
                 headers: [
@@ -178,9 +181,7 @@
                 console.log("data from database", response, response.data);
             },
             async addLog() {
-                const testId = this.$route.params.id;
-                console.log(' id ', testId);
-                const response = await axios.post(`http://localhost:8086/IeltsQuestion/${testId}`, this.questionObj);
+                const response = await axios.post(`http://localhost:8086/IeltsQuestion/${this.testId}`, this.questionObj);
                 this.a = response.data;
                 console.log(" data from database", response, response.data);
             },
