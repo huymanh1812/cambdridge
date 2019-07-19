@@ -20,12 +20,6 @@
                             <v-btn @click="deleteLog(props.item.id)" fab dark small color="cyan">
                                 <v-icon dark>delete</v-icon>
                             </v-btn>
-                            <!-- <v-btn :to="{path:`/admin/iltest/${props.item.id}`}" fab dark small color="cyan">
-                                <v-icon dark>insert_drive_file</v-icon>
-                            </v-btn> -->
-                            <!-- <v-btn :to="{path:`/admin/ilquestion/${props.item.id}`}" fab dark small color="primary">
-                                <v-icon dark>add</v-icon>
-                            </v-btn> -->
                         </td>
                     </template>
                 </v-data-table>
@@ -147,6 +141,7 @@
                 a: [],
                 dialog: false,
                 dialog1: false,
+                editingTestId: null,
             };
         },
         computed: {
@@ -157,7 +152,12 @@
         watch: {
             dialog(val) {
                 val || this.close();
-            }
+            },
+            async testId(val) {
+              if (val) {
+                  await this.getList();
+              }
+            },
         },
         created() {
             this.initialize();
@@ -166,6 +166,7 @@
             await this.getList();
         },
         methods: {
+
             Open1() {
                 this.editingObj = {};
                 this.dialog = true;
@@ -176,7 +177,7 @@
                 this.dialog1 = true;
             },
             async getList() {
-                const response = await axios.get("http://localhost:8086/IeltsQuestion/list");
+                const response = await axios.get(`http://localhost:8086/IeltsQuetion/test/${this.testId}`);
                 this.a = response.data;
                 console.log("data from database", response, response.data);
             },

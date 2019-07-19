@@ -18,96 +18,8 @@
               <v-btn @click="deleteLog(props.item.id)" fab dark small color="cyan">
                 <v-icon dark>delete</v-icon>
               </v-btn>
-              <v-dialog
-                v-model="dialogTest"
-                fullscreen
-                hide-overlay
-                transition="dialog-bottom-transition"
-              >
-                <template v-slot:activator="{ on }">
-                  <v-btn color="primary" dark v-on="on">Test</v-btn>
-                </template>
-                <v-card>
-                  <v-toolbar dark color="primary">
-                    <v-btn icon dark @click="dialogTest = false">
-                      <v-icon>close</v-icon>
-                    </v-btn>
-                    <v-toolbar-title>Test</v-toolbar-title>
-                    <v-spacer></v-spacer>
-                    <v-toolbar-items>
-                      <v-btn dark flat @click="dialogTest = false">Save</v-btn>
-                    </v-toolbar-items>
-                  </v-toolbar>
-                  <!-- <v-list three-line subheader>
-                <v-subheader>User Controls</v-subheader>
-                <v-list-tile avatar>
-                  <v-list-tile-content>
-                    <v-list-tile-title>Content filtering</v-list-tile-title>
-                    <v-list-tile-sub-title>Set the content filtering level to restrict apps that can be downloaded</v-list-tile-sub-title>
-                  </v-list-tile-content>
-                </v-list-tile>
-                <v-list-tile avatar>
-                  <v-list-tile-content>
-                    <v-list-tile-title>Password</v-list-tile-title>
-                    <v-list-tile-sub-title>Require password for purchase or use password to restrict purchase</v-list-tile-sub-title>
-                  </v-list-tile-content>
-                </v-list-tile>
-              </v-list>
-              <v-divider></v-divider>
-              <v-list three-line subheader>
-                <v-subheader>General</v-subheader>
-                <v-list-tile avatar>
-                  <v-list-tile-action>
-                    <v-checkbox v-model="notifications"></v-checkbox>
-                  </v-list-tile-action>
-                  <v-list-tile-content>
-                    <v-list-tile-title>Notifications</v-list-tile-title>
-                    <v-list-tile-sub-title>Notify me about updates to apps or games that I downloaded</v-list-tile-sub-title>
-                  </v-list-tile-content>
-                </v-list-tile>
-                <v-list-tile avatar>
-                  <v-list-tile-action>
-                    <v-checkbox v-model="sound"></v-checkbox>
-                  </v-list-tile-action>
-                  <v-list-tile-content>
-                    <v-list-tile-title>Sound</v-list-tile-title>
-                    <v-list-tile-sub-title>Auto-update apps at any time. Data charges may apply</v-list-tile-sub-title>
-                  </v-list-tile-content>
-                </v-list-tile>
-                <v-list-tile avatar>
-                  <v-list-tile-action>
-                    <v-checkbox v-model="widgets"></v-checkbox>
-                  </v-list-tile-action>
-                  <v-list-tile-content>
-                    <v-list-tile-title>Auto-add widgets</v-list-tile-title>
-                    <v-list-tile-sub-title>Automatically add home screen widgets</v-list-tile-sub-title>
-                  </v-list-tile-content>
-                </v-list-tile>
-                  </v-list>-->
-                  <v-container>
-                    <v-layout column>
-                      <v-flex xs12 v-for="(question,i) in questionList" :key="i">
-                        {{question.question}}
-                        <v-layout>
-                          <v-flex xs3>
-                            <v-checkbox v-model="a[i]" :label="question.a"></v-checkbox>
-                          </v-flex>
-                          <v-flex xs3>
-                            <v-checkbox v-model="b[i]" :label="question.b"></v-checkbox>
-                          </v-flex>
-                          <v-flex xs3>
-                            <v-checkbox v-model="c[i]" :label="question.c"></v-checkbox>
-                          </v-flex>
-                          <v-flex xs3>
-                            <v-checkbox v-model="d[i]" :label="question.d"></v-checkbox>
-                          </v-flex>
-                        </v-layout>
-                      </v-flex>
-                    </v-layout>
-                  </v-container>
-                </v-card>
-              </v-dialog>
 
+                <v-btn color="primary" dark @click="OpenTest()">Test</v-btn>
               <v-btn @click="RenderToListQuestion(props.item.id)" fab dark small color="primary">
                 <v-icon dark>...</v-icon>
               </v-btn>
@@ -115,6 +27,96 @@
           </template>
         </v-data-table>
       </v-flex>
+
+        <v-dialog
+                v-model="dialogTest"
+                fullscreen
+                hide-overlay
+                transition="dialog-bottom-transition"
+        >
+
+
+
+            <v-card>
+                <v-toolbar dark color="primary">
+                    <v-btn icon dark @click="dialogTest = false">
+                        <v-icon>close</v-icon>
+                    </v-btn>
+                    <v-toolbar-title>Test</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-toolbar-items>
+                        <v-btn dark flat @click="dialogTest = false">Save</v-btn>
+                    </v-toolbar-items>
+                </v-toolbar>
+                <!-- <v-list three-line subheader>
+              <v-subheader>User Controls</v-subheader>
+              <v-list-tile avatar>
+                <v-list-tile-content>
+                  <v-list-tile-title>Content filtering</v-list-tile-title>
+                  <v-list-tile-sub-title>Set the content filtering level to restrict apps that can be downloaded</v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
+              <v-list-tile avatar>
+                <v-list-tile-content>
+                  <v-list-tile-title>Password</v-list-tile-title>
+                  <v-list-tile-sub-title>Require password for purchase or use password to restrict purchase</v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list>
+            <v-divider></v-divider>
+            <v-list three-line subheader>
+              <v-subheader>General</v-subheader>
+              <v-list-tile avatar>
+                <v-list-tile-action>
+                  <v-checkbox v-model="notifications"></v-checkbox>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                  <v-list-tile-title>Notifications</v-list-tile-title>
+                  <v-list-tile-sub-title>Notify me about updates to apps or games that I downloaded</v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
+              <v-list-tile avatar>
+                <v-list-tile-action>
+                  <v-checkbox v-model="sound"></v-checkbox>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                  <v-list-tile-title>Sound</v-list-tile-title>
+                  <v-list-tile-sub-title>Auto-update apps at any time. Data charges may apply</v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
+              <v-list-tile avatar>
+                <v-list-tile-action>
+                  <v-checkbox v-model="widgets"></v-checkbox>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                  <v-list-tile-title>Auto-add widgets</v-list-tile-title>
+                  <v-list-tile-sub-title>Automatically add home screen widgets</v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
+                </v-list>-->
+                <v-container>
+                    <v-layout column>
+                        <v-flex xs12 v-for="(question,i) in questionList" :key="i">
+                            {{question.question}}
+                            <v-layout>
+                                <v-flex xs3>
+                                    <v-checkbox v-model="a[i]" :label="question.a"></v-checkbox>
+                                </v-flex>
+                                <v-flex xs3>
+                                    <v-checkbox v-model="b[i]" :label="question.b"></v-checkbox>
+                                </v-flex>
+                                <v-flex xs3>
+                                    <v-checkbox v-model="c[i]" :label="question.c"></v-checkbox>
+                                </v-flex>
+                                <v-flex xs3>
+                                    <v-checkbox v-model="d[i]" :label="question.d"></v-checkbox>
+                                </v-flex>
+                            </v-layout>
+                        </v-flex>
+                    </v-layout>
+                </v-container>
+            </v-card>
+        </v-dialog>
 
       <v-dialog max-width="600px" v-model="dialog1">
         <v-card>
@@ -126,8 +128,8 @@
               <v-text-field v-model="editingObj.name" label="Name" :counter="10" required>Name</v-text-field>
               <v-text-field v-model="editingObj.type" label="Type" :counter="50">To do</v-text-field>
               <v-text-field v-model="editingObj.average" label="average" :counter="50">IdTest</v-text-field>
-              <v-btn color="success" @click="addLog()">Save</v-btn>
-              <v-btn color="error" @click="reset()">Clear</v-btn>
+              <v-btn color="success" @click="addLog(),dialog1=false">Save</v-btn>
+              <v-btn color="error" @click="reset(),dialog1=false">Clear</v-btn>
             </v-form>
           </v-card-text>
         </v-card>
@@ -165,7 +167,7 @@
               <v-text-field v-model="editingObj.name" label="Name" :counter="50">Average</v-text-field>
 
               <v-btn color="success" @click="addLog(),dialog=false">Save</v-btn>
-              <v-btn color="error" @click="reset()">Clear</v-btn>
+              <v-btn color="error" @click="reset(),dialog=false">Clear</v-btn>
             </v-form>
           </v-card-text>
         </v-card>
@@ -214,16 +216,7 @@ export default {
       dialog: false,
         dialog1: false,
         editingTestId: null,
-      // headers: [
-      //   {
-      //     text: "Title",
-      //     align: "left",
-      //     sortable: false,
-      //     value: "title"
-      //   },
 
-      //   { text: "Actions", value: "name", sortable: false }
-      // ]
     };
   },
   computed: {
@@ -254,6 +247,9 @@ export default {
       this.editingTestId = testId;
     },
 
+      OpenTest(){
+          this.dialogTest = true;
+      },
     Open1() {
       this.editingObj = {};
       this.dialog = true;
@@ -287,8 +283,8 @@ export default {
         "http://localhost:8086/IeltsTest",
         this.editingObj
       );
-      this.a = response.data;
-      console.log(" data from database", response, response.data);
+      this.list = response.data;
+
     },
     async deleteLog(id) {
       console.log(id);
