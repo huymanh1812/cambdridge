@@ -3,7 +3,7 @@
     <v-layout>
     <v-flex xs4>
       <v-flex xs9>
-      <v-select :items="levels" label="Choose Level"></v-select>
+      <v-select :items="levels" label="Choose Level" item-text="text" item-value="value" v-model="pickedLevel"></v-select>
       </v-flex>
     </v-flex>
     <v-flex xs4>
@@ -124,6 +124,7 @@
         },
         data() {
             return {
+
                 headers: [
                 {
                     text: 'Question',
@@ -159,8 +160,9 @@
                 dialog: false,
                 dialog1: false,
                 editingTestId: null,
-                levels: ['level 4.0-5.5', 'level 5.5-6.5', 'level 6.5-7.5'],
-                tests: []
+                levels: [{text:'level 4.0-5.5', value:'1'}, {text:'level 5.5-6.5', value:'2'}, {text:'level 6.5-7.5', value:'3'}],
+                tests: [],
+                pickedLevel: "1"
             };
         },
         computed: {
@@ -169,6 +171,9 @@
             }
         },
         watch: {
+          pickedLevel(value) {
+            console.log(value);
+          },
             dialog(val) {
                 val || this.close();
             },
@@ -185,7 +190,10 @@
             await this.getList();
         },
         methods: {
-
+          check(){
+            console('asdasdasdsad');
+              console(this.levels.value);
+          },
             Open1() {
                 this.editingObj = {};
                 this.dialog = true;
