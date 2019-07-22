@@ -284,6 +284,7 @@ export default {
         this.editingObj
       );
       this.list = response.data;
+      alert("Add thanh cong");
 
     },
     async deleteLog(id) {

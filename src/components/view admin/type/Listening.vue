@@ -1,4 +1,20 @@
 <template>
+  <v-layout column>
+    <v-layout>
+    <v-flex xs4>
+      <v-flex xs9>
+      <v-select :items="levels" label="Choose Level"></v-select>
+      </v-flex>
+    </v-flex>
+    <v-flex xs4>
+      <v-flex xs9>
+      <v-select :items="tests" label="Choose Test"></v-select>
+      </v-flex>
+    </v-flex>
+    <v-flex xs4>
+      <v-btn color="primary" >Find</v-btn>
+    </v-flex>
+    </v-layout>
     <v-flex xs12>
         <div id="ilquestion">
             <center>
@@ -25,7 +41,7 @@
                 </v-data-table>
             </v-flex>
 
-            <v-dialog max-width="600px" v-model="dialog1">
+            <!-- <v-dialog max-width="600px" v-model="dialog1">
                 <v-btn flat slot="activator" class="sucess" @Click="Open1">
                     Add Question
                     <v-icon>add</v-icon>
@@ -57,12 +73,12 @@
                                     :counter="50"
 
                             >Question</v-text-field>
-                            <!-- <v-text-field
+                             <v-text-field
                                     v-model="questionObj.ans"
                                     label="Ans"
                                     :counter="50"
 
-                            >Ans</v-text-field> -->
+                            >Ans</v-text-field>
                             <v-text-field
                                     v-model="questionObj.a"
                                     label="A"
@@ -93,11 +109,12 @@
                         </v-form>
                     </v-card-text>
                 </v-card>
-            </v-dialog>
+            </v-dialog> -->
 
 
         </div>
     </v-flex>
+  </v-layout>
 </template>
 <script>
     import axios from "axios";
@@ -142,6 +159,8 @@
                 dialog: false,
                 dialog1: false,
                 editingTestId: null,
+                levels: ['level 4.0-5.5', 'level 5.5-6.5', 'level 6.5-7.5'],
+                tests: []
             };
         },
         computed: {

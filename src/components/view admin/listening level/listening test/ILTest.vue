@@ -53,7 +53,7 @@ export default {
                         a: elm.a,
                         b: elm.b,
                         c: elm.c,
-                        d: elm.d
+                        d: elm.d 
                     })
                 );
                
