@@ -1,5 +1,7 @@
 <template>
+<!-- <v-card style="width:100%"> -->
     <v-layout column>
+        
         <v-layout>
             <v-flex xs4>
                 <v-flex xs9>
@@ -22,6 +24,7 @@
                 <v-btn color="primary" @Click="findList()">Find</v-btn>
             </v-flex>
         </v-layout>
+        
         <v-flex xs12>
             <div id="ilquestion">
                 <center>
@@ -43,6 +46,7 @@
             </div>
         </v-flex>
     </v-layout>
+    <!-- </v-card> -->
 </template>
 <script>
     import axios from "axios";

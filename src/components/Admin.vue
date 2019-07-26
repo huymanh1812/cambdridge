@@ -72,7 +72,12 @@
             <v-btn color="blue" dark @click.stop="drawer = !drawer">IELTS</v-btn>
             <v-btn color="blue" dark @click.stop="drawer2 = !drawer2">TOEIC</v-btn>
             <v-spacer></v-spacer>
-            <h1>Admin Page</h1>
+            <v-btn dark @click="show = !show">Admin Page</v-btn>
+            <v-tooltip v-model="show">
+                <span>Hello</span>
+            </v-tooltip>
+            <!-- <h1>Admin Page</h1> -->
+            <!-- <tooltip></tooltip> -->
           </v-toolbar>
           <v-content>
             <v-container>
@@ -87,9 +92,11 @@
   </v-layout>
 </template>
 <script>
+// import tooltip from "./tooltip"
 export default {
   data() {
     return {
+      show: false,
       hours: new Date().getHours(),
       minutes: new Date().getMinutes(),
       seconds: new Date().getSeconds(),
@@ -104,6 +111,10 @@ export default {
       users: [["ListUser", "insert_drive_file"]]
     };
   },
+  // components: {
+  //   tooltip
+  // },
+
   props: {
     source: String
   },
