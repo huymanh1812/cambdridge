@@ -18,9 +18,7 @@
           ></v-select>
         </v-flex>
       </v-flex>
-      <v-flex xs4>
-        <!-- <v-btn color="primary" @Click="findList()">Find</v-btn> -->
-      </v-flex>
+      <v-btn color="primary" @click="SaveAnswer()">Save</v-btn>
     </v-layout>
 
     <v-flex xs12>
@@ -36,7 +34,7 @@
                     </v-flex>
             </v-layout>-->
             <v-flex xs12 v-for="(question,i) in questionList" :key="i">
-              {{question.question}}
+              Cau {{i+1}}:{{question.question}}
               <v-layout>
                 <v-flex xs3>
                   <v-checkbox v-model="a[i]" :label="question.a"></v-checkbox>
@@ -138,8 +136,15 @@ export default {
   },
 
   methods: {
-    // findList() {
-    // },
+
+    SaveAnswer() {
+        alert("luu thanh cong");
+        console.log("asdasd",this.a[0]);
+        console.log("asdasd",this.b[0]);
+        console.log("asdasd",this.c[0]);
+        console.log("asdasd",this.d[0]);
+    },
+
     async getQuestions() {
       const response = await axios.get(
         `http://localhost:8086/IeltsQuestion/list`
