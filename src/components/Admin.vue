@@ -72,10 +72,14 @@
             <v-btn color="blue" dark @click.stop="drawer = !drawer">IELTS</v-btn>
             <v-btn color="blue" dark @click.stop="drawer2 = !drawer2">TOEIC</v-btn>
             <v-spacer></v-spacer>
+
             <v-btn dark @click="show = !show">Admin Page</v-btn>
-            <v-tooltip v-model="show">
-                <span>Hello</span>
+            <!-- <v-layout justify-start> -->
+              
+            <v-tooltip v-model="show" bottom class="mt-12">
+                <span id="tooltiptip">Hello</span>
             </v-tooltip>
+            <!-- </v-layout> -->
             <!-- <h1>Admin Page</h1> -->
             <!-- <tooltip></tooltip> -->
           </v-toolbar>
@@ -166,4 +170,8 @@ export default {
 .layoutcenter {
   justify-content: left;
 }
+/* .tooltip {
+  justify-content: right;
+} */
 </style>
+

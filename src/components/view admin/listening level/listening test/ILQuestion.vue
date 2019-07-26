@@ -49,13 +49,13 @@
         </v-flex>
 
         <v-dialog max-width="600px" v-model="dialog1">
-          <v-btn flat slot="activator" class="sucess" @Click="Open1">
+          <v-btn flat slot="activator" class="sucess" @Click="Open1()">
             Add Question
             <v-icon>add</v-icon>
           </v-btn>
           <v-card>
             <v-card-title>
-              <h2>Edit</h2>
+              <h2>ADD QUESTION</h2>
             </v-card-title>
 
             <v-card-text>
@@ -91,10 +91,22 @@
                 ></v-text-field>
                 <v-btn color="success" @click="addLog(),dialog1=false">Save</v-btn>
                 <v-btn color="error" @click="reset()">Clear</v-btn>
+                <v-btn color="primary" @click="Addfilelisten()">Add Listen File</v-btn>
               </v-form>
             </v-card-text>
           </v-card>
         </v-dialog>
+
+        <v-dialog max-width="600px" v-model="dialogfilelisten">
+          <v-card>
+            <v-card-title>
+              <h2>Add File Listen</h2>
+            </v-card-title>
+          </v-card>
+        </v-dialog>
+        <input type="file" @change="onFileSelect()" />
+        <v-btn color="primary" @click="onUpload()">Upload</v-btn>
+        <!-- <img v-bind:src="'https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.kozmikanafor.com%2Fwp-content%2Fuploads%2F2017%2F04%2Fkaradelik-61551-blackhole.jpg&imgrefurl=https%3A%2F%2Fwww.kozmikanafor.com%2Fsamanyolunun-merkezi-ve-merkezdeki-karadelik%2F&docid=y6lJ2C0J8yZdXM&tbnid=M9pUC5YeSNG4HM%3A&vet=1&w=1015&h=550&bih=722&biw=1536&ved=2ahUKEwiyydyn5tHjAhWJr48KHe34D7gQxiAoAXoECAEQFQ&iact=c&ictx=1#h=550&imgdii=M9pUC5YeSNG4HM:&vet=1&w=1015'"> -->
       </div>
     </v-flex>
   </v-layout>
@@ -156,11 +168,13 @@ export default {
       a: [],
       dialog: false,
       dialog1: false,
+      dialogfilelisten: false,
       editingTestId: null,
       test: "",
       filteredTestList: [],
       filteredQuestionList: [],
-      fullQuestionList: []
+      fullQuestionList: [],
+      SelectedFile: null
     };
   },
   computed: {
@@ -182,15 +196,12 @@ export default {
       this.questionObj.id_test = value.id;
       this.questionObj.type = value.type;
       this.questionObj.average = value.average;
-      if (value.average == 1)
-      {
+      if (value.average == 1) {
         this.textlevel = "4.0-5.5";
-      }
-      else if (value.average == 2) {
+      } else if (value.average == 2) {
         this.textlevel = "5.5-6.5";
-      }
-      else this.textlevel = "6.5-7.5";
-      
+      } else this.textlevel = "6.5-7.5";
+
       // this.id_test = value;
       if (value.id && value.id > 0) {
         this.getListQuestionByTestId();
@@ -211,6 +222,21 @@ export default {
       this.editingObj = truyen;
       this.dialog1 = true;
     },
+
+    Addfilelisten() {
+      this.dialog1 = false;
+      setTimeout(() => {
+        this.dialogfilelisten = true;
+      }, 200);
+    },
+
+    onFileSelect(event) {
+      // this.SelectedFile = event.target.files[0];
+      console.log("asdasdsa", event);
+    },
+
+    onUpload() {},
+
     async getTestList() {
       const response = await axios.get(`http://localhost:8086/IeltsTest/list`);
       this.filteredTestList = response.data;
