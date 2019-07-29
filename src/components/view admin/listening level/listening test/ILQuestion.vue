@@ -89,9 +89,10 @@
                   label="Correct Answer(A/B/C/D)"
                   :counter="50"
                 ></v-text-field>
-                <v-btn color="success" @click="addLog(),dialog1=false">Save</v-btn>
-                <v-btn color="error" @click="reset()">Clear</v-btn>
+                <v-btn color="success" @click="addLog(),reset()">Add</v-btn>
+                <v-btn color="error" @click="reset()">Reset</v-btn>
                 <v-btn color="primary" @click="Addfilelisten()">Add Listen File</v-btn>
+                <v-btn color="success" @click="dialog1=false">Close</v-btn>
               </v-form>
             </v-card-text>
           </v-card>
@@ -104,6 +105,16 @@
             </v-card-title>
           </v-card>
         </v-dialog>
+        <v-dialog max-width="600px" v-model="success">
+          <v-card>
+            <v-card-title>
+              <h2>Add Success</h2>
+            </v-card-title>
+            <center>
+              <v-btn right color="primary" @click="success=false">Close</v-btn>
+            </center>
+          </v-card>
+        </v-dialog>
         <input type="file" @change="onFileSelect()" />
         <v-btn color="primary" @click="onUpload()">Upload</v-btn>
         <!-- <img v-bind:src="'https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.kozmikanafor.com%2Fwp-content%2Fuploads%2F2017%2F04%2Fkaradelik-61551-blackhole.jpg&imgrefurl=https%3A%2F%2Fwww.kozmikanafor.com%2Fsamanyolunun-merkezi-ve-merkezdeki-karadelik%2F&docid=y6lJ2C0J8yZdXM&tbnid=M9pUC5YeSNG4HM%3A&vet=1&w=1015&h=550&bih=722&biw=1536&ved=2ahUKEwiyydyn5tHjAhWJr48KHe34D7gQxiAoAXoECAEQFQ&iact=c&ictx=1#h=550&imgdii=M9pUC5YeSNG4HM:&vet=1&w=1015'"> -->
@@ -113,6 +124,7 @@
 </template>
 <script>
 import axios from "axios";
+import { setTimeout } from "timers";
 export default {
   // props: {
   //   testId: Number
@@ -170,11 +182,12 @@ export default {
       dialog1: false,
       dialogfilelisten: false,
       editingTestId: null,
-      test: "",
+      test: [],
       filteredTestList: [],
       filteredQuestionList: [],
       fullQuestionList: [],
-      SelectedFile: null
+      SelectedFile: null,
+      success: false
     };
   },
   computed: {
@@ -240,6 +253,8 @@ export default {
     async getTestList() {
       const response = await axios.get(`http://localhost:8086/IeltsTest/list`);
       this.filteredTestList = response.data;
+      // this.test = this.filteredTestList[0];
+
       console.log(response.data);
     },
     getListQuestionByTestId() {
@@ -262,7 +277,18 @@ export default {
       );
       this.filteredQuestionList = response.data;
       console.log(" data from database", response, response.data);
-      alert("Thanh cong");
+      this.success = true;
+    },
+    reset() {
+      setTimeout(() => {
+        (this.questionObj.name = ""),
+          (this.questionObj.question = ""),
+          (this.questionObj.a = ""),
+          (this.questionObj.b = ""),
+          (this.questionObj.c = ""),
+          (this.questionObj.d = ""),
+          (this.questionObj.result = "");
+      }, 1000);
     },
     async deleteLog(id) {
       const response = await axios.delete(

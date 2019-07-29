@@ -24,38 +24,57 @@
     <v-flex xs12>
       <div id="ilquestion">
         <center>
-          <h2>Question List</h2>
+          <h2 v-if="temp==true">Question List</h2>
         </center>
         <v-container>
           <v-layout column>
-            <!-- <v-layout justify-center>
-                    <v-flex>
-                        <h3>Listening</h3>
-                    </v-flex>
-            </v-layout>-->
             <v-flex xs12 v-for="(question,i) in questionList" :key="i">
               Cau {{i+1}}:{{question.question}}
               <v-layout>
-                <v-flex xs3>
-                  <v-checkbox v-model="a[i]" :label="question.a"></v-checkbox>
-                </v-flex>
-                <v-flex xs3>
-                  <v-checkbox v-model="b[i]" :label="question.b"></v-checkbox>
-                </v-flex>
-                <v-flex xs3>
-                  <v-checkbox v-model="c[i]" :label="question.c"></v-checkbox>
-                </v-flex>
-                <v-flex xs3>
-                  <v-checkbox v-model="d[i]" :label="question.d"></v-checkbox>
-                </v-flex>
+                <v-radio-group v-model="question.selected" column>
+                  <v-radio
+                    off-icon="$vuetify.icons.checkboxOff"
+                    on-icon="$vuetify.icons.checkboxOn"
+                    :label="question.a"
+                    value="a"
+                    :color="getColor(question)"
+                  ></v-radio>
+
+                  <v-radio
+                    off-icon="$vuetify.icons.checkboxOff"
+                    on-icon="$vuetify.icons.checkboxOn"
+                    :label="question.b"
+                    value="b"
+                    :color="getColor(question)"
+                  ></v-radio>
+
+                  <v-radio
+                    off-icon="$vuetify.icons.checkboxOff"
+                    on-icon="$vuetify.icons.checkboxOn"
+                    :label="question.c"
+                    value="c"
+                    :color="getColor(question)"
+                  ></v-radio>
+
+                  <v-radio
+                    off-icon="$vuetify.icons.checkboxOff"
+                    on-icon="$vuetify.icons.checkboxOn"
+                    :label="question.d"
+                    value="d"
+                    :color="getColor(question)"
+                  ></v-radio>
+                </v-radio-group>
+
+                <!-- <v-btn @click="show(question)">Show answer</v-btn> -->
               </v-layout>
             </v-flex>
           </v-layout>
+
+          <v-btn v-if="temp==true" @click="showAll">Show all answer</v-btn>
         </v-container>
       </div>
     </v-flex>
   </v-layout>
-  <!-- </v-card> -->
 </template>
 <script>
 import axios from "axios";
@@ -66,18 +85,6 @@ export default {
   },
   data() {
     return {
-      headers: [
-        {
-          text: "Question",
-          align: "left",
-          sortable: false,
-          value: "name"
-        },
-        { text: "Type", value: "type" },
-        { text: "Level", value: "average" },
-        { text: "Content", value: "question" },
-        { text: "Action" }
-      ],
       editingObj: {
         name: "",
         type: "",
@@ -95,10 +102,6 @@ export default {
         c: "",
         d: ""
       },
-      a: [],
-      b: [],
-      c: [],
-      d: [],
       questionList: [],
       editingTestId: null,
       levels: [
@@ -111,7 +114,10 @@ export default {
       fullTestList: [],
       fullQuestionList: [],
       filteredQuestionList: [],
-      test: {}
+      test: {},
+      list: [],
+      showedAnswer: false,
+      temp: false
     };
   },
 
@@ -132,17 +138,39 @@ export default {
       if (value && value > 0) {
         this.getQuestionByTestId();
       }
+      this.temp = true;
     }
   },
 
   methods: {
-
     SaveAnswer() {
-        alert("luu thanh cong");
-        console.log("asdasd",this.a[0]);
-        console.log("asdasd",this.b[0]);
-        console.log("asdasd",this.c[0]);
-        console.log("asdasd",this.d[0]);
+      alert("luu thanh cong");
+      console.log("asdasd", this.a[0]);
+      console.log("asdasd", this.b[0]);
+      console.log("asdasd", this.c[0]);
+      console.log("asdasd", this.d[0]);
+    },
+
+    // show(question) {
+    //   if (question.result.toLowerCase() === question.selected.toLowerCase()) {
+    //     alert("You are correct");
+    //     // question.result = "red";
+    //   } else {
+    //     alert("You are wrong");
+    //   }
+    //   console.log(question.selected.toLowerCase());
+
+    // },
+    getColor(question) {
+      return this.showedAnswer &&
+        question.selected &&
+        question.selected.toLowerCase() === question.result.toLowerCase()
+        ? "red"
+        : "blue";
+      // return question.selected = "blue";
+    },
+    showAll() {
+      this.showedAnswer = !this.showedAnswer;
     },
 
     async getQuestions() {
@@ -161,7 +189,8 @@ export default {
         a: elm.a,
         b: elm.b,
         c: elm.c,
-        d: elm.d
+        d: elm.d,
+        result: elm.result
       }));
     },
 
