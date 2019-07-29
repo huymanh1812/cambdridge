@@ -5,13 +5,13 @@
         <v-flex xs12 v-for="(question,i) in questionList" :key="i">
           {{question.question}}
           <v-layout>
-            <v-radio-group v-model="question.selected" column>
+            <v-radio-group v-model="question.selected" column v-if="!showedAnswer">
               <v-radio
                 off-icon="$vuetify.icons.checkboxOff"
                 on-icon="$vuetify.icons.checkboxOn"
                 :label="question.a"
                 value="a"
-                :color="getColor(question)"
+                color=""
               ></v-radio>
 
               <v-radio
@@ -19,7 +19,7 @@
                 on-icon="$vuetify.icons.checkboxOn"
                 :label="question.b"
                 value="b"
-                :color="getColor(question)"
+                color=""
               ></v-radio>
 
               <v-radio
@@ -27,7 +27,7 @@
                 on-icon="$vuetify.icons.checkboxOn"
                 :label="question.c"
                 value="c"
-                :color="getColor(question)"
+                color=""
               ></v-radio>
 
               <v-radio
@@ -35,15 +35,41 @@
                 on-icon="$vuetify.icons.checkboxOn"
                 :label="question.d"
                 value="d"
-                :color="getColor(question)"
+                color=""
               ></v-radio>
             </v-radio-group>
 
-            <v-btn @click="show(question)">Show answer</v-btn>
+            <div v-if="showedAnswer">
+              <v-checkbox
+                :input-value="isResultOrSelected(question, 'a')"
+                :label="question.a"
+                readonly
+                :color="isResult(question, 'a') ? 'red' : ''"
+              ></v-checkbox>
+              <v-checkbox
+                :input-value="isResultOrSelected(question, 'b')"
+                :label="question.b"
+                readonly
+                :color="isResult(question, 'b') ? 'red' : ''"
+              ></v-checkbox>
+              <v-checkbox
+                :input-value="isResultOrSelected(question, 'c')"
+                :label="question.c"
+                readonly
+                :color="isResult(question, 'c') ? 'red' : ''"
+              ></v-checkbox>
+              <v-checkbox
+                :input-value="isResultOrSelected(question, 'd')"
+                :label="question.d"
+                readonly
+                :color="isResult(question, 'd') ? 'red' : ''"
+              ></v-checkbox>
+            </div>
+            <!-- <v-btn @click="show(question)">Show answer</v-btn> -->
           </v-layout>
         </v-flex>
       </v-layout>
-      <v-btn @click="showAll">Show all answer</v-btn>
+      <v-btn @click="showAll()">Show all answer</v-btn>
     </v-container>
   </div>
 </template>
@@ -54,40 +80,31 @@ export default {
     return {
       questionList: [],
 
-      editingObj: {
-        name: "",
-        type: "",
-        average: ""
-      },
       list: [],
-  
+
       editingTestId: null,
       showedAnswer: false
     };
   },
- 
+
   async mounted() {
     await this.getList();
   },
   methods: {
-  
-    // show(question) {
-    //   if (question.result.toLowerCase() === question.selected.toLowerCase()) {
-    //     console.log(" kit sida");
-    //   } else {
-    //     console.log(" meo meo");
-    //   }
-    // },
-
-    getColor(question) {
-      return this.showedAnswer &&
-        question.selected &&
-        question.selected === question.result.toLowerCase()
-        ? "red"
-        : "";
-    },
     showAll() {
-      this.showedAnswer = !this.showedAnswer;
+      this.showedAnswer = true;
+    },
+    isResult(question, checkbox) {
+      return question.result.toLowerCase() === checkbox.toLowerCase();
+    },
+    isSelected(question, checkbox) {
+      return question.selected.toLowerCase() === checkbox.toLowerCase();
+    },
+
+    isResultOrSelected(question, checkbox) {
+      return (
+        this.isResult(question, checkbox) || this.isSelected(question, checkbox)
+      );
     },
     async getList() {
       const response = await axios.get(

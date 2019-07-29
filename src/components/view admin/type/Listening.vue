@@ -31,13 +31,13 @@
             <v-flex xs12 v-for="(question,i) in questionList" :key="i">
               Cau {{i+1}}:{{question.question}}
               <v-layout>
-                <v-radio-group v-model="question.selected" column>
+                <v-radio-group v-model="question.selected" column v-if="!showedAnswer">
                   <v-radio
                     off-icon="$vuetify.icons.checkboxOff"
                     on-icon="$vuetify.icons.checkboxOn"
                     :label="question.a"
                     value="a"
-                    :color="getColor(question)"
+                    color
                   ></v-radio>
 
                   <v-radio
@@ -45,7 +45,7 @@
                     on-icon="$vuetify.icons.checkboxOn"
                     :label="question.b"
                     value="b"
-                    :color="getColor(question)"
+                    color
                   ></v-radio>
 
                   <v-radio
@@ -53,7 +53,7 @@
                     on-icon="$vuetify.icons.checkboxOn"
                     :label="question.c"
                     value="c"
-                    :color="getColor(question)"
+                    color
                   ></v-radio>
 
                   <v-radio
@@ -61,10 +61,36 @@
                     on-icon="$vuetify.icons.checkboxOn"
                     :label="question.d"
                     value="d"
-                    :color="getColor(question)"
+                    color
                   ></v-radio>
                 </v-radio-group>
 
+                <div v-if="showedAnswer">
+                  <v-checkbox
+                    :input-value="isResultOrSelected(question, 'a')"
+                    :label="question.a"
+                    readonly
+                    :color="isResult(question, 'a') ? 'red' : ''"
+                  ></v-checkbox>
+                  <v-checkbox
+                    :input-value="isResultOrSelected(question, 'b')"
+                    :label="question.b"
+                    readonly
+                    :color="isResult(question, 'b') ? 'red' : ''"
+                  ></v-checkbox>
+                  <v-checkbox
+                    :input-value="isResultOrSelected(question, 'c')"
+                    :label="question.c"
+                    readonly
+                    :color="isResult(question, 'c') ? 'red' : ''"
+                  ></v-checkbox>
+                  <v-checkbox
+                    :input-value="isResultOrSelected(question, 'd')"
+                    :label="question.d"
+                    readonly
+                    :color="isResult(question, 'd') ? 'red' : ''"
+                  ></v-checkbox>
+                </div>
                 <!-- <v-btn @click="show(question)">Show answer</v-btn> -->
               </v-layout>
             </v-flex>
@@ -142,35 +168,21 @@ export default {
     }
   },
 
-  methods: {
-    SaveAnswer() {
-      alert("luu thanh cong");
-      console.log("asdasd", this.a[0]);
-      console.log("asdasd", this.b[0]);
-      console.log("asdasd", this.c[0]);
-      console.log("asdasd", this.d[0]);
-    },
-
-    // show(question) {
-    //   if (question.result.toLowerCase() === question.selected.toLowerCase()) {
-    //     alert("You are correct");
-    //     // question.result = "red";
-    //   } else {
-    //     alert("You are wrong");
-    //   }
-    //   console.log(question.selected.toLowerCase());
-
-    // },
-    getColor(question) {
-      return this.showedAnswer &&
-        question.selected &&
-        question.selected.toLowerCase() === question.result.toLowerCase()
-        ? "red"
-        : "blue";
-      // return question.selected = "blue";
-    },
+  methods: {   
     showAll() {
-      this.showedAnswer = !this.showedAnswer;
+      this.showedAnswer = true;
+    },
+    isResult(question, checkbox) {
+      return question.result.toLowerCase() === checkbox.toLowerCase();
+    },
+    isSelected(question, checkbox) {
+      return question.selected.toLowerCase() === checkbox.toLowerCase();
+    },
+
+    isResultOrSelected(question, checkbox) {
+      return (
+        this.isResult(question, checkbox) || this.isSelected(question, checkbox)
+      );
     },
 
     async getQuestions() {
