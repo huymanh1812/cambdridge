@@ -33,7 +33,9 @@
             <template v-slot:items="props">
               <td>{{props.item.name}}</td>
               <td>{{props.item.type}}</td>
-              <td>{{props.item.average}}</td>
+              <td v-if="props.item.average==1">Level 4.0 - 5.5</td>
+              <td v-if="props.item.average==2">Level 5.5 - 6.5</td>
+              <td v-if="props.item.average==3">Level 6.5 - 7.5</td>
               <td>{{props.item.question}}</td>
 
               <td>
@@ -46,13 +48,13 @@
               </td>
             </template>
           </v-data-table>
-        </v-flex>
-
-        <v-dialog max-width="600px" v-model="dialog1">
-          <v-btn flat slot="activator" class="sucess" @Click="Open1()">
+          <v-btn flat color="primary" @click="addQuestion()">
             Add Question
             <v-icon>add</v-icon>
           </v-btn>
+        </v-flex>
+    
+        <v-dialog max-width="600px" v-model="dialogAddQuestion">
           <v-card>
             <v-card-title>
               <h2>ADD QUESTION</h2>
@@ -92,7 +94,7 @@
                 <v-btn color="success" @click="addLog(),reset()">Add</v-btn>
                 <v-btn color="error" @click="reset()">Reset</v-btn>
                 <v-btn color="primary" @click="Addfilelisten()">Add Listen File</v-btn>
-                <v-btn color="success" @click="dialog1=false">Close</v-btn>
+                <v-btn color="success" @click="dialogAddQuestion=false">Close</v-btn>
               </v-form>
             </v-card-text>
           </v-card>
@@ -179,7 +181,7 @@ export default {
       textlevel: "",
       a: [],
       dialog: false,
-      dialog1: false,
+      dialogAddQuestion: false,
       dialogfilelisten: false,
       editingTestId: null,
       test: [],
@@ -226,9 +228,8 @@ export default {
     await this.getQuestions();
   },
   methods: {
-    Open1() {
-      this.editingObj = {};
-      this.dialog = true;
+    addQuestion() {
+      this.dialogAddQuestion = true;
     },
 
     Open2(truyen) {
@@ -237,29 +238,18 @@ export default {
     },
 
     Addfilelisten() {
-      this.dialog1 = false;
+      this.dialogAddQuestion = false;
       setTimeout(() => {
         this.dialogfilelisten = true;
       }, 200);
     },
 
-    onFileSelect(event) {
-      // this.SelectedFile = event.target.files[0];
-      console.log("asdasdsa", event);
-    },
-
-    onUpload() {},
-
     async getTestList() {
       const response = await axios.get(`http://localhost:8086/IeltsTest/list`);
       this.filteredTestList = response.data;
-      // this.test = this.filteredTestList[0];
-
-      console.log(response.data);
     },
+
     getListQuestionByTestId() {
-      console.log("sdfsdf", this.fullQuestionList);
-      console.log("object", this.test);
       this.filteredQuestionList = this.fullQuestionList.filter(
         question => question.idTest == this.test.id
       );
@@ -271,12 +261,11 @@ export default {
       this.fullQuestionList = response.data;
     },
     async addLog() {
-      const response = await axios.post(
+      await axios.post(
         `http://localhost:8086/IeltsQuestion/${this.test.id}`,
         this.questionObj
       );
-      this.filteredQuestionList = response.data;
-      console.log(" data from database", response, response.data);
+      await this.getListQuestionByTestId();
       this.success = true;
     },
     reset() {

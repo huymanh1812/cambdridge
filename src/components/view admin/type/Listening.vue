@@ -165,6 +165,7 @@ export default {
         this.getQuestionByTestId();
       }
       this.temp = true;
+      this.showedAnswer = false;
     }
   },
 
