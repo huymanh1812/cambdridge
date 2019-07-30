@@ -107,7 +107,7 @@
                   persistent-hint
                   single-line
                 ></v-text-field>
-                <v-btn color="success" @click="addLog(),reset()">Edit</v-btn>
+                <v-btn color="success" @click="UpdateTest()">Edit</v-btn>
                 <v-btn color="success" @click="dialogEditTest=false">Close</v-btn>
               </v-form>
             </v-card-text>
@@ -123,9 +123,6 @@
 import axios from "axios";
 
 export default {
-  props: {
-    testId: Number
-  },
   data() {
     return {
       headers: [
@@ -141,6 +138,7 @@ export default {
         { text: "Action" }
       ],
       editObj: {
+          id: "",
         name: "",
         type: "",
         level: ""
@@ -152,9 +150,9 @@ export default {
       },
       editingTestId: null,
       levels: [
-        { text: "level 4.0-5.5", value: 1 },
-        { text: "level 5.5-6.5", value: 2 },
-        { text: "level 6.5-7.5", value: 3 }
+        { text: "Level 4.0 - 5.5", value: 1 },
+        { text: "Level 5.5 - 6.5", value: 2 },
+        { text: "Level 6.5 - 7.5", value: 3 }
       ],
       types: [
         { text: "Listening", value: "listening" },
@@ -166,7 +164,7 @@ export default {
       test: {},
       dialogAddTest: false,
       dialogEditTest: false,
-      success: false
+      success: false,
     };
   },
   async mounted() {
@@ -204,10 +202,28 @@ export default {
       }
       this.editObj.type = obj.type;
       this.editObj.name = obj.name;
-      await axios.put(
-        `http://localhost:8086/IeltsTest/${obj.id}`,
+      this.editObj.id = obj.id; 
+    },
+    async UpdateTest() {
+        if (this.addObj.average == "") {
+            if (this.editObj.level == "Level 4.0 - 5.5")
+                this.addObj.average = 1
+            if (this.editObj.level == "Level 5.5 - 6.5")
+                this.addObj.average = 2
+            if (this.editObj.level == "Level 6.5 - 7.5")
+                this.addObj.average = 3
+        }
+        if (this.addObj.type == "") {
+            this.addObj.type = this.editObj.type;
+        }
+        if (this.addObj.name == "") {
+            this.addObj.name = this.editObj.name;
+        }
+        await axios.put(
+        `http://localhost:8086/IeltsTest/${this.editObj.id}`,
         this.addObj
       );
+      this.success = true;
       await this.getTest();
     },
     async deleteLog(id) {

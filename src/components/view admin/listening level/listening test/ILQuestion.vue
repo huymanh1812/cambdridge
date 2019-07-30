@@ -39,7 +39,7 @@
               <td>{{props.item.question}}</td>
 
               <td>
-                <v-btn @click="Open2(props.item)" fab dark small color="primary">
+                <v-btn @click="editLog(props.item)" fab dark small color="primary">
                   <v-icon dark>edit</v-icon>
                 </v-btn>
                 <v-btn @click="deleteLog(props.item.id)" fab dark small color="cyan">
@@ -53,13 +53,14 @@
             <v-icon>add</v-icon>
           </v-btn>
         </v-flex>
-    
+                                  <!--  -->
+                                  <!-- Dialog Add New Question -->
+                                  <!--  -->
         <v-dialog max-width="600px" v-model="dialogAddQuestion">
           <v-card>
             <v-card-title>
               <h2>ADD QUESTION</h2>
             </v-card-title>
-
             <v-card-text>
               <v-form class="px-3">
                 <v-text-field
@@ -99,7 +100,54 @@
             </v-card-text>
           </v-card>
         </v-dialog>
-
+                                  <!--  -->
+                                  <!-- Dialog Edit Question -->
+                                  <!--  -->
+        <v-dialog max-width="600px" v-model="dialogEditQuestion">
+          <v-card>
+            <v-card-title>
+              <h2>EDIT QUESTION</h2>
+            </v-card-title>
+            <v-card-text>
+              <v-form class="px-3">
+                <v-text-field
+                  :label="`Type: ${this.questionObj.type}`"
+                  disabled
+                  persistent-hint
+                  single-line
+                ></v-text-field>
+                <v-text-field
+                  :label="`Level: ${this.textlevel}`"
+                  disabled
+                  persistent-hint
+                  single-line
+                ></v-text-field>
+                <v-text-field
+                  :label="`Id_test: ${this.questionObj.id_test}`"
+                  disabled
+                  persistent-hint
+                  single-line
+                ></v-text-field>
+                <v-text-field v-model="questionObj.name" :label="`${editingObj.name}`" :counter="10" required>Name</v-text-field>
+                <v-text-field v-model="questionObj.question" :label="`${editingObj.question}`" :counter="50">Question</v-text-field>
+                <v-text-field v-model="questionObj.a" :label="`${editingObj.a}`" :counter="50"></v-text-field>
+                <v-text-field v-model="questionObj.b" :label="`${editingObj.b}`" :counter="50"></v-text-field>
+                <v-text-field v-model="questionObj.c" :label="`${editingObj.c}`" :counter="50"></v-text-field>
+                <v-text-field v-model="questionObj.d" :label="`${editingObj.d}`" :counter="50"></v-text-field>
+                <v-text-field
+                  v-model="questionObj.result"
+                  :label="`${editingObj.result}`"
+                  :counter="50"
+                ></v-text-field>
+                <v-btn color="success" @click="UpdateText()">Edit</v-btn>
+                <v-btn color="success" @click="dialogEditQuestion=false">Close</v-btn>
+              </v-form>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
+                                  <!--  -->
+                                  <!-- Dialog Add File Listen -->
+                                  <!--  -->      
         <v-dialog max-width="600px" v-model="dialogfilelisten">
           <v-card>
             <v-card-title>
@@ -107,6 +155,9 @@
             </v-card-title>
           </v-card>
         </v-dialog>
+                                  <!--  -->
+                                  <!-- Dialog Announcement Success -->
+                                  <!--  -->
         <v-dialog max-width="600px" v-model="success">
           <v-card>
             <v-card-title>
@@ -117,6 +168,8 @@
             </center>
           </v-card>
         </v-dialog>
+                                  <!--  -->
+
         <input type="file" @change="onFileSelect()" />
         <v-btn color="primary" @click="onUpload()">Upload</v-btn>
         <!-- <img v-bind:src="'https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.kozmikanafor.com%2Fwp-content%2Fuploads%2F2017%2F04%2Fkaradelik-61551-blackhole.jpg&imgrefurl=https%3A%2F%2Fwww.kozmikanafor.com%2Fsamanyolunun-merkezi-ve-merkezdeki-karadelik%2F&docid=y6lJ2C0J8yZdXM&tbnid=M9pUC5YeSNG4HM%3A&vet=1&w=1015&h=550&bih=722&biw=1536&ved=2ahUKEwiyydyn5tHjAhWJr48KHe34D7gQxiAoAXoECAEQFQ&iact=c&ictx=1#h=550&imgdii=M9pUC5YeSNG4HM:&vet=1&w=1015'"> -->
@@ -161,10 +214,17 @@ export default {
       select: "",
       select2: "",
       editingObj: {
+        id: "",
         name: "",
         type: "",
         average: "",
-        question: ""
+        question: "",
+        result: "",
+        id_test: "",
+        a: "",
+        b: "",
+        c: "",
+        d: ""
       },
       questionObj: {
         name: "",
@@ -180,7 +240,7 @@ export default {
       },
       textlevel: "",
       a: [],
-      dialog: false,
+      dialogEditQuestion: false,
       dialogAddQuestion: false,
       dialogfilelisten: false,
       editingTestId: null,
@@ -192,11 +252,11 @@ export default {
       success: false
     };
   },
-  computed: {
-    formTitle() {
-      return this.editedIndex === -1 ? "New Test" : "Edit Test";
-    }
-  },
+  // computed: {
+  //   formTitle() {
+  //     return this.editedIndex === -1 ? "New Test" : "Edit Test";
+  //   }
+  // },
   watch: {
     dialog(val) {
       val || this.close();
@@ -232,9 +292,39 @@ export default {
       this.dialogAddQuestion = true;
     },
 
-    Open2(truyen) {
+    editLog(truyen) {
       this.editingObj = truyen;
-      this.dialog1 = true;
+      this.dialogEditQuestion = true;
+    },
+
+    async UpdateText() {
+      if (this.questionObj.name == "") {
+            this.questionObj.name = this.editingObj.name;
+      }
+      if (this.questionObj.question == "") {
+            this.questionObj.question = this.editingObj.question;
+      }
+      if (this.questionObj.a == "") {
+            this.questionObj.a = this.editingObj.a;
+      }
+      if (this.questionObj.b == "") {
+            this.questionObj.b = this.editingObj.b;
+      }
+      if (this.questionObj.c == "") {
+            this.questionObj.c = this.editingObj.c;
+      }
+      if (this.questionObj.d == "") {
+            this.questionObj.d = this.editingObj.d;
+      }
+      if (this.questionObj.result == "") {
+            this.questionObj.result = this.editingObj.result;
+      }
+      await axios.put(
+        `http://localhost:8086/IeltsQuestion/${this.editingObj.id}`,
+        this.questionObj
+      );
+      this.success = true;
+      await this.getListQuestionByTestId();
     },
 
     Addfilelisten() {
@@ -287,6 +377,7 @@ export default {
         console.log(" loi ", response.error);
       }
       await this.getListQuestionByTestId();
+      alert("Delete success");
     }
   }
 };
