@@ -63,7 +63,7 @@
             <v-toolbar-side-icon @click.native="drawer = !drawer"></v-toolbar-side-icon>
             <span class="title ml-3 mr-5">
               &nbsp;
-              <span class="text">Cambridge</span>
+              <span class="text" @click="goLandingPage">Cambridge</span>
             </span>
             <v-text-field solo-inverted flat label="Search" prepend-icon="search"></v-text-field>
             <v-spacer></v-spacer>
@@ -123,6 +123,9 @@ export default {
     source: String
   },
   methods: {
+    goLandingPage() {
+      this.$router.push({name: "home"});
+    },
     goHomePage() {
       this.$router.push({ name: "admin" });
     },

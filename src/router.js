@@ -1,41 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-import Login from "./components/Login"
-import SignUp from "./components/SignUp"
 import Admin from "./components/Admin"
-import Admin1 from "./components/Admin1"
-
-// import Type from "./components/view admin/type/Type"
 import Listening from "./components/view admin/type/Listening"
 import Reading from "./components/view admin/type/Reading"
 import Speaking from "./components/view admin/type/Speaking"
 import Writing from "./components/view admin/type/Writing"
-
 import ListUser from "./components/view admin/ListUser"
-// import Rtest1 from "./components/view admin/reading test/Rtest1"
-// import Rtest2 from "./components/view admin/reading test/Rtest2"
-// import Rtest3 from "./components/view admin/reading test/Rtest3"
-
-import ILlv from "./components/view admin/listening level/ILlv"
-// import IRlv from "./components/view admin/reading level/IRlv"
-// import ISlv from "./components/view admin/speaking level/ISlv"
-// import IWlv from "./components/view admin/writing level/IWlv"
-
-// import TLlv from "./components/view admin/listening level/TLlv"
-// import TRlv from "./components/view admin/reading level/TRlv"
-// import TSlv from "./components/view admin/speaking level/TSlv"
-// import TWlv from "./components/view admin/writing level/TWlv"
-
-import ILTest from "./components/view admin/listening level/listening test/ILTest"
-import ILQuestion from "./components/view admin/listening level/listening test/ILQuestion"
-
-// import Wtest1 from "./components/view admin/writing test/Wtest1"
-// import Wtest2 from "./components/view admin/writing test/Wtest2"
-// import Wtest3 from "./components/view admin/writing test/Wtest3"
-// import Stest1 from "./components/view admin/speaking test/Stest1"
-// import Stest2 from "./components/view admin/speaking test/Stest2"
-// import Stest3 from "./components/view admin/speaking test/Stest3"
+import ListTest from "./components/view admin/ListTest"
+import ListQuestion from "./components/view admin/ListQuestion"
 
 Vue.use(Router)
 
@@ -49,27 +22,12 @@ export default new Router({
       component: Home
     },
     {
-      path: '/admin1',
-      name: 'Admin1',
-      component: Admin1
-    },
-    {
       path: '/about',
       name: 'about',
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component: Login
-    },
-    {
-      path: '/signup',
-      name: 'signup',
-      component: SignUp
     },
     {
       path: '/admin',
@@ -104,18 +62,13 @@ export default new Router({
         {
           path: 'list_question',
           name: 'ilquestion',
-          component: ILQuestion
+          component: ListQuestion
         },
         {
           path: 'list_test',
           name: 'illv',
-          component: ILlv,
+          component: ListTest,
         },
-        {
-          path: 'iltest',
-          name: 'iltest',
-          component: ILTest
-        }
       ]
     }
   ]

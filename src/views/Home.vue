@@ -1,13 +1,13 @@
 <template>
-  <HelloWorld />
+  <LandingPage />
 </template>
 
 <script>
-  import HelloWorld from '../components/HelloWorld'
+  import LandingPage from '../components/LandingPage/LandingPage.vue'
 
   export default {
     components: {
-      HelloWorld
+      LandingPage
     }
   }
 </script>
