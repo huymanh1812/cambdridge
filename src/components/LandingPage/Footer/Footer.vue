@@ -1,7 +1,7 @@
 <template>
   <v-footer height="auto" color="white">
     <v-layout justify-center row wrap>
-      <v-flex primary lighten-2 py-3 text-xs-center black--text xs12>
+      <v-flex red lighten-2 py-3 text-xs-center black--text xs12>
         &copy;2019 —
         <strong>Manh Huy</strong>
       </v-flex>

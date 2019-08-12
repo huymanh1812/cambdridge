@@ -1,226 +1,206 @@
 <template>
-  <div id="listuser">
-    <v-app id="inspire">
+  <v-layout column>
+    <v-flex xs12>
       <div>
-        <v-toolbar flat color="white">
-          <v-toolbar-title>List User</v-toolbar-title>
-          <v-divider class="mx-2" inset vertical></v-divider>
-          <v-spacer></v-spacer>
-          <v-dialog v-model="dialog" max-width="500px">
-            <template v-slot:activator="{ on }">
-              <v-btn color="primary" dark class="mb-2" v-on="on">New User</v-btn>
+        <center>
+          <h2>User List</h2>
+        </center>
+        <v-flex xs12 class="table">
+          <v-data-table :headers="headers" :items="filteredUserList" class="elevation-1">
+            <template v-slot:items="props">
+              <td>{{props.item.id}}</td>
+              <td>{{props.item.name}}</td>
+              <td>{{props.item.email}}</td>
+              <td>{{props.item.password}}</td>
+              <td>
+                <v-btn @click="EditObj(props.item)" fab dark small color="primary">
+                  <v-icon dark>edit</v-icon>
+                </v-btn>
+                <v-btn @click="deleteLog(props.item.id)" fab dark small color="cyan">
+                  <v-icon dark>delete</v-icon>
+                </v-btn>
+              </td>
             </template>
-            <v-card>
-              <v-card-title>
-                <span class="headline">{{ formTitle }}</span>
-              </v-card-title>
-
-              <v-card-text>
-                <v-container grid-list-md>
-                  <v-layout wrap>
-                    <v-flex xs12 sm6 md4>
-                      <v-text-field v-model="editedItem.name" label="User Name"></v-text-field>
-                    </v-flex>
-                    <v-flex xs12 sm6 md4>
-                      <v-text-field v-model="editedItem.calories" label="Full Name"></v-text-field>
-                    </v-flex>
-                    <v-flex xs12 sm6 md4>
-                      <v-text-field v-model="editedItem.fat" label="Email"></v-text-field>
-                    </v-flex>
-                    <!-- <v-flex xs12 sm6 md4>
-                      <v-text-field v-model="editedItem.carbs" label="Carbs (g)"></v-text-field>
-                    </v-flex>
-                    <v-flex xs12 sm6 md4>
-                      <v-text-field v-model="editedItem.protein" label="Protein (g)"></v-text-field>
-                    </v-flex> -->
-                  </v-layout>
-                </v-container>
-              </v-card-text>
-
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" flat @click="close">Cancel</v-btn>
-                <v-btn color="blue darken-1" flat @click="save">Save</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </v-toolbar>
-        <v-data-table :headers="headers" :items="desserts" class="elevation-1">
-          <template v-slot:items="props">
-            <td>{{ props.item.username }}</td>
-            <td class="text-xs-right">{{ props.item.fullname }}</td>
-            <td class="text-xs-right">{{ props.item.email }}</td>
-            <!-- <td class="text-xs-right">{{ props.item.carbs }}</td>
-            <td class="text-xs-right">{{ props.item.protein }}</td> -->
-            <td class="justify-center layout px-0">
-              <v-icon small class="mr-2" @click="editItem(props.item)">edit</v-icon>
-              <v-icon small @click="deleteItem(props.item)">delete</v-icon>
-            </td>
-          </template>
-          <template v-slot:no-data>
-            <v-btn color="primary" @click="initialize">Reset</v-btn>
-          </template>
-        </v-data-table>
+          </v-data-table>
+          <v-btn color="primary" @click="AddUser()">Add New User</v-btn>
+        </v-flex>
+        <!--  -->
+        <!-- Dialog Add User -->
+        <!--  -->
+        <v-dialog max-width="600px" v-model="dialogAddUser">
+          <v-card>
+            <v-card-title>
+              <h2>ADD USER</h2>
+            </v-card-title>
+            <v-card-text>
+              <v-form class="px-3">
+                <v-text-field
+                  v-model="addObj.name"
+                  label="Enter Your Name"
+                  persistent-hint
+                  single-line
+                ></v-text-field>
+                <v-text-field
+                  v-model="addObj.email"
+                  label="Enter Your Email"
+                  persistent-hint
+                  single-line
+                ></v-text-field>
+                <v-text-field
+                  v-model="addObj.password"
+                  label="Enter Your Password"
+                  persistent-hint
+                  single-line
+                ></v-text-field>
+                <v-btn color="success" @click="addLog(),reset()">Add</v-btn>
+                <v-btn color="error" @click="reset()">Reset</v-btn>
+                <v-btn color="success" @click="dialogAddUser=false">Close</v-btn>
+              </v-form>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
+        <!--  -->
+        <!-- Dialog Announcement Success -->
+        <!--  -->
+        <v-dialog max-width="600px" v-model="success">
+          <v-card>
+            <v-card-title>
+              <h2>Successful</h2>
+            </v-card-title>
+            <center>
+              <v-btn right color="primary" @click="success=false">Close</v-btn>
+            </center>
+          </v-card>
+        </v-dialog>
+        <!--  -->
+        <!-- Dialog Edit User -->
+        <!--  -->
+        <v-dialog max-width="600px" v-model="dialogEditUser">
+          <v-card>
+            <v-card-title>
+              <h2>EDIT USER</h2>
+            </v-card-title>
+            <v-card-text>
+              <v-form class="px-3">
+                <v-text-field
+                  v-model="addObj.name"
+                  :label="`${editObj.name}`"
+                  persistent-hint
+                  single-line
+                ></v-text-field>
+                <v-text-field
+                  v-model="addObj.email"
+                  :label="`${editObj.email}`"
+                  persistent-hint
+                  single-line
+                ></v-text-field>
+                <v-text-field
+                  v-model="addObj.password"
+                  :label="`${editObj.password}`"
+                  persistent-hint
+                  single-line
+                ></v-text-field>
+                <v-btn color="success" @click="UpdateUser()">Edit</v-btn>
+                <v-btn color="success" @click="dialogEditUser=false">Close</v-btn>
+              </v-form>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
+        <!--  -->
       </div>
-    </v-app>
-  </div>
+    </v-flex>
+  </v-layout>
 </template>
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
-      dialog: false,
       headers: [
         {
-          text: "User Name",
+          text: "ID",
           align: "left",
           sortable: false,
-          value: "username"
+          value: "name"
         },
-        { text: "Full Name", value: "fullname" },
+        { text: "Name", value: "name" },
         { text: "Email", value: "email" },
-        // { text: "Carbs (g)", value: "carbs" },
-        // { text: "Protein (g)", value: "protein" },
-        { text: "Actions", value: "name", sortable: false }
+        { text: "Password", value: "password" },
+        { text: "Action" }
       ],
-      desserts: [],
-      editedIndex: -1,
-      editedItem: {
-        username: "",
-        fullname: "",
-        email: ""
-        // carbs: 0,
-        // protein: 0
+      editObj: {
+          id: "",
+        name: "",
+        email: "",
+        password: ""
       },
-      defaultItem: {
-        username: "",
-        fullname: "",
-        email: ""
-        // carbs: 0,
-        // protein: 0
-      }
+      addObj: {
+        name: "",
+        email: "",
+        password: ""
+      },
+      filteredUserList: [],
+      dialogAddUser: false,
+      dialogEditUser: false,
+      success: false,
     };
   },
-  computed: {
-    formTitle() {
-      return this.editedIndex === -1 ? "New User" : "Edit User";
-    }
-  },
-  watch: {
-    dialog(val) {
-      val || this.close();
-    }
-  },
-  created() {
-    this.initialize();
-  },
+  async mounted() {
+    await this.getUser();
+  },    
   methods: {
-    initialize() {
-      this.desserts = [
-        {
-          username: "user01",
-          fullname: "Nguyen Manh Huy",
-          email: "huymanh1812@gmail.com"
-        //   carbs: 24,
-        //   protein: 4.0
-        },
-        {
-          username: "user02",
-          fullname: "Anh Kiet",
-          email: "anhkiet@gmail.com"
-        //   carbs: 24,
-        //   protein: 4.0
-        },
-        // {
-        //   name: "Ice cream sandwich",
-        //   calories: 237,
-        //   fat: 9.0,
-        //   carbs: 37,
-        //   protein: 4.3
-        // },
-        // {
-        //   name: "Eclair",
-        //   calories: 262,
-        //   fat: 16.0,
-        //   carbs: 23,
-        //   protein: 6.0
-        // },
-        // {
-        //   name: "Cupcake",
-        //   calories: 305,
-        //   fat: 3.7,
-        //   carbs: 67,
-        //   protein: 4.3
-        // },
-        // {
-        //   name: "Gingerbread",
-        //   calories: 356,
-        //   fat: 16.0,
-        //   carbs: 49,
-        //   protein: 3.9
-        // },
-        // {
-        //   name: "Jelly bean",
-        //   calories: 375,
-        //   fat: 0.0,
-        //   carbs: 94,
-        //   protein: 0.0
-        // },
-        // {
-        //   name: "Lollipop",
-        //   calories: 392,
-        //   fat: 0.2,
-        //   carbs: 98,
-        //   protein: 0
-        // },
-        // {
-        //   name: "Honeycomb",
-        //   calories: 408,
-        //   fat: 3.2,
-        //   carbs: 87,
-        //   protein: 6.5
-        // },
-        // {
-        //   name: "Donut",
-        //   calories: 452,
-        //   fat: 25.0,
-        //   carbs: 51,
-        //   protein: 4.9
-        // },
-        // {
-        //   name: "KitKat",
-        //   calories: 518,
-        //   fat: 26.0,
-        //   carbs: 65,
-        //   protein: 7
-        // }
-      ];
+    async getUser() {
+      const response = await axios.get(`http://localhost:8086/IeltsUser/list`);
+      this.filteredUserList = response.data;
+    },
+    AddUser() {
+      this.dialogAddUser = true;
+    },
+    async addLog() {
+      await axios.post(
+        `http://localhost:8086/IeltsUser`,
+        this.addObj
+      );
+      this.success = true;
+      await this.getUser();
+    },
+    reset() {
+      setTimeout(() => {
+        this.addObj.name = "";
+        this.addObj.email = "";
+        this.addObj.password = "";
+      }, 1000);
+    },
+    async EditObj(obj) {
+      this.dialogEditUser = true;
+    this.editObj.email = obj.email;
+      this.editObj.password = obj.password;
+      this.editObj.name = obj.name;
+      this.editObj.id = obj.id; 
+    },
+    async UpdateUser() {
+        if (this.addObj.name == "") {
+            this.addObj.name = this.editObj.name;
+        }
+        if (this.addObj.email == "") {
+            this.addObj.email = this.editObj.email;
+        }
+        if (this.addObj.password == "") {
+            this.addObj.password = this.editObj.password;
+        }
+        await axios.put(
+        `http://localhost:8086/IeltsUser/${this.editObj.id}`,
+        this.addObj
+      );
+      this.success = true;
+      await this.getUser();
+    },
+    async deleteLog(id) {
+      await axios.delete(`http://localhost:8086/IeltsUser/${id}`);
+      await this.getUser();
+      alert("Delete User Successful");
     }
-  },
-  editItem(item) {
-    this.editedIndex = this.desserts.indexOf(item);
-    this.editedItem = Object.assign({}, item);
-    this.dialog = true;
-  },
-  deleteItem(item) {
-    const index = this.desserts.indexOf(item);
-    confirm("Are you sure you want to delete this item?") &&
-      this.desserts.splice(index, 1);
-  },
-  close() {
-    this.dialog = false;
-    setTimeout(() => {
-      this.editedItem = Object.assign({}, this.defaultItem);
-      this.editedIndex = -1;
-    }, 300);
-  },
-  save() {
-    if (this.editedIndex > -1) {
-      Object.assign(this.desserts[this.editedIndex], this.editedItem);
-    } else {
-      this.desserts.push(this.editedItem);
-    }
-    this.close();
   }
 };
 </script>

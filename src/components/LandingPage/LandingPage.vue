@@ -43,11 +43,11 @@
                     <v-window-item :value="2">
                      <center><h2>{{emailOfUser}}</h2></center>
                       <v-card-text>
-                        <v-text-field label="Password" type="password"></v-text-field>
+                        <v-text-field v-model="passOfUser" label="Password" type="password"></v-text-field>
                         <span
                           style="font-family: Arial"
-                          class="caption grey--text text--darken-1"
-                        >Please enter your password</span>
+                          :class="colorOftempSignin"
+                        >{{tempSignin}}</span>
                       </v-card-text>
                     </v-window-item>
                   </v-window>
@@ -58,8 +58,8 @@
                     <em v-if="stepLogin === 1" flat color="red" @click="dialogSignup=true,dialogLogin=false">Create an account</em>
                     <v-btn v-if="stepLogin === 2" flat color="red" @click="stepLogin--">Back</v-btn>
                     <v-spacer></v-spacer>
-                    <v-btn v-if="stepLogin === 1" depressed color="red" @click="stepLogin++">Next</v-btn>
-                    <v-btn v-if="stepLogin === 2" depressed color="red" href="/admin">Login</v-btn>
+                    <v-btn v-if="stepLogin === 1" depressed color="red" @click="isUser">Next</v-btn>
+                    <v-btn v-if="stepLogin === 2" depressed color="red" @click="isPassword">Login</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
@@ -84,8 +84,8 @@
                     <v-window-item :value="1">
                      
                       <v-card-text>
-                        <v-text-field label="Full Name"></v-text-field>
-                        <v-text-field label="Email"></v-text-field>
+                        <v-text-field v-model="obj.name" label="Full Name"></v-text-field>
+                        <v-text-field v-model="obj.email" label="Email"></v-text-field>
                         <span
                           style="font-family: Arial"
                           class="caption grey--text text--darken-1"
@@ -95,12 +95,12 @@
 
                     <v-window-item :value="2">
                       <v-card-text>
-                        <v-text-field label="Password" type="password"></v-text-field>
-                        <v-text-field label="Confirm Password" type="password"></v-text-field>
+                        <v-text-field v-model="obj.password" label="Password" type="password"></v-text-field>
+                        <v-text-field v-model="confirmpassword" label="Confirm Password" type="password"></v-text-field>
                         <span
                           style="font-family: Arial"
-                          class="caption grey--text text--darken-1"
-                        >Please enter a password for your account</span>
+                          :class="colorOftempSignup"
+                        >{{tempSignup}}</span>
                       </v-card-text>
                     </v-window-item>
 
@@ -126,7 +126,8 @@
                   <v-card-actions>
                     <v-btn :disabled="stepSignup === 1" flat color="red" @click="stepSignup--">Back</v-btn>
                     <v-spacer></v-spacer>
-                    <v-btn :disabled="stepSignup === 3" color="red" depressed @click="stepSignup++">Next</v-btn>
+                    <v-btn v-if="stepSignup==1 ||  stepSignup==3" :disabled="stepSignup === 3" color="red" depressed @click="stepSignup++">Next</v-btn>
+                    <v-btn v-if="stepSignup==2" color="red" depressed @click="createUser">Next</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
@@ -144,6 +145,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 import Sidebar from "./Sidebar/Sidebar.vue";
 import Footer from "./Footer/Footer.vue";
 import Timeline from "./Timeline/Timeline.vue";
@@ -161,11 +164,57 @@ export default {
     dialogSignup: false,
     stepSignup: 1,
     stepLogin: 1,
-    emailOfUser: ""
+    emailOfUser: "",
+    passOfUser: "",
+    statusEmail: false,
+    statusPassword: false,
+    tempSignin: "Please enter your password",
+    colorOftempSignin: "caption grey--text text--darken-1",
+    obj: {
+      password: "",
+      name: "",
+      email: "",
+    },
+    confirmpassword: "",
+    tempSignup: "Please enter a password for your account",
+    colorOftempSignup: "caption grey--text text--darken-1"
   }),
   methods: {
     changStatus() {
       this.status = !this.status;
+    },
+    async isUser() {
+      this.statusEmail= await axios.post(`http://localhost:8086/IeltsUser/email`, { email: this.emailOfUser });
+      console.log(this.statusEmail.data);
+      if(this.statusEmail.data)
+      {
+        this.stepLogin++;
+      }
+      else {
+        this.emailOfUser = "NOT EXIST EMAIL !!!";
+      }
+    },
+    async isPassword() {
+      this.statusPassword= await axios.post(`http://localhost:8086/IeltsUser/password`, { password: this.passOfUser });
+      if(this.statusPassword.data)
+      {
+        this.$router.push({name:"admin"});
+      }
+      else {
+        this.tempSignin = "Password is wrong !!!";
+        this.colorOftempSignin = "caption red--text text--darken-1"
+      }  
+    },
+    async createUser() {
+      if (this.obj.password != this.confirmpassword)
+      {
+        this.tempSignup = "Confirm Password is not same with Password"
+        this.colorOftempSignup = "caption red--text text--darken-1"
+      }
+      else {
+        this.stepSignup++;
+        await axios.post(`http://localhost:8086/IeltsUser`,this.obj);
+      }
     }
   },
   computed: {
