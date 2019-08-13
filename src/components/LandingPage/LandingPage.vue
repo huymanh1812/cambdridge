@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid ma-0 pa-0 fill-height>
     <v-layout column>
       <!-- Sidebar -->
       <Sidebar @login-status="value => this.dialogLogin = value" />
@@ -7,21 +7,35 @@
       <v-content>
         <v-container fluid>
           <v-layout>
-            <v-flex>
-              <!-- Slide Picture -->
-              <Slidepicture />
-              <!-- ------------- -->
+            <v-flex xs12>
+              <v-container>
+                <v-layout>
+                  <!-- Slide Picture -->
+                  <Slidepicture />
+                  <!-- ------------- -->
+                </v-layout>
+              </v-container>
+
+              <center>
+                <h1>
+                  <em style="color: red">
+                    <br />Chúng tôi giúp mọi người học tiếng Anh
+                    <br />và chứng tỏ khả năng với thế giới
+                  </em>
+                </h1>
+              </center>
+
               <!-- Timeline -->
-              <Timeline />  
+              <Timeline />
               <!-- -------- -->
 
               <!-- Signin Form -->
               <v-dialog v-model="dialogLogin" persistent max-width="500">
                 <v-card class="mx-auto" max-width="500" color="blue lighten-5" style="color: red">
                   <v-card-title class="title font-weight-regular justify-space-between">
-                    <v-spacer/>
+                    <v-spacer />
                     <h2>{{ currentTitleOfLogin }}</h2>
-                    <v-spacer/>
+                    <v-spacer />
                     <v-avatar color="red" class="subheading white--text" size="24">
                       <v-tooltip top>
                         <template v-slot:activator="{ on }">
@@ -34,20 +48,18 @@
 
                   <v-window v-model="stepLogin">
                     <v-window-item :value="1">
-                     
                       <v-card-text>
                         <v-text-field v-model="emailOfUser" label="Email"></v-text-field>
                       </v-card-text>
                     </v-window-item>
 
                     <v-window-item :value="2">
-                     <center><h2>{{emailOfUser}}</h2></center>
+                      <center>
+                        <h2>{{emailOfUser}}</h2>
+                      </center>
                       <v-card-text>
                         <v-text-field v-model="passOfUser" label="Password" type="password"></v-text-field>
-                        <span
-                          style="font-family: Arial"
-                          :class="colorOftempSignin"
-                        >{{tempSignin}}</span>
+                        <span style="font-family: Arial" :class="colorOftempSignin">{{tempSignin}}</span>
                       </v-card-text>
                     </v-window-item>
                   </v-window>
@@ -55,7 +67,12 @@
                   <v-divider></v-divider>
 
                   <v-card-actions>
-                    <em v-if="stepLogin === 1" flat color="red" @click="dialogSignup=true,dialogLogin=false">Create an account</em>
+                    <em
+                      v-if="stepLogin === 1"
+                      flat
+                      color="red"
+                      @click="dialogSignup=true,dialogLogin=false"
+                    >Create an account</em>
                     <v-btn v-if="stepLogin === 2" flat color="red" @click="stepLogin--">Back</v-btn>
                     <v-spacer></v-spacer>
                     <v-btn v-if="stepLogin === 1" depressed color="red" @click="isUser">Next</v-btn>
@@ -82,7 +99,6 @@
 
                   <v-window v-model="stepSignup">
                     <v-window-item :value="1">
-                     
                       <v-card-text>
                         <v-text-field v-model="obj.name" label="Full Name"></v-text-field>
                         <v-text-field v-model="obj.email" label="Email"></v-text-field>
@@ -96,11 +112,12 @@
                     <v-window-item :value="2">
                       <v-card-text>
                         <v-text-field v-model="obj.password" label="Password" type="password"></v-text-field>
-                        <v-text-field v-model="confirmpassword" label="Confirm Password" type="password"></v-text-field>
-                        <span
-                          style="font-family: Arial"
-                          :class="colorOftempSignup"
-                        >{{tempSignup}}</span>
+                        <v-text-field
+                          v-model="confirmpassword"
+                          label="Confirm Password"
+                          type="password"
+                        ></v-text-field>
+                        <span style="font-family: Arial" :class="colorOftempSignup">{{tempSignup}}</span>
                       </v-card-text>
                     </v-window-item>
 
@@ -126,13 +143,18 @@
                   <v-card-actions>
                     <v-btn :disabled="stepSignup === 1" flat color="red" @click="stepSignup--">Back</v-btn>
                     <v-spacer></v-spacer>
-                    <v-btn v-if="stepSignup==1 ||  stepSignup==3" :disabled="stepSignup === 3" color="red" depressed @click="stepSignup++">Next</v-btn>
+                    <v-btn
+                      v-if="stepSignup==1 ||  stepSignup==3"
+                      :disabled="stepSignup === 3"
+                      color="red"
+                      depressed
+                      @click="stepSignup++"
+                    >Next</v-btn>
                     <v-btn v-if="stepSignup==2" color="red" depressed @click="createUser">Next</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
               <!-- ------- -->
-
             </v-flex>
           </v-layout>
         </v-container>
@@ -150,7 +172,7 @@ import axios from "axios";
 import Sidebar from "./Sidebar/Sidebar.vue";
 import Footer from "./Footer/Footer.vue";
 import Timeline from "./Timeline/Timeline.vue";
-import Slidepicture from "./Slidepicture/Slidepicture.vue"
+import Slidepicture from "./Slidepicture/Slidepicture.vue";
 export default {
   components: {
     Sidebar,
@@ -173,7 +195,7 @@ export default {
     obj: {
       password: "",
       name: "",
-      email: "",
+      email: ""
     },
     confirmpassword: "",
     tempSignup: "Please enter a password for your account",
@@ -184,36 +206,36 @@ export default {
       this.status = !this.status;
     },
     async isUser() {
-      this.statusEmail= await axios.post(`http://localhost:8086/IeltsUser/email`, { email: this.emailOfUser });
+      this.statusEmail = await axios.post(
+        `http://localhost:8086/IeltsUser/email`,
+        { email: this.emailOfUser }
+      );
       console.log(this.statusEmail.data);
-      if(this.statusEmail.data)
-      {
+      if (this.statusEmail.data) {
         this.stepLogin++;
-      }
-      else {
+      } else {
         this.emailOfUser = "NOT EXIST EMAIL !!!";
       }
     },
     async isPassword() {
-      this.statusPassword= await axios.post(`http://localhost:8086/IeltsUser/password`, { password: this.passOfUser });
-      if(this.statusPassword.data)
-      {
-        this.$router.push({name:"admin"});
-      }
-      else {
+      this.statusPassword = await axios.post(
+        `http://localhost:8086/IeltsUser/password`,
+        { password: this.passOfUser }
+      );
+      if (this.statusPassword.data) {
+        this.$router.push({ name: "admin" });
+      } else {
         this.tempSignin = "Password is wrong !!!";
-        this.colorOftempSignin = "caption red--text text--darken-1"
-      }  
+        this.colorOftempSignin = "caption red--text text--darken-1";
+      }
     },
     async createUser() {
-      if (this.obj.password != this.confirmpassword)
-      {
-        this.tempSignup = "Confirm Password is not same with Password"
-        this.colorOftempSignup = "caption red--text text--darken-1"
-      }
-      else {
+      if (this.obj.password != this.confirmpassword) {
+        this.tempSignup = "Confirm Password is not same with Password";
+        this.colorOftempSignup = "caption red--text text--darken-1";
+      } else {
         this.stepSignup++;
-        await axios.post(`http://localhost:8086/IeltsUser`,this.obj);
+        await axios.post(`http://localhost:8086/IeltsUser`, this.obj);
       }
     }
   },
@@ -223,7 +245,7 @@ export default {
         case 1:
           return "LOGIN";
         default:
-          return "Welcome";          
+          return "Welcome";
       }
     },
     currentTitleOfSignup() {
