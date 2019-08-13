@@ -16,15 +16,10 @@
                 </v-layout>
               </v-container>
 
-              <center>
-                <h1>
-                  <em style="color: red">
-                    <br />Chúng tôi giúp mọi người học tiếng Anh
-                    <br />và chứng tỏ khả năng với thế giới
-                  </em>
-                </h1>
-              </center>
-
+              <!-- Content -->
+              <Content />
+              <!-- ------- -->
+              
               <!-- Timeline -->
               <Timeline />
               <!-- -------- -->
@@ -173,12 +168,14 @@ import Sidebar from "./Sidebar/Sidebar.vue";
 import Footer from "./Footer/Footer.vue";
 import Timeline from "./Timeline/Timeline.vue";
 import Slidepicture from "./Slidepicture/Slidepicture.vue";
+import Content from "./Content/Content.vue"
 export default {
   components: {
     Sidebar,
     Footer,
     Timeline,
-    Slidepicture
+    Slidepicture,
+    Content
   },
   data: () => ({
     status: true,
