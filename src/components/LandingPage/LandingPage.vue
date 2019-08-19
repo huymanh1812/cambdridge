@@ -176,6 +176,7 @@ export default {
     stepLogin: 1,
     emailOfUser: "",
     passOfUser: "",
+    nameOfUser: "",
     statusEmail: false,
     statusPassword: false,
     tempSignin: "Please enter your password",
@@ -210,8 +211,10 @@ export default {
         `http://localhost:8086/IeltsUser/password`,
         { password: this.passOfUser }
       );
+      this.nameOfUser = await axios.post(`http://localhost:8086/IeltsUser/name`,
+      { email: this.emailOfUser});
       if (this.statusPassword.data) {
-        this.$router.push({ name: "admin" });
+        this.$router.push({ name: "admin", params: {id: this.nameOfUser.data}, query: {email: this.emailOfUser} });
       } else {
         this.tempSignin = "Password is wrong !!!";
         this.colorOftempSignin = "caption red--text text--darken-1";

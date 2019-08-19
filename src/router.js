@@ -1,14 +1,15 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-import Admin from "./components/Admin"
-import Listening from "./components/view admin/type/Listening"
-import Reading from "./components/view admin/type/Reading"
-import Speaking from "./components/view admin/type/Speaking"
-import Writing from "./components/view admin/type/Writing"
-import ListUser from "./components/view admin/ListUser"
-import ListTest from "./components/view admin/ListTest"
-import ListQuestion from "./components/view admin/ListQuestion"
+import AdminPage from "./components/Admin/AdminPage.vue"
+import PersonalPage from "./components/Admin/PersonalPage/PersonalPage.vue"
+import Listening from "./components/Admin/type/Listening"
+import Reading from "./components/Admin/type/Reading"
+import Speaking from "./components/Admin/type/Speaking"
+import Writing from "./components/Admin/type/Writing"
+import ListUser from "./components/Admin/ListUser"
+import ListTest from "./components/Admin/ListTest"
+import ListQuestion from "./components/Admin/ListQuestion"
 
 Vue.use(Router)
 
@@ -30,9 +31,9 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
     },
     {
-      path: '/admin',
+      path: '/admin/:id',
       name: 'admin',
-      component: Admin,
+      component: AdminPage,
       children: [
         {
           path: 'type/:typeId',
@@ -69,108 +70,14 @@ export default new Router({
           name: 'illv',
           component: ListTest,
         },
+        {
+          path: 'personalpage',
+          name: 'personalpage',
+          component: PersonalPage
+        }
       ]
     }
   ]
 }
 )
-//           children: [
-//             {
-//               path: 'level/:id',
-//               name: 'ILlv',
-//               component: ILlv,
-//               children: [
-//                 
-//               ]
-//             },
-//             {
-//               path: 'level/:id',
-//               name: 'IRlv',
-//               component: IRlv
-//             },
-//             {
-//               path: 'level/:id',
-//               name: 'ISlv',
-//               component: ISlv
-//             },
-//             {
-//               path: 'level/:id',
-//               name: 'IWlv',
-//               component: IWlv
-//             },
-//             {
-//               path: 'level/:id',
-//               name: 'TLlv',
-//               component: TLlv
-//             },
-//             {
-//               path: 'level/:id',
-//               name: 'TRlv',
-//               component: TRlv
-//             },
-//             {
-//               path: 'level/:id',
-//               name: 'TSlv',
-//               component: TSlv
-//             },
-//             {
-//               path: 'level/:id',
-//               name: 'TWlv',
-//               component: TWlv
-//             }
-//           ]
-//         },
-//         {
-//           path: 'listuser',
-//           name: 'ListUser',
-//           component: ListUser
-//         },
-//         {
-//           path: 'rtest1',
-//           name: 'Rtest1',
-//           component: Rtest1
-//         },
-//         {
-//           path: 'rtest2',
-//           name: 'Rtest2',
-//           component: Rtest2
-//         },
-//         {
-//           path: 'rtest3',
-//           name: 'Rtest3',
-//           component: Rtest3
-//         },
-//         {
-//           path: 'stest1',
-//           name: 'Stest1',
-//           component: Stest1
-//         },
-//         {
-//           path: 'stest2',
-//           name: 'Stest2',
-//           component: Stest2
-//         },
-//         {
-//           path: 'stest3',
-//           name: 'Stest3',
-//           component: Stest3
-//         },
-//         {
-//           path: 'wtest1',
-//           name: 'Wtest1',
-//           component: Wtest1
-//         },
-//         {
-//           path: 'wtest2',
-//           name: 'Wtest2',
-//           component: Wtest2
-//         },
-//         {
-//           path: 'wtest3',
-//           name: 'Wtest3',
-//           component: Wtest3
-//         },
-//       ]
-//     }
-//   ]
-// })
+
