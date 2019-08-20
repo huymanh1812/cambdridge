@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import AdminPage from "./components/Admin/AdminPage.vue"
-import PersonalPage from "./components/Admin/PersonalPage/PersonalPage.vue"
 import Listening from "./components/Admin/type/Listening"
 import Reading from "./components/Admin/type/Reading"
 import Speaking from "./components/Admin/type/Speaking"
@@ -69,11 +68,6 @@ export default new Router({
           path: 'list_test',
           name: 'illv',
           component: ListTest,
-        },
-        {
-          path: 'personalpage',
-          name: 'personalpage',
-          component: PersonalPage
         }
       ]
     }

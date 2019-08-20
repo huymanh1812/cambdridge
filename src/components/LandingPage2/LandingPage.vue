@@ -5,27 +5,59 @@
         <!-- Sidebar -->
         <Sidebar @login-status="value => this.dialogLogin = value" />
         <!-- ------- -->
-        <v-content>
-          <v-container fluid>
-            <v-layout>
-              <v-flex xs12>
-                <v-container>
+        <div>
+          <v-tabs fixed-tabs color="grey lighten-5" slider-color="grey">
+            <v-tab
+              v-for="(tab, i) in tabs"
+              :key="i"
+              :href="tab.href"
+              class="black--text"
+            ><b>{{tab.name}}</b></v-tab>
+            <!---------------------------------------------------- TAB HOME ---------------------------------------------------->
+            <v-tab-item :value="'tabHome'">
+              <v-content>
+                <v-container fluid>
                   <v-layout>
                     <v-flex xs12>
-                    <!-- Slide Picture -->
-                    <Slidepicture />
-                    <!-- ------------- -->
+                      <v-container fluid>
+                        <v-layout>
+                          <v-flex xs12>
+                            <!-- Slide Picture -->
+                            <Slidepicture />
+                            <!-- ------------- -->
+                          </v-flex>
+                        </v-layout>
+                      </v-container>
+
+                      <!-- Content -->
+                      <Content />
+                      <!-- ------- -->
                     </v-flex>
                   </v-layout>
                 </v-container>
+              </v-content>
+            </v-tab-item>
+            <!------------------------------------------------------------------------------------------------------------------>
 
-                <!-- Content -->
-                <Content />
-                <!-- ------- -->
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-content>
+            <!---------------------------------------------------- TAB BlOG ---------------------------------------------------->
+            <v-tab-item :value="'tabBlog'">
+              <h1>Blog</h1>
+            </v-tab-item>
+            <!------------------------------------------------------------------------------------------------------------------>
+
+            <!---------------------------------------------------- TAB NEWS ---------------------------------------------------->
+            <v-tab-item :value="'tabNews'">
+              <h1>News</h1>
+            </v-tab-item>
+            <!------------------------------------------------------------------------------------------------------------------>
+
+            <!---------------------------------------------------- TAB EVENTS ---------------------------------------------------->
+            <v-tab-item :value="'tabEvents'">
+              <h1>Events</h1>
+            </v-tab-item>
+            <!------------------------------------------------------------------------------------------------------------------>
+          </v-tabs>
+        </div>
         <!-- Footer -->
         <Footer />
         <!-- ------ -->
@@ -169,6 +201,12 @@ export default {
     Content
   },
   data: () => ({
+    tabs: [
+      { name: "Home", href: "#tabHome" },
+      { name: "Blog", href: "#tabBlog" },
+      { name: "News", href: "#tabNews" },
+      { name: "Events", href: "#tabEvents" }
+    ],
     status: true,
     dialogLogin: false,
     dialogSignup: false,
@@ -211,10 +249,16 @@ export default {
         `http://localhost:8086/IeltsUser/password`,
         { password: this.passOfUser, email: this.emailOfUser }
       );
-      this.nameOfUser = await axios.post(`http://localhost:8086/IeltsUser/name`,
-      { email: this.emailOfUser});
+      this.nameOfUser = await axios.post(
+        `http://localhost:8086/IeltsUser/name`,
+        { email: this.emailOfUser }
+      );
       if (this.statusPassword.data) {
-        this.$router.push({ name: "admin", params: {id: this.nameOfUser.data}, query: {email: this.emailOfUser} });
+        this.$router.push({
+          name: "admin",
+          params: { id: this.nameOfUser.data },
+          query: { email: this.emailOfUser }
+        });
       } else {
         this.tempSignin = "Password is wrong !!!";
         this.colorOftempSignin = "caption red--text text--darken-1";
@@ -258,9 +302,9 @@ export default {
 <style scoped>
 .back {
   /* background-image: url("https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"); */
-  background-image: url("http://thuthuatphanmem.vn/uploads/2018/05/23/wallpaper-4k-hinh-nen-4k-thiet-ke-cuc-dep_100024353.jpg");
+  /* background-image: url("http://thuthuatphanmem.vn/uploads/2018/05/23/wallpaper-4k-hinh-nen-4k-thiet-ke-cuc-dep_100024353.jpg");
   background-size: contain;
-  background-repeat: repeat-y;
+  background-repeat: repeat-y; */
   /* background-size: cover; */
   /* width: auto; */
   /* height: auto; */

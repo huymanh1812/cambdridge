@@ -108,31 +108,17 @@
         </v-list>
 
         <v-divider></v-divider>
-        <v-list>
-          <v-list-tile>
-            <v-list-tile-action>
-              <v-switch v-model="message" color="purple"></v-switch>
-            </v-list-tile-action>
-            <v-list-tile-title>Enable messages</v-list-tile-title>
+        <!-- <v-list>
+          <v-list-tile @click="goPersonalPage,drawer=false">
+            <v-list-tile-title>Chỉnh sửa trang cá nhân</v-list-tile-title>
           </v-list-tile>
-
-          <v-list-tile @click="goPersonalPage">
-            <v-list-tile-title>Trang ca nhan</v-list-tile-title>
-          </v-list-tile>
-
-          <v-list-tile>
-            <v-list-tile-action>
-              <v-switch v-model="hints" color="purple"></v-switch>
-            </v-list-tile-action>
-            <v-list-tile-title>Enable hints</v-list-tile-title>
-          </v-list-tile>
-        </v-list>
+        </v-list> -->
 
         <v-card-actions>
           <v-spacer></v-spacer>
 
           <v-btn flat @click="menu = false">Cancel</v-btn>
-          <v-btn color="primary" flat @click="menu = false">Save</v-btn>
+          <v-btn color="primary" flat @click="goLandingPage">Log out</v-btn>
         </v-card-actions>
       </v-card>
     </v-menu>
@@ -171,8 +157,6 @@ export default {
       ],
       fav: true,
       menu: false,
-      message: false,
-      hints: true,
       hours: new Date().getHours(),
       minutes: new Date().getMinutes(),
       seconds: new Date().getSeconds(),
@@ -207,9 +191,9 @@ export default {
     goTestList() {
       this.$router.push({ name: "illv" });
     },
-    goPersonalPage() {
-      this.$router.push({ name: "personalpage"});
-    }
+    // goPersonalPage() {
+    //   this.$router.push({ name: "personalpage"});
+    // }
   },
   created() {
     this.admin = this.$route.params.id;
