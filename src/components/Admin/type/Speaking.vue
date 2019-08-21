@@ -21,41 +21,115 @@
       <v-btn color="primary" @click="SaveAnswer()">Save</v-btn>
     </v-layout>
 
-    <v-flex xs12>
-      <div id="ilquestion">
-        <center>
-          <h2>Question List</h2>
-        </center>
+    <center>
+      <h2 v-if="temp==true">Question List</h2>
+    </center>
+
+    <v-layout>
+      <v-flex xs7>
+        <div id="ilquestion">
+          <v-container>
+            <v-layout column>
+              <v-flex xs12 v-for="(question,i) in questionList" :key="i">
+                Cau {{i+1}}:{{question.question}}
+                <v-layout>
+                  <v-radio-group v-model="question.selected" column v-if="!showedAnswer">
+                    <v-radio
+                      off-icon="$vuetify.icons.checkboxOff"
+                      on-icon="$vuetify.icons.checkboxOn"
+                      :label="question.a"
+                      value="a"
+                      color
+                    ></v-radio>
+
+                    <v-radio
+                      off-icon="$vuetify.icons.checkboxOff"
+                      on-icon="$vuetify.icons.checkboxOn"
+                      :label="question.b"
+                      value="b"
+                      color
+                    ></v-radio>
+
+                    <v-radio
+                      off-icon="$vuetify.icons.checkboxOff"
+                      on-icon="$vuetify.icons.checkboxOn"
+                      :label="question.c"
+                      value="c"
+                      color
+                    ></v-radio>
+
+                    <v-radio
+                      off-icon="$vuetify.icons.checkboxOff"
+                      on-icon="$vuetify.icons.checkboxOn"
+                      :label="question.d"
+                      value="d"
+                      color
+                    ></v-radio>
+                  </v-radio-group>
+
+                  <div v-if="showedAnswer">
+                    <v-checkbox
+                      :input-value="isResultOrSelected(question, 'a')"
+                      :label="question.a"
+                      readonly
+                      :color="isResult(question, 'a') ? 'red' : ''"
+                    ></v-checkbox>
+                    <v-checkbox
+                      :input-value="isResultOrSelected(question, 'b')"
+                      :label="question.b"
+                      readonly
+                      :color="isResult(question, 'b') ? 'red' : ''"
+                    ></v-checkbox>
+                    <v-checkbox
+                      :input-value="isResultOrSelected(question, 'c')"
+                      :label="question.c"
+                      readonly
+                      :color="isResult(question, 'c') ? 'red' : ''"
+                    ></v-checkbox>
+                    <v-checkbox
+                      :input-value="isResultOrSelected(question, 'd')"
+                      :label="question.d"
+                      readonly
+                      :color="isResult(question, 'd') ? 'red' : ''"
+                    ></v-checkbox>
+                  </div>
+                  <!-- <v-btn @click="show(question)">Show answer</v-btn> -->
+                </v-layout>
+              </v-flex>
+            </v-layout>
+
+            <v-btn v-if="temp==true" @click="showAll">Show all answer</v-btn>
+          </v-container>
+        </div>
+      </v-flex>
+      <v-flex v-if="showedAnswer" xs5 >
         <v-container>
-          <v-layout column>
-            <!-- <v-layout justify-center>
-                    <v-flex>
-                        <h3>Listening</h3>
-                    </v-flex>
-            </v-layout>-->
-            <v-flex xs12 v-for="(question,i) in questionList" :key="i">
-              Cau {{i+1}}:{{question.question}}
-              <v-layout>
-                <v-flex xs3>
-                  <v-checkbox v-model="a[i]" :label="question.a"></v-checkbox>
-                </v-flex>
-                <v-flex xs3>
-                  <v-checkbox v-model="b[i]" :label="question.b"></v-checkbox>
-                </v-flex>
-                <v-flex xs3>
-                  <v-checkbox v-model="c[i]" :label="question.c"></v-checkbox>
-                </v-flex>
-                <v-flex xs3>
-                  <v-checkbox v-model="d[i]" :label="question.d"></v-checkbox>
-                </v-flex>
-              </v-layout>
+          <v-layout align-start justify-end>
+            <v-flex xs8>
+              <div></div>
+            </v-flex>
+            <v-flex xs4>
+              <v-card>
+                <v-card-text>Mark</v-card-text>
+                <v-divider></v-divider>
+                <v-layout>
+                  <v-flex xs6>
+                    <v-card-text>{{2*this.questionList.length-this.count}}</v-card-text>
+                  </v-flex>
+                  <v-flex xs2>
+                    <v-divider vertical></v-divider>
+                  </v-flex>
+                  <v-flex xs3>
+                    <v-card-text>{{this.questionList.length}}</v-card-text>
+                  </v-flex>
+                </v-layout>
+              </v-card>
             </v-flex>
           </v-layout>
         </v-container>
-      </div>
-    </v-flex>
+      </v-flex>
+    </v-layout>
   </v-layout>
-  <!-- </v-card> -->
 </template>
 <script>
 import axios from "axios";
@@ -66,18 +140,6 @@ export default {
   },
   data() {
     return {
-      headers: [
-        {
-          text: "Question",
-          align: "left",
-          sortable: false,
-          value: "name"
-        },
-        { text: "Type", value: "type" },
-        { text: "Level", value: "average" },
-        { text: "Content", value: "question" },
-        { text: "Action" }
-      ],
       editingObj: {
         name: "",
         type: "",
@@ -95,10 +157,6 @@ export default {
         c: "",
         d: ""
       },
-      a: [],
-      b: [],
-      c: [],
-      d: [],
       questionList: [],
       editingTestId: null,
       levels: [
@@ -111,7 +169,11 @@ export default {
       fullTestList: [],
       fullQuestionList: [],
       filteredQuestionList: [],
-      test: {}
+      test: {},
+      list: [],
+      showedAnswer: false,
+      temp: false,
+      count: 0
     };
   },
 
@@ -132,17 +194,27 @@ export default {
       if (value && value > 0) {
         this.getQuestionByTestId();
       }
+      this.temp = true;
+      this.showedAnswer = false;
     }
   },
 
   methods: {
+    showAll() {
+      this.showedAnswer = true;
+    },
+    isResult(question, checkbox) {
+      return question.result.toLowerCase() === checkbox.toLowerCase();
+    },
+    isSelected(question, checkbox) {
+      return question.selected.toLowerCase() === checkbox.toLowerCase();
+    },
 
-    SaveAnswer() {
-        alert("luu thanh cong");
-        console.log("asdasd",this.a[0]);
-        console.log("asdasd",this.b[0]);
-        console.log("asdasd",this.c[0]);
-        console.log("asdasd",this.d[0]);
+    isResultOrSelected(question, checkbox) {
+      if (this.isResult(question, checkbox) || this.isSelected(question, checkbox)) this.count++
+      return (
+        this.isResult(question, checkbox) || this.isSelected(question, checkbox)
+      );
     },
 
     async getQuestions() {
@@ -161,7 +233,8 @@ export default {
         a: elm.a,
         b: elm.b,
         c: elm.c,
-        d: elm.d
+        d: elm.d,
+        result: elm.result
       }));
     },
 

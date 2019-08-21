@@ -70,7 +70,7 @@
             <h1>Now is {{hours}}:{{minutes}}:{{seconds}}</h1>
             <v-spacer></v-spacer>
             <v-btn color="blue" dark @click.stop="drawer = !drawer">IELTS</v-btn>
-            <v-btn color="blue" dark @click.stop="drawer2 = !drawer2">TOEIC</v-btn>
+            <v-btn color="blue" dark @click.stop="drawer2 = !drawer2" @click="thongbao">TOEIC</v-btn>
             <v-spacer></v-spacer>
 
             <div class="text-xs-center">
@@ -191,6 +191,9 @@ export default {
     goTestList() {
       this.$router.push({ name: "illv" });
     },
+    thongbao() {
+      alert("It is currently not available");
+    }
     // goPersonalPage() {
     //   this.$router.push({ name: "personalpage"});
     // }

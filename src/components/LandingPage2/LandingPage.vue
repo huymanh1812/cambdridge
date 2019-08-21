@@ -41,19 +41,19 @@
 
             <!---------------------------------------------------- TAB BlOG ---------------------------------------------------->
             <v-tab-item :value="'tabBlog'">
-              <h1>Blog</h1>
+              <Blog />
             </v-tab-item>
             <!------------------------------------------------------------------------------------------------------------------>
 
             <!---------------------------------------------------- TAB NEWS ---------------------------------------------------->
             <v-tab-item :value="'tabNews'">
-              <h1>News</h1>
+              <h1>This page not available</h1>
             </v-tab-item>
             <!------------------------------------------------------------------------------------------------------------------>
 
             <!---------------------------------------------------- TAB EVENTS ---------------------------------------------------->
             <v-tab-item :value="'tabEvents'">
-              <h1>Events</h1>
+              <h1>This page not available</h1>
             </v-tab-item>
             <!------------------------------------------------------------------------------------------------------------------>
           </v-tabs>
@@ -190,6 +190,7 @@ import axios from "axios";
 
 import Sidebar from "./Sidebar/Sidebar.vue";
 import Footer from "./Footer/Footer.vue";
+import Blog from "./Blog/Blog.vue"
 
 import Slidepicture from "./Slidepicture/Slidepicture.vue";
 import Content from "./Content/Content.vue";
@@ -198,7 +199,8 @@ export default {
     Sidebar,
     Footer,
     Slidepicture,
-    Content
+    Content,
+    Blog
   },
   data: () => ({
     tabs: [

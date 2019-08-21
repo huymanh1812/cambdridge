@@ -53,9 +53,9 @@
             <v-icon>add</v-icon>
           </v-btn>
         </v-flex>
-                                  <!--  -->
-                                  <!-- Dialog Add New Question -->
-                                  <!--  -->
+        <!--  -->
+        <!-- Dialog Add New Question -->
+        <!--  -->
         <v-dialog max-width="600px" v-model="dialogAddQuestion">
           <v-card>
             <v-card-title>
@@ -100,9 +100,9 @@
             </v-card-text>
           </v-card>
         </v-dialog>
-                                  <!--  -->
-                                  <!-- Dialog Edit Question -->
-                                  <!--  -->
+        <!--  -->
+        <!-- Dialog Edit Question -->
+        <!--  -->
         <v-dialog max-width="600px" v-model="dialogEditQuestion">
           <v-card>
             <v-card-title>
@@ -128,8 +128,17 @@
                   persistent-hint
                   single-line
                 ></v-text-field>
-                <v-text-field v-model="questionObj.name" :label="`${editingObj.name}`" :counter="10" required>Name</v-text-field>
-                <v-text-field v-model="questionObj.question" :label="`${editingObj.question}`" :counter="50">Question</v-text-field>
+                <v-text-field
+                  v-model="questionObj.name"
+                  :label="`${editingObj.name}`"
+                  :counter="10"
+                  required
+                >Name</v-text-field>
+                <v-text-field
+                  v-model="questionObj.question"
+                  :label="`${editingObj.question}`"
+                  :counter="50"
+                >Question</v-text-field>
                 <v-text-field v-model="questionObj.a" :label="`${editingObj.a}`" :counter="50"></v-text-field>
                 <v-text-field v-model="questionObj.b" :label="`${editingObj.b}`" :counter="50"></v-text-field>
                 <v-text-field v-model="questionObj.c" :label="`${editingObj.c}`" :counter="50"></v-text-field>
@@ -145,9 +154,9 @@
             </v-card-text>
           </v-card>
         </v-dialog>
-                                  <!--  -->
-                                  <!-- Dialog Add File Listen -->
-                                  <!--  -->      
+        <!--  -->
+        <!-- Dialog Add File Listen -->
+        <!--  -->
         <v-dialog max-width="600px" v-model="dialogfilelisten">
           <v-card>
             <v-card-title>
@@ -155,9 +164,9 @@
             </v-card-title>
           </v-card>
         </v-dialog>
-                                  <!--  -->
-                                  <!-- Dialog Announcement Success -->
-                                  <!--  -->
+        <!--  -->
+        <!-- Dialog Announcement Success -->
+        <!--  -->
         <v-dialog max-width="600px" v-model="success">
           <v-card>
             <v-card-title>
@@ -168,7 +177,7 @@
             </center>
           </v-card>
         </v-dialog>
-                                  <!--  -->
+        <!--  -->
 
         <input type="file" @change="onFileSelect()" />
         <v-btn color="primary" @click="onUpload()">Upload</v-btn>
@@ -289,7 +298,11 @@ export default {
   },
   methods: {
     addQuestion() {
-      this.dialogAddQuestion = true;
+      if (this.test.name == undefined) {
+        alert("Choose Test before you want to add new quesion");
+      } else {
+        this.dialogAddQuestion = true;
+      }
     },
 
     editLog(truyen) {
@@ -299,25 +312,25 @@ export default {
 
     async UpdateText() {
       if (this.questionObj.name == "") {
-            this.questionObj.name = this.editingObj.name;
+        this.questionObj.name = this.editingObj.name;
       }
       if (this.questionObj.question == "") {
-            this.questionObj.question = this.editingObj.question;
+        this.questionObj.question = this.editingObj.question;
       }
       if (this.questionObj.a == "") {
-            this.questionObj.a = this.editingObj.a;
+        this.questionObj.a = this.editingObj.a;
       }
       if (this.questionObj.b == "") {
-            this.questionObj.b = this.editingObj.b;
+        this.questionObj.b = this.editingObj.b;
       }
       if (this.questionObj.c == "") {
-            this.questionObj.c = this.editingObj.c;
+        this.questionObj.c = this.editingObj.c;
       }
       if (this.questionObj.d == "") {
-            this.questionObj.d = this.editingObj.d;
+        this.questionObj.d = this.editingObj.d;
       }
       if (this.questionObj.result == "") {
-            this.questionObj.result = this.editingObj.result;
+        this.questionObj.result = this.editingObj.result;
       }
       await axios.put(
         `http://localhost:8086/IeltsQuestion/${this.editingObj.id}`,
